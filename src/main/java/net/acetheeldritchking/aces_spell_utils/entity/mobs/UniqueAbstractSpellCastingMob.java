@@ -12,7 +12,7 @@ import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.capabilities.magic.SyncedSpellData;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.spells.fire.BurningDashSpell;
-import net.acetheeldritchking.discerning_the_eldritch.utils.DTEUtils;
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -29,8 +29,8 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-// I have to recreate the goddamn AbstractSpellCastingMob class because of my little entities will not animate
-// if their mother does not provide them with a special class (they will crash the game)
+// Used for making custom mob models and allow them to have custom spell casting animations
+// TO DO: Make tags for stomp spells and slash spells to have their own casting animation
 public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCastingMob implements GeoEntity, IMagicEntity {
     private static final EntityDataAccessor<Boolean> DATA_CANCEL_CAST = SynchedEntityData.defineId(UniqueAbstractSpellCastingMob.class, EntityDataSerializers.BOOLEAN);
     private SpellData castingSpell;
@@ -334,11 +334,11 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
     protected void setStartAnimationFromSpell(AnimationController controller, AbstractSpell spell) {
         spell.getCastStartAnimation().getForMob().ifPresentOrElse(animationBuilder -> {
             controller.forceAnimationReset();
-            if(DTEUtils.isLongAnimCast(spell)) {
+            if(ASUtils.isLongAnimCast(spell)) {
                 //System.out.println("Set Start long cast");
                 controller.setAnimation(RawAnimation.begin().then("long_cast", Animation.LoopType.PLAY_ONCE));
             }
-            else if (DTEUtils.isContAnimCast(spell)) {
+            else if (ASUtils.isContAnimCast(spell)) {
                 //System.out.println("Set Start cont. cast");
                 controller.setAnimation(RawAnimation.begin().then("continous_cast", Animation.LoopType.PLAY_ONCE));
             }
