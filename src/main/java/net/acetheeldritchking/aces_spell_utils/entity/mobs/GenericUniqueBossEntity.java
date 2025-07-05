@@ -1,7 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.entity.mobs;
 
 import io.redspace.ironsspellbooks.api.network.IClientEventEntity;
-import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,10 +11,11 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
-public abstract class GenericBossEntity extends AbstractSpellCastingMob implements Enemy, IClientEventEntity {
+public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCastingMob implements Enemy, IClientEventEntity {
     // This class is a generic and abstract class used for bosses
+    // This one is exclusively for Unique Abstract Spell Casting mobs in case you want a custom modeled boss
     // In here are helpful methods for handling phases and boss music
-    public GenericBossEntity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
+    public GenericUniqueBossEntity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -62,7 +62,7 @@ public abstract class GenericBossEntity extends AbstractSpellCastingMob implemen
         this.entityData.set(PHASE, phase);
     }
 
-    public void setPhase(Phase phase)
+    public void setPhase(GenericBossEntity.Phase phase)
     {
         this.setPhase(phase.value);
     }
@@ -72,7 +72,7 @@ public abstract class GenericBossEntity extends AbstractSpellCastingMob implemen
         return this.entityData.get(PHASE);
     }
 
-    public boolean isPhase(Phase phase)
+    public boolean isPhase(GenericBossEntity.Phase phase)
     {
         return phase.value == getPhase();
     }

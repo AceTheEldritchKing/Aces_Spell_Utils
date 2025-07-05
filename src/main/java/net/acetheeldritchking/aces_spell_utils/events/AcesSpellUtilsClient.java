@@ -2,6 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.events;
 
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.utils.boss_music.BossMusicManager;
+import net.acetheeldritchking.aces_spell_utils.utils.boss_music.UniqueBossMusicManager;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -30,5 +31,6 @@ public class AcesSpellUtilsClient {
     public static void onPlayerLogout(ClientPlayerNetworkEvent.LoggingOut event)
     {
         BossMusicManager.hardStop();
+        UniqueBossMusicManager.hardStop();
     }
 }
