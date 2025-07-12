@@ -1,0 +1,10 @@
+{
+  "values": [
+    "irons_spellbooks:stomp",
+    "irons_spellbooks:earthquake",
+    {
+      "id": "cataclysm_spellbooks:tectonic_tremble",
+      "required": false
+    }
+  ]
+}

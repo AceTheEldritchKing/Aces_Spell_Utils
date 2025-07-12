@@ -1,0 +1,11 @@
+{
+  "values": [
+    "irons_spellbooks:blood_slash",
+    "irons_spellbooks:flaming_strike",
+    "irons_spellbooks:divine_smite",
+    {
+      "id": "discerning_the_eldritch:esoteric_edge",
+      "required": false
+    }
+  ]
+}

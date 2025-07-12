@@ -1,6 +1,8 @@
 package net.acetheeldritchking.aces_spell_utils;
 
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -42,5 +44,10 @@ public class AcesSpellUtils {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
+    }
+
+    public static ResourceLocation id(@NotNull String path)
+    {
+        return ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, path);
     }
 }

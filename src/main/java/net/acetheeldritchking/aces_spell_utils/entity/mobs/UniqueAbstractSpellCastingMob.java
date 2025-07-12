@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.capabilities.magic.SyncedSpellData;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.spells.fire.BurningDashSpell;
+import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -341,6 +342,16 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
             else if (ASUtils.isContAnimCast(spell)) {
                 //System.out.println("Set Start cont. cast");
                 controller.setAnimation(RawAnimation.begin().then("continous_cast", Animation.LoopType.PLAY_ONCE));
+            }
+            //getSpellId().matches(ASTags.STOMP_LIKE_SPELL.toString())
+            // Idk, let's see if this bricks anything!
+            else if (spell.getSpellResource().equals(ASTags.STOMP_LIKE_SPELL.location()))
+            {
+                controller.setAnimation(RawAnimation.begin().then("stomp_cast", Animation.LoopType.PLAY_ONCE));
+            }
+            else if (spell.getSpellResource().equals(ASTags.SLASH_LIKE_SPELL.location()))
+            {
+                controller.setAnimation(RawAnimation.begin().then("slash_cast", Animation.LoopType.PLAY_ONCE));
             }
             else {
                 //System.out.println("Set Start instant cast");

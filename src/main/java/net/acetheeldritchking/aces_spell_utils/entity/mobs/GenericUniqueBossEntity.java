@@ -43,11 +43,11 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
         FifthPhase(4),
         SixthPhase(5),
         SeventhPhase(6),
-        TransitionPhase1(7),
-        TransitionPhase2(8),
-        TransitionPhase3(9),
-        DesperationPhase(10),
-        FinalPhase(11);
+        EighthPhase(7),
+        NinethPhase(8),
+        TenthPhase(9),
+        EleventhPhase(10),
+        TwelfthPhase(11);
 
         final public int value;
 
