@@ -343,13 +343,12 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
                 //System.out.println("Set Start cont. cast");
                 controller.setAnimation(RawAnimation.begin().then("continous_cast", Animation.LoopType.PLAY_ONCE));
             }
-            //getSpellId().matches(ASTags.STOMP_LIKE_SPELL.toString())
             // Idk, let's see if this bricks anything!
-            else if (spell.getSpellResource().equals(ASTags.STOMP_LIKE_SPELL.location()))
+            else if (spell == ASUtils.getSpellsFromTag(ASTags.STOMP_LIKE_SPELL))
             {
                 controller.setAnimation(RawAnimation.begin().then("stomp_cast", Animation.LoopType.PLAY_ONCE));
             }
-            else if (spell.getSpellResource().equals(ASTags.SLASH_LIKE_SPELL.location()))
+            else if (spell == ASUtils.getSpellsFromTag(ASTags.SLASH_LIKE_SPELL))
             {
                 controller.setAnimation(RawAnimation.begin().then("slash_cast", Animation.LoopType.PLAY_ONCE));
             }

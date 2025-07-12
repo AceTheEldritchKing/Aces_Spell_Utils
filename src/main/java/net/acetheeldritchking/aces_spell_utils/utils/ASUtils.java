@@ -1,12 +1,14 @@
 package net.acetheeldritchking.aces_spell_utils.utils;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,6 +17,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ASUtils {
     // Gets equipped curio on the player
@@ -47,6 +52,26 @@ public class ASUtils {
         {
             return false;
         }
+    }
+
+    // Get spells from a tag
+    public static List<AbstractSpell> getSpellsFromTag(TagKey<AbstractSpell> tag)
+    {
+        var list = new ArrayList<AbstractSpell>();
+
+        for (var spell : SpellRegistry.getEnabledSpells())
+        {
+            SpellRegistry.REGISTRY.getHolder(spell.getSpellResource()).ifPresent(
+                    s -> {
+                        if (s.is(tag))
+                        {
+                            list.add(spell);
+                        }
+                    }
+            );
+        }
+
+        return list;
     }
 
     // Circle of particles
