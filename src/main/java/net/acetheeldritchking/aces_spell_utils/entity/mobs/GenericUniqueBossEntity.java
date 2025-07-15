@@ -81,13 +81,15 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        pCompound.putInt("phase", getPhase());
+        // Phases
+        setPhase(pCompound.getInt("phase"));
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        setPhase(pCompound.getInt("phase"));
+        // Phases
+        pCompound.putInt("phase", getPhase());
     }
 
     @Override
