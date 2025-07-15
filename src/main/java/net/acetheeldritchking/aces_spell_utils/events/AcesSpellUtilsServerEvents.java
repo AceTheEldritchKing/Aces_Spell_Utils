@@ -2,12 +2,14 @@ package net.acetheeldritchking.aces_spell_utils.events;
 
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.network.SyncManaPacket;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
@@ -23,24 +25,29 @@ public class AcesSpellUtilsServerEvents {
         {
             if (livingEntity instanceof ServerPlayer serverPlayer)
             {
-                double manaSteal = serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_STEAL);
+                float manaStealAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_STEAL);
                 int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
                 var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
 
-                int addMana = (int) Math.min(manaSteal + attackerPlayerMagicData.getMana(), maxAttackerMana);
+                if (manaStealAttr > 0.001)
+                {
+                    int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
 
-                attackerPlayerMagicData.setMana(addMana);
+                    attackerPlayerMagicData.setMana(addMana);
+                    PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
+                }
 
                 if (target instanceof ServerPlayer serverTargetPlayer)
                 {
                     int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
                     var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
 
-                    int subMana = (int) Math.min(manaSteal + attackerPlayerMagicData.getMana(), maxAttackerMana);
+                    int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
 
                     if (maxTargetMana > 0)
                     {
                         targetPlayerMagicData.setMana(subMana);
+                        PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
                     }
                 }
             }

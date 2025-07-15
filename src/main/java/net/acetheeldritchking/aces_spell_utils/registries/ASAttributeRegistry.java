@@ -1,5 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.registries;
 
+import io.redspace.ironsspellbooks.api.attribute.MagicRangedAttribute;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -34,6 +35,8 @@ public class ASAttributeRegistry {
 
     private static DeferredHolder<Attribute, Attribute> registerAttribute(String id)
     {
-        return ATTRIBUTES.register(id, () -> new PercentageAttribute("attribute.aces_spell_utils." + id, 0.0D, 0.0D, 10.0D).setSyncable(true));
+        return ATTRIBUTES.register(id, () ->
+                (new MagicRangedAttribute("attribute.aces_spell_utils." + id,
+                        1.0D, -100, 100).setSyncable(true)));
     }
 }
