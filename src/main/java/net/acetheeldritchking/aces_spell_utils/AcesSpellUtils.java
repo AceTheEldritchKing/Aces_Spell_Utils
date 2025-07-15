@@ -1,5 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils;
 
+import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,8 @@ public class AcesSpellUtils {
     public AcesSpellUtils(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+
+        ASAttributeRegistry.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 

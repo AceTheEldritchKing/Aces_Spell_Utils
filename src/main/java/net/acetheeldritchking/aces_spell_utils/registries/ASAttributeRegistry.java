@@ -4,8 +4,10 @@ import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.PercentageAttribute;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -19,6 +21,15 @@ public class ASAttributeRegistry {
     public static void register(IEventBus eventBus)
     {
         ATTRIBUTES.register(eventBus);
+    }
+
+    @SubscribeEvent
+    public static void modifyEntityAttributes(EntityAttributeModificationEvent event)
+    {
+        event.getTypes().forEach(entityType ->
+                ATTRIBUTES.getEntries().forEach(
+                        attributeDeferredHolder -> event.add(entityType, attributeDeferredHolder
+                        )));
     }
 
     private static DeferredHolder<Attribute, Attribute> registerAttribute(String id)
