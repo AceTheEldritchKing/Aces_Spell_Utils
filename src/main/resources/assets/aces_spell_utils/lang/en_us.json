@@ -1,13 +1,9 @@
 {
-  "itemGroup.aces_spell_utils": "Example Mod Tab",
-  "block.aces_spell_utils.example_block": "Example Block",
-  "item.aces_spell_utils.example_item": "Example Item",
+  "itemGroup.aces_spell_utils": "Ace's Spell Utils",
 
   "aces_spell_utils.configuration.title": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml.title": "Ace's Spell Utils Configs",
-  "aces_spell_utils.configuration.items": "Item List",
-  "aces_spell_utils.configuration.logDirtBlock": "Log Dirt Block",
-  "aces_spell_utils.configuration.magicNumberIntroduction": "Magic Number Text",
-  "aces_spell_utils.configuration.magicNumber": "Magic Number"
+
+  "attribute.aces_spell_utils.mana_steal": "Mana Steal"
 }
