@@ -37,6 +37,6 @@ public class ASAttributeRegistry {
     {
         return ATTRIBUTES.register(id, () ->
                 (new MagicRangedAttribute("attribute.aces_spell_utils." + id,
-                        1.0D, -100, 100).setSyncable(true)));
+                        0.0D, -100, 100).setSyncable(true)));
     }
 }
