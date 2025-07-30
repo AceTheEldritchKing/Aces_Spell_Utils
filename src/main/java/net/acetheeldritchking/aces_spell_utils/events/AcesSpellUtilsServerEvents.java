@@ -29,7 +29,7 @@ public class AcesSpellUtilsServerEvents {
                 int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
                 var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
 
-                if (manaStealAttr > 1.001) // Prevents everyone from having Mana Steal by default
+                if (manaStealAttr > 0.001) // Prevents everyone from having Mana Steal by default
                 {
                     int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
 
