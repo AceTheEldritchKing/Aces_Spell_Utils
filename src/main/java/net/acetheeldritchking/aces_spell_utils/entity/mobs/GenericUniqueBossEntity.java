@@ -20,7 +20,7 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
     }
 
     // Phase Serializer
-    public final static EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GenericBossEntity.class, EntityDataSerializers.INT);
+    public final static EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(GenericUniqueBossEntity.class, EntityDataSerializers.INT);
 
     // Used for boss music; set it in the child class to the music you want to have play
     public SoundEvent getBossMusic() {

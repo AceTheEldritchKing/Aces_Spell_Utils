@@ -5,6 +5,7 @@ import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.config.ServerConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -209,39 +210,33 @@ public class ASUtils {
 
     // Scale damage based on other attributes
     // They also scale off of spell power as these are intended to be used for ISS spells, but they can be used for other things as well
-    // If an entity has no spell power, it shouldn't really affect the math much
-    public static float getDamageForAttributes(LivingEntity entity, Holder<Attribute> attr1, Holder<Attribute> attr2, float modifier)
+    // Update: Instead, we're getting the existing spell power from the spell itself and then adding the extra attribute to it
+    public static float getDamageForAttributes(AbstractSpell spell, LivingEntity entity, int spellLevel, Holder<Attribute> attr1, float modifier)
     {
         double attrValue1 = entity.getAttributeValue(attr1);
-        double attrValue2 = entity.getAttributeValue(attr2);
-        double spellPower = entity.getAttributeValue(AttributeRegistry.SPELL_POWER);
 
-        float damage = (float) (modifier * (attrValue1 + attrValue2 + spellPower));
+        float damage = (float) (modifier * (spell.getSpellPower(spellLevel, entity) + attrValue1));
 
         return damage;
     }
 
-    public static float getDamageForAttributes(LivingEntity entity, Holder<Attribute> attr1, Holder<Attribute> attr2, Holder<Attribute> attr3, float modifier)
+    public static float getDamageForAttributes(AbstractSpell spell, LivingEntity entity, int spellLevel, Holder<Attribute> attr1, Holder<Attribute> attr2, float modifier)
     {
         double attrValue1 = entity.getAttributeValue(attr1);
         double attrValue2 = entity.getAttributeValue(attr2);
-        double attrValue3 = entity.getAttributeValue(attr3);
-        double spellPower = entity.getAttributeValue(AttributeRegistry.SPELL_POWER);
 
-        float damage = (float) (modifier * (attrValue1 + attrValue2 + attrValue3 + spellPower));
+        float damage = (float) (modifier * (spell.getSpellPower(spellLevel, entity) + attrValue1 + attrValue2));
 
         return damage;
     }
 
-    public static float getDamageForAttributes(LivingEntity entity, Holder<Attribute> attr1, Holder<Attribute> attr2, Holder<Attribute> attr3, Holder<Attribute> attr4, float modifier)
+    public static float getDamageForAttributes(AbstractSpell spell, LivingEntity entity, int spellLevel, Holder<Attribute> attr1, Holder<Attribute> attr2, Holder<Attribute> attr3, float modifier)
     {
         double attrValue1 = entity.getAttributeValue(attr1);
         double attrValue2 = entity.getAttributeValue(attr2);
         double attrValue3 = entity.getAttributeValue(attr3);
-        double attrValue4 = entity.getAttributeValue(attr4);
-        double spellPower = entity.getAttributeValue(AttributeRegistry.SPELL_POWER);
 
-        float damage = (float) (modifier * (attrValue1 + attrValue2 + attrValue3 + attrValue4 + spellPower));
+        float damage = (float) (modifier * (spell.getSpellPower(spellLevel, entity) + attrValue1 + attrValue2 + attrValue3));
 
         return damage;
     }
