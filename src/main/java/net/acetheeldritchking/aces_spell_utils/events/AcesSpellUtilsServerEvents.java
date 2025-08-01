@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber
@@ -48,6 +49,55 @@ public class AcesSpellUtilsServerEvents {
                     {
                         targetPlayerMagicData.setMana(subMana);
                         PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingIncomingDamageEvent(LivingIncomingDamageEvent event)
+    {
+        var target = event.getEntity();
+        var attacker = event.getSource().getEntity();
+
+        // Attributes
+        if (attacker instanceof LivingEntity livingEntity)
+        {
+            if (livingEntity instanceof ServerPlayer serverPlayer)
+            {
+                float manaRendAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_REND);
+
+                var victim = event.getEntity();
+                var victimMaxMana = victim.getAttributeValue(AttributeRegistry.MAX_MANA);
+                var victimBaseMana = victim.getAttributeBaseValue(AttributeRegistry.MAX_MANA);
+
+                //System.out.println("Start");
+                if (manaRendAttr != 0)
+                {
+                    //System.out.println("Eval attributes");
+                    // Looking at how Betrayer Signet is done; we're adapting that math to us the attribute as the conversion ratio
+                    // Rather than a flat 10%, it's whatever the attribute is
+                    if (victimMaxMana > victimBaseMana)
+                    {
+                        //System.out.println("Doing the eval mana");
+                        var manaAboveBase = victimMaxMana - victimBaseMana;
+
+                        double conversionRationPer100 = manaRendAttr;
+                        double totalExtraDamagerPercent = 0;
+                        while (manaAboveBase > 0 && conversionRationPer100 > 0)
+                        {
+                            var step = Math.clamp(manaAboveBase, 0, 100) * 0.01;
+                            totalExtraDamagerPercent += step * conversionRationPer100;
+                            manaAboveBase -= 100;
+                            // So it scales with the amount of mana rend you have and then some
+                            // That way it's a boost to damage w/o being OP at higher levels
+                            conversionRationPer100 -= (manaRendAttr * 0.15);
+                        }
+                        event.setAmount((float) (event.getAmount() * Math.max(1, 1 + totalExtraDamagerPercent)));
+
+                        //System.out.println("Old Damage" + event.getOriginalAmount());
+                        //System.out.println("New Damage" + event.getAmount());
                     }
                 }
             }
