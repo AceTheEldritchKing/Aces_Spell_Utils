@@ -15,86 +15,81 @@ import net.neoforged.neoforge.network.PacketDistributor;
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
     @SubscribeEvent
-    public static void livingDamageEvent(LivingDamageEvent.Post event)
-    {
+    public static void livingDamageEvent(LivingDamageEvent.Post event) {
         var sourceEntity = event.getSource().getEntity();
         var target = event.getEntity();
         var projectile = event.getSource().getDirectEntity();
 
-        // Attributes
-        if (sourceEntity instanceof LivingEntity livingEntity)
-        {
-            if (livingEntity instanceof ServerPlayer serverPlayer)
-            {
-                float manaStealAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_STEAL);
-                int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
-                var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
+        //Safety checks - only works if user is a player
+        if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
+        if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
 
-                if (manaStealAttr > 0) // Prevents everyone from having Mana Steal by default
-                {
-                    int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
+        var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
-                    attackerPlayerMagicData.setMana(addMana);
-                    PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
-                }
+        //Check if user has mana steal
+        if (hasManaSteal == null) return;
 
-                if (target instanceof ServerPlayer serverTargetPlayer)
-                {
-                    int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
-                    var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
+        float manaStealAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_STEAL);
+        int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
+        var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
 
-                    int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
+        //Check if user has Mana Steal
+        if (manaStealAttr <= 0) return;
+        int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana) * 100;
 
-                    if (maxTargetMana > 0)
-                    {
-                        targetPlayerMagicData.setMana(subMana);
-                        PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
-                    }
-                }
-            }
+        //Returns mana "stolen"
+        attackerPlayerMagicData.setMana(addMana);
+        PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
+
+        //Check if target is a player for reducing their mana
+        if (target instanceof ServerPlayer serverTargetPlayer) {
+            int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
+            var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
+
+            int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
+
+            //Final check for applying Mana Steal
+            if (maxTargetMana <= 0) return;
+
+            //Reduces target player's mana
+            targetPlayerMagicData.setMana(subMana);
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
         }
     }
 
     @SubscribeEvent
-    public static void onLivingIncomingDamageEvent(LivingIncomingDamageEvent event)
-    {
-        var target = event.getEntity();
+    public static void manaRendEvent(LivingIncomingDamageEvent event) {
+        //Grab involved entities
+        var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
 
-        // Attributes
-        if (attacker instanceof LivingEntity livingEntity)
-        {
-            if (livingEntity instanceof ServerPlayer serverPlayer)
-            {
-                float manaRendAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_REND);
+        //Cancels modification if user isn't a living entity
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
 
-                var victim = event.getEntity();
-                var victimMaxMana = victim.getAttributeValue(AttributeRegistry.MAX_MANA);
-                var victimBaseMana = victim.getAttributeBaseValue(AttributeRegistry.MAX_MANA);
+        //Check if attribute exists
+        var hasManaRend = livingEntity.getAttribute(PotatoAttributes.MANA_REND);
+        var targetHasMana = victim.getAttribute(AttributeRegistry.MAX_MANA);
 
-                //System.out.println("Start");
-                if (manaRendAttr > 0 && victimMaxMana > victimBaseMana)
-                {
-                    //System.out.println("Eval attributes");
-                    // Looking at how Betrayer Signet is done; we're adapting that math to us the attribute as the conversion ratio
-                    // Rather than a flat 10%, it's whatever the attribute is
-                    
-                        //System.out.println("Doing the eval mana");
-                        var manaAboveBase = victimMaxMana - victimBaseMana;
+        //Cancels modification if user doesn't have mana rend or target doesn't have mana
+        if (hasManaRend == null || targetHasMana == null) return;
 
-                        double conversionRationPer100 = manaRendAttr;
-                        
-                        if (!(manaAboveBase > 0 || conversionRationPer100 > 0)) return;
-                        
-                        var step = Math.clamp(manaAboveBase * 0.01, 0, 100);
-                        double totalExtraDamagerPercent = 1 + (step * conversionRationPer100);
-                        
-                        event.setAmount((float) (event.getAmount() * Math.max(1, totalExtraDamagerPercent)));
+        //Grab attributes values
+        double manaRendAttr = livingEntity.getAttributeValue(PotatoAttributes.MANA_REND);
+        double victimMaxMana = victim.getAttributeValue(AttributeRegistry.MAX_MANA);
+        double victimBaseMana = victim.getAttributeBaseValue(AttributeRegistry.MAX_MANA);
 
-                        //System.out.println("Old Damage" + event.getOriginalAmount());
-                        //System.out.println("New Damage" + event.getAmount());
-                }
-            }
-        }
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (manaRendAttr <= 0 || victimMaxMana <= 0) return;
+
+        //Gets the % of max mana in comparison with base mana (1 = 100%)
+        double bonusManaFromBase = (victimMaxMana / victimBaseMana);
+        //Bonus damage is 1% for every 100% of mana above base the target has (1% for every 100 extra mana)
+        double step = bonusManaFromBase * 0.01;
+
+        //Multiplies step by mana rend, then adds 1 to account for original damage on final multiplication
+        double totalExtraDamagerPercent = 1 + (step * manaRendAttr);
+
+        //finalDamage = originalDamage * (1 + step * manaRendAttr)
+        event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
     }
 }
