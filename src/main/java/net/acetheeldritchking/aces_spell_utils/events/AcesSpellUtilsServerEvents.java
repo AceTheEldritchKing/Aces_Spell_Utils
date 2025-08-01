@@ -30,7 +30,7 @@ public class AcesSpellUtilsServerEvents {
                 int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
                 var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
 
-                if (manaStealAttr > 0.001) // Prevents everyone from having Mana Steal by default
+                if (manaStealAttr > 0) // Prevents everyone from having Mana Steal by default
                 {
                     int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
 
@@ -73,32 +73,26 @@ public class AcesSpellUtilsServerEvents {
                 var victimBaseMana = victim.getAttributeBaseValue(AttributeRegistry.MAX_MANA);
 
                 //System.out.println("Start");
-                if (manaRendAttr != 0)
+                if (manaRendAttr > 0 && victimMaxMana > victimBaseMana)
                 {
                     //System.out.println("Eval attributes");
                     // Looking at how Betrayer Signet is done; we're adapting that math to us the attribute as the conversion ratio
                     // Rather than a flat 10%, it's whatever the attribute is
-                    if (victimMaxMana > victimBaseMana)
-                    {
+                    
                         //System.out.println("Doing the eval mana");
                         var manaAboveBase = victimMaxMana - victimBaseMana;
 
                         double conversionRationPer100 = manaRendAttr;
-                        double totalExtraDamagerPercent = 0;
-                        while (manaAboveBase > 0 && conversionRationPer100 > 0)
-                        {
-                            var step = Math.clamp(manaAboveBase, 0, 100) * 0.01;
-                            totalExtraDamagerPercent += step * conversionRationPer100;
-                            manaAboveBase -= 100;
-                            // So it scales with the amount of mana rend you have and then some
-                            // That way it's a boost to damage w/o being OP at higher levels
-                            conversionRationPer100 -= (manaRendAttr * 0.15);
-                        }
-                        event.setAmount((float) (event.getAmount() * Math.max(1, 1 + totalExtraDamagerPercent)));
+                        
+                        if (!(manaAboveBase > 0 && conversionRationPer100 > 0)) return;
+                        
+                        var step = Math.clamp(manaAboveBase * 0.01, 0, 100);
+                        double totalExtraDamagerPercent = 1 + (step * conversionRationPer100);
+                        
+                        event.setAmount((float) (event.getAmount() * Math.max(1, totalExtraDamagerPercent)));
 
                         //System.out.println("Old Damage" + event.getOriginalAmount());
                         //System.out.println("New Damage" + event.getAmount());
-                    }
                 }
             }
         }
