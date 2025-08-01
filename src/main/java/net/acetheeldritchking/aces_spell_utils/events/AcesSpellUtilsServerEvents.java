@@ -35,7 +35,7 @@ public class AcesSpellUtilsServerEvents {
 
         //Check if user has Mana Steal
         if (manaStealAttr <= 0) return;
-        int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana) * 100;
+        int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
 
         //Returns mana "stolen"
         attackerPlayerMagicData.setMana(addMana);
@@ -67,14 +67,14 @@ public class AcesSpellUtilsServerEvents {
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
         //Check if attribute exists
-        var hasManaRend = livingEntity.getAttribute(PotatoAttributes.MANA_REND);
+        var hasManaRend = livingEntity.getAttribute(ASAttributeRegistry.MANA_REND);
         var targetHasMana = victim.getAttribute(AttributeRegistry.MAX_MANA);
 
         //Cancels modification if user doesn't have mana rend or target doesn't have mana
         if (hasManaRend == null || targetHasMana == null) return;
 
         //Grab attributes values
-        double manaRendAttr = livingEntity.getAttributeValue(PotatoAttributes.MANA_REND);
+        double manaRendAttr = livingEntity.getAttributeValue(ASAttributeRegistry.MANA_REND);
         double victimMaxMana = victim.getAttributeValue(AttributeRegistry.MAX_MANA);
         double victimBaseMana = victim.getAttributeBaseValue(AttributeRegistry.MAX_MANA);
 
