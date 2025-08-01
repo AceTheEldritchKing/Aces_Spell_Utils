@@ -84,7 +84,7 @@ public class AcesSpellUtilsServerEvents {
 
                         double conversionRationPer100 = manaRendAttr;
                         
-                        if (!(manaAboveBase > 0 && conversionRationPer100 > 0)) return;
+                        if (!(manaAboveBase > 0 || conversionRationPer100 > 0)) return;
                         
                         var step = Math.clamp(manaAboveBase * 0.01, 0, 100);
                         double totalExtraDamagerPercent = 1 + (step * conversionRationPer100);
