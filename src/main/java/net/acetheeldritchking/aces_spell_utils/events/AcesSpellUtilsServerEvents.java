@@ -58,7 +58,7 @@ public class AcesSpellUtilsServerEvents {
     }
 
     @SubscribeEvent
-    public static void manaRendEvent(LivingIncomingDamageEvent event) {
+    public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
         //Grab involved entities
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
