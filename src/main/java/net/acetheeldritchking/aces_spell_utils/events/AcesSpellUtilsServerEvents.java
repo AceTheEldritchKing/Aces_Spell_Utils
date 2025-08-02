@@ -17,8 +17,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
+    
     @SubscribeEvent
-    public static void livingDamageEvent(LivingDamageEvent.Post event) {
+    public static void manaStealEvent(LivingDamageEvent.Post event) {
         var sourceEntity = event.getSource().getEntity();
         var target = event.getEntity();
         var projectile = event.getSource().getDirectEntity();
@@ -64,7 +65,7 @@ public class AcesSpellUtilsServerEvents {
     }
 
     @SubscribeEvent
-    public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
+    public static void manaRendEvent(LivingIncomingDamageEvent event) {
         //Grab involved entities
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
@@ -100,7 +101,15 @@ public class AcesSpellUtilsServerEvents {
 
         //finalDamage = originalDamage * (1 + step * manaRendAttr)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
+    }
 
+    // You can and should use one event for each attribute
+    // Just make sure they always end early if not used, to avoid random stuff firing
+    @SubscribeEvent
+    public static void goliathSlayerEvent(LivingIncomingDamageEvent event) {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
         /***
          * Goliath Slayer Attribute
          */
@@ -117,18 +126,18 @@ public class AcesSpellUtilsServerEvents {
         if (goliathSlayerAttr <= 0) return;
 
         // Eval whether the victim is a boss entity
-        if (victim.getType().is(ASTags.BOSS_LIKE_ENTITES))
-        {
-            // Really, it's just a percentage of damage, nothing complicated
-            float baseDamage = event.getOriginalAmount();
-            float bonusDamage = (float) (baseDamage * goliathSlayerAttr);
-            float totalDamage = baseDamage + bonusDamage;
+        // It doesn't do anything on non-boss, so we can just return otherwise
+        if (!victim.getType().is(ASTags.BOSS_LIKE_ENTITES)) return;
+        // Really, it's just a percentage of damage, nothing complicated
+        float baseDamage = event.getOriginalAmount();
+        float bonusDamage = (float) (baseDamage * goliathSlayerAttr);
+        float totalDamage = baseDamage + bonusDamage;
 
-            event.setAmount(totalDamage);
+        event.setAmount(totalDamage);
 
-            System.out.println("OG Damage: " + baseDamage);
-            System.out.println("Bonus Damage: " + bonusDamage);
-            System.out.println("Total Damage: " + event.getAmount());
-        }
+        System.out.println("OG Damage: " + baseDamage);
+        System.out.println("Bonus Damage: " + bonusDamage);
+        System.out.println("Total Damage: " + event.getAmount());
+
     }
 }
