@@ -19,10 +19,14 @@ public class ASAttributeRegistry {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, AcesSpellUtils.MOD_ID);
 
     // Mana Steal
-    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerRangedAttribute("mana_steal", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicRangedAttribute("mana_steal", 0.0D, -100, 100.0D);
 
     // Mana Rend
-    public static final DeferredHolder<Attribute, Attribute> MANA_REND = registerRangedAttribute("mana_rend", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> MANA_REND = registerMagicRangedAttribute("mana_rend", 0.0D, -100, 100.0D);
+
+    // Goliath Slayer
+    public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
+
 
     public static void register(IEventBus eventBus)
     {

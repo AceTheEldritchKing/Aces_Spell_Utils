@@ -3,7 +3,10 @@ package net.acetheeldritchking.aces_spell_utils.events;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
+import io.redspace.ironsspellbooks.util.ModTags;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
+import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,6 +29,9 @@ public class AcesSpellUtilsServerEvents {
 
         var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
+        /***
+         * Mana Steal Attribute
+         */
         //Check if user has mana steal
         if (hasManaSteal == null) return;
 
@@ -66,6 +72,9 @@ public class AcesSpellUtilsServerEvents {
         //Cancels modification if user isn't a living entity
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
+        /***
+         * Mana Rend Attribute
+         */
         //Check if attribute exists
         var hasManaRend = livingEntity.getAttribute(ASAttributeRegistry.MANA_REND);
         var targetHasMana = victim.getAttribute(AttributeRegistry.MAX_MANA);
@@ -91,5 +100,35 @@ public class AcesSpellUtilsServerEvents {
 
         //finalDamage = originalDamage * (1 + step * manaRendAttr)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
+
+        /***
+         * Goliath Slayer Attribute
+         */
+        //Check if attribute exists
+        var hasGoliathSlayer = livingEntity.getAttribute(ASAttributeRegistry.GOLIATH_SLAYER);
+
+        //Cancels modification if user doesn't have Goliath Slayer
+        if (hasGoliathSlayer == null) return;
+
+        //Grab attributes value
+        double goliathSlayerAttr = livingEntity.getAttributeValue(ASAttributeRegistry.GOLIATH_SLAYER);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (goliathSlayerAttr <= 0) return;
+
+        // Eval whether the victim is a boss entity
+        if (victim.getType().is(ASTags.BOSS_LIKE_ENTITES))
+        {
+            // Really, it's just a percentage of damage, nothing complicated
+            float baseDamage = event.getOriginalAmount();
+            float bonusDamage = (float) (baseDamage * goliathSlayerAttr);
+            float totalDamage = baseDamage + bonusDamage;
+
+            event.setAmount(totalDamage);
+
+            System.out.println("OG Damage: " + baseDamage);
+            System.out.println("Bonus Damage: " + bonusDamage);
+            System.out.println("Total Damage: " + event.getAmount());
+        }
     }
 }
