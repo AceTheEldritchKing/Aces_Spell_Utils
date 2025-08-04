@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "#c:bosses",
-    "minecraft:pig",
     {
       "id": "discerning_the_eldritch:ascended_one",
       "required": false
