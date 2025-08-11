@@ -27,6 +27,9 @@ public class ASAttributeRegistry {
     // Goliath Slayer
     public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
 
+    // Spell Res Shred
+    public static final DeferredHolder<Attribute, Attribute> SPELL_RES_SHRED = registerMagicRangedAttribute("spell_res_shred", 0.0D, -100, 100.0D);
+
 
     public static void register(IEventBus eventBus)
     {

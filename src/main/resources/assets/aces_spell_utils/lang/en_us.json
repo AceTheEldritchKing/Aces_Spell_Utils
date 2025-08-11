@@ -7,5 +7,6 @@
 
   "attribute.aces_spell_utils.mana_steal": "Mana Steal",
   "attribute.aces_spell_utils.mana_rend": "Mana Rend",
-  "attribute.aces_spell_utils.goliath_slayer": "Goliath Slayer"
+  "attribute.aces_spell_utils.goliath_slayer": "Goliath Slayer",
+  "attribute.aces_spell_utils.spell_res_shred": "Spell Resistance Shred"
 }
