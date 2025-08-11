@@ -21,8 +21,7 @@ import static io.redspace.ironsspellbooks.damage.DamageSources.*;
 @Mixin(DamageSources.class)
 public class SpellDamageMixin {
     @WrapMethod(method = "applyDamage")
-    private static boolean applyDamage(Entity target, float baseAmount, DamageSource damageSource, Operation<Integer> original)
-    {
+    private static boolean applyDamage(Entity target, float baseAmount, DamageSource damageSource, Operation<Float> original) {
         if (target instanceof LivingEntity livingTarget && damageSource instanceof SpellDamageSource spellDamageSource) {
             var e = new SpellDamageEvent(livingTarget, baseAmount, spellDamageSource);
 
@@ -30,8 +29,7 @@ public class SpellDamageMixin {
             try {
                 var f = clazz.getDeclaredField("spell");
                 AbstractSpell spell = (AbstractSpell) f.get(spellDamageSource);
-            }
-            catch (NoSuchFieldException | IllegalAccessException exception) {
+            } catch (NoSuchFieldException | IllegalAccessException exception) {
                 throw new RuntimeException(exception);
             }
 
@@ -40,19 +38,27 @@ public class SpellDamageMixin {
             }
             baseAmount = e.getAmount();
             Entity caster = damageSource.getEntity();
-            if(!(caster instanceof LivingEntity livingCaster)) return false;
+            if (!(caster instanceof LivingEntity livingCaster)) return false;
             double piercingAttr;
             double piercedAmount;
             double spellShred = 0;
             double spellPierce = 0;
-            if(livingCaster instanceof Player player) {
-                piercingAttr = player.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED);
-                piercedAmount = getResist(livingTarget, spellDamageSource.spell().getSchoolType()) - 1;
-                if(piercedAmount <= 0) piercingAttr = 0;
+            double resistPierce;
 
-                spellShred = Math.abs(piercedAmount * piercingAttr);
-            }
-            float adjustedDamage = (float)(baseAmount * (getResist(livingTarget, spellDamageSource.spell().getSchoolType()) + spellShred + spellPierce));
+            if (livingCaster.getAttributes().hasAttribute(ASAttributeRegistry.SPELL_RES_SHRED) && livingCaster.getAttributes().hasAttribute(ASAttributeRegistry.SPELL_RES_SHRED))
+                resistPierce = livingCaster.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED) + livingCaster.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED);
+            else resistPierce = 0;
+
+            if (livingCaster.getAttributes().hasAttribute(ASAttributeRegistry.SPELL_RES_SHRED))
+                piercingAttr = livingCaster.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED);
+            else piercingAttr = 0;
+
+            piercedAmount = getResist(livingTarget, spellDamageSource.spell().getSchoolType()) - 1;
+            if (piercedAmount <= 0) piercingAttr = 0;
+
+            spellShred = Math.abs(piercedAmount * piercingAttr);
+
+            float adjustedDamage = (float) (baseAmount * (getResist(livingTarget, spellDamageSource.spell().getSchoolType()) + spellShred));
 
             if (damageSource.getDirectEntity() instanceof NoKnockbackProjectile) {
                 ignoreNextKnockback(livingTarget);
@@ -68,8 +74,7 @@ public class SpellDamageMixin {
             System.out.println("Adjusted Damage: " + adjustedDamage);
             System.out.println("Base Damage: " + baseAmount);
             return livingTarget.hurt(damageSource, adjustedDamage);
-        }
-        else {
+        } else {
             System.out.println("Is Normal Damage: " + target.hurt(damageSource, baseAmount));
             System.out.println("Base Damage: " + baseAmount);
             return target.hurt(damageSource, baseAmount);
