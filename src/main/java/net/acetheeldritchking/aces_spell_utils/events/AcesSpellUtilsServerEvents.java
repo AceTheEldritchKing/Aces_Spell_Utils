@@ -135,9 +135,8 @@ public class AcesSpellUtilsServerEvents {
 
         event.setAmount(totalDamage);
 
-        System.out.println("OG Damage: " + baseDamage);
-        System.out.println("Bonus Damage: " + bonusDamage);
-        System.out.println("Total Damage: " + event.getAmount());
-
+        //System.out.println("OG Damage: " + baseDamage);
+        //System.out.println("Bonus Damage: " + bonusDamage);
+        //System.out.println("Total Damage: " + event.getAmount());
     }
 }

@@ -44,14 +44,16 @@ public class SpellDamageMixin {
             double piercingAttr;
             double piercedAmount;
             double spellShred = 0;
+            double spellPierce = 0;
             if(livingCaster instanceof Player player) {
-                piercingAttr = livingCaster.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED);
+                piercingAttr = player.getAttributeValue(ASAttributeRegistry.SPELL_RES_SHRED);
                 piercedAmount = getResist(livingTarget, spellDamageSource.spell().getSchoolType()) - 1;
                 if(piercedAmount <= 0) piercingAttr = 0;
 
                 spellShred = Math.abs(piercedAmount * piercingAttr);
             }
-            float adjustedDamage = (float)(baseAmount * (getResist(livingTarget, spellDamageSource.spell().getSchoolType()) + spellShred));
+            float adjustedDamage = (float)(baseAmount * (getResist(livingTarget, spellDamageSource.spell().getSchoolType()) + spellShred + spellPierce));
+
             if (damageSource.getDirectEntity() instanceof NoKnockbackProjectile) {
                 ignoreNextKnockback(livingTarget);
             }
@@ -61,9 +63,15 @@ public class SpellDamageMixin {
                 }
                 livingAttacker.setLastHurtMob(target);
             }
+
+            System.out.println("Is Adjusted Damage: " + livingTarget.hurt(damageSource, adjustedDamage));
+            System.out.println("Adjusted Damage: " + adjustedDamage);
+            System.out.println("Base Damage: " + baseAmount);
             return livingTarget.hurt(damageSource, adjustedDamage);
         }
         else {
+            System.out.println("Is Normal Damage: " + target.hurt(damageSource, baseAmount));
+            System.out.println("Base Damage: " + baseAmount);
             return target.hurt(damageSource, baseAmount);
         }
     }
