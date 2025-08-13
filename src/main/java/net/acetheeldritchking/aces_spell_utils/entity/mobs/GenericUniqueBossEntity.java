@@ -24,7 +24,46 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
 
     // Used for boss music; set it in the child class to the music you want to have play
     public SoundEvent getBossMusic() {
+        return null;
+    }
 
+    // This is for changing music based on phase changing
+    // As there is no dedicated transition phase, second phase can be
+    // Set this to true if you want the music to change
+    public boolean changeMusicOnPhaseChange;
+    public boolean useSecondPhaseAsTransition;
+
+    // Setter for above values
+    public void setChangeMusicOnPhaseChange(boolean val)
+    {
+        changeMusicOnPhaseChange = val;
+    }
+
+    public void setUseSecondPhaseAsTransition(boolean val)
+    {
+        useSecondPhaseAsTransition = val;
+    }
+
+    // Getter for above values
+    public boolean getChangeMusicOnPhaseChange()
+    {
+        return changeMusicOnPhaseChange;
+    }
+
+    public boolean getUseSecondPhaseAsTransition()
+    {
+        return useSecondPhaseAsTransition;
+    }
+
+    // Used for transition music
+    public SoundEvent getTransitionMusic()
+    {
+        return null;
+    }
+
+    // Used for music to get for other phases
+    public SoundEvent getOtherPhaseMusic()
+    {
         return null;
     }
 

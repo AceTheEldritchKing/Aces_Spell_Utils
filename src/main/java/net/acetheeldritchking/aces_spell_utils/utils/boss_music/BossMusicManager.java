@@ -23,6 +23,8 @@ public class BossMusicManager {
     GenericBossEntity genericBoss;
     final SoundManager manager;
     BossSoundInstance bossMusic;
+    BossSoundInstance bossTransitionMusic;
+    BossSoundInstance bossAltMusic;
     GenericBossEntity.Phase phase;
     Set<BossSoundInstance> layers = new HashSet<>();
     boolean finishedPlaying = false;
@@ -32,7 +34,10 @@ public class BossMusicManager {
         this.genericBoss = boss;
         this.manager = Minecraft.getInstance().getSoundManager();
         phase = GenericBossEntity.Phase.values()[boss.getPhase()];
+
         bossMusic = new BossSoundInstance(getBossMusic(), SOUND_SOURCE, true);
+        bossTransitionMusic = new BossSoundInstance(getTransitionMusic(), SOUND_SOURCE, true);
+        bossAltMusic = new BossSoundInstance(getOtherPhaseMusic(), SOUND_SOURCE, true);
 
         init();
     }
@@ -45,11 +50,38 @@ public class BossMusicManager {
             case FirstPhase -> {
                 addLayer(bossMusic);
             }
+            // Since second phase can be used as a transition, we are going to check if it's being used as such
+            // If not, play the alt music instead
+            case SecondPhase -> {
+                if (genericBoss.getChangeMusicOnPhaseChange() && genericBoss.getUseSecondPhaseAsTransition())
+                {
+                    addLayer(bossTransitionMusic);
+                } else if (genericBoss.getChangeMusicOnPhaseChange())
+                {
+                    addLayer(bossAltMusic);
+                }
+            }
+            case ThirdPhase -> {
+                if (genericBoss.getChangeMusicOnPhaseChange() && genericBoss.getUseSecondPhaseAsTransition())
+                {
+                    addLayer(bossAltMusic);
+                }
+            }
         }
     }
 
     public SoundEvent getBossMusic() {
         return genericBoss.getBossMusic();
+    }
+
+    public SoundEvent getTransitionMusic()
+    {
+        return genericBoss.getTransitionMusic();
+    }
+
+    public SoundEvent getOtherPhaseMusic()
+    {
+        return genericBoss.getOtherPhaseMusic();
     }
 
     @SubscribeEvent
@@ -101,7 +133,34 @@ public class BossMusicManager {
             case FirstPhase -> {
                 if (!manager.isActive(bossMusic))
                 {
-                    playTheDamnMusic();
+                    playFirstPhaseMusic();
+                }
+            }
+            case SecondPhase -> {
+                if (phase != GenericBossEntity.Phase.SecondPhase)
+                {
+                    if (genericBoss.getChangeMusicOnPhaseChange() && genericBoss.getUseSecondPhaseAsTransition())
+                    {
+                        phase = GenericBossEntity.Phase.SecondPhase;
+                        stopLayers();
+                        playTransitionPhaseMusic();
+                    } else if (genericBoss.getChangeMusicOnPhaseChange())
+                    {
+                        phase = GenericBossEntity.Phase.SecondPhase;
+                        stopLayers();
+                        playAltPhaseMusic();
+                    }
+                }
+            }
+            case ThirdPhase -> {
+                if (phase != GenericBossEntity.Phase.ThirdPhase)
+                {
+                    if (genericBoss.getChangeMusicOnPhaseChange() && genericBoss.getUseSecondPhaseAsTransition())
+                    {
+                        phase = GenericBossEntity.Phase.ThirdPhase;
+                        stopLayers();
+                        playAltPhaseMusic();
+                    }
                 }
             }
         }
@@ -160,8 +219,18 @@ public class BossMusicManager {
         }
     }
 
-    private void playTheDamnMusic()
+    private void playFirstPhaseMusic()
     {
         addLayer(bossMusic);
+    }
+
+    private void playTransitionPhaseMusic()
+    {
+        addLayer(bossTransitionMusic);
+    }
+
+    private void playAltPhaseMusic()
+    {
+        addLayer(bossAltMusic);
     }
 }

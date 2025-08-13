@@ -18,7 +18,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import static io.redspace.ironsspellbooks.damage.DamageSources.*;
 
 // Stole with permission from Potato's Essentials
-@Mixin(DamageSources.class)
+// We're not using this class right now, but I'll keep it regardless
+/*@Mixin(DamageSources.class)
 public class SpellDamageMixin {
     @WrapMethod(method = "applyDamage")
     private static boolean applyDamage(Entity target, float baseAmount, DamageSource damageSource, Operation<Float> original) {
@@ -80,4 +81,4 @@ public class SpellDamageMixin {
             return target.hurt(damageSource, baseAmount);
         }
     }
-}
+}*/
