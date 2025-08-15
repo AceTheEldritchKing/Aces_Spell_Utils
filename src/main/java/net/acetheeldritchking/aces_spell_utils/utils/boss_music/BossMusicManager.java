@@ -67,6 +67,13 @@ public class BossMusicManager {
                     addLayer(bossAltMusic);
                 }
             }
+
+            default -> {
+                if (!genericBoss.getChangeMusicOnPhaseChange())
+                {
+                    addLayer(bossMusic);
+                }
+            }
         }
     }
 
@@ -161,6 +168,13 @@ public class BossMusicManager {
                         stopLayers();
                         playAltPhaseMusic();
                     }
+                }
+            }
+
+            default -> {
+                if (!manager.isActive(bossMusic) && !genericBoss.getChangeMusicOnPhaseChange())
+                {
+                    playFirstPhaseMusic();
                 }
             }
         }
