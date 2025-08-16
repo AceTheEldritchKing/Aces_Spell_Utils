@@ -28,7 +28,10 @@ public class ASAttributeRegistry {
     public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
 
     // Spell Res Shred
-    public static final DeferredHolder<Attribute, Attribute> SPELL_RES_SHRED = registerPercentageAttribute("spell_res_shred", 0, 0, 1);
+    //public static final DeferredHolder<Attribute, Attribute> SPELL_RES_PENETRATION = registerMagicPercentageAttribute("spell_res_penetration", 0, 0, 1);
+
+    // Hunger Steal
+    //public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerMagicRangedAttribute("hunger_steal", 0.0D, -100, 100.0D);
 
 
     public static void register(IEventBus eventBus)

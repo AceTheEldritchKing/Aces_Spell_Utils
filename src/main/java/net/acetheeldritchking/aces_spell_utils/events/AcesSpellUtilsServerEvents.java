@@ -7,6 +7,8 @@ import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -137,4 +139,46 @@ public class AcesSpellUtilsServerEvents {
         //System.out.println("Bonus Damage: " + bonusDamage);
         //System.out.println("Total Damage: " + event.getAmount());
     }
+
+    // Not used yet
+    /*@SubscribeEvent
+    public static void hungerStealEvent(LivingDamageEvent.Pre event)
+    {
+        var sourceEntity = event.getSource().getEntity();
+        var target = event.getEntity();
+        var projectile = event.getSource().getDirectEntity();
+
+        //Safety checks - only works if user is a player
+        if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
+        if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
+
+        var hasHungerSteal = serverPlayer.getAttribute(AttributeRegistry.ENDER_SPELL_POWER);
+
+        //Check if user has hunger steal
+        if (hasHungerSteal == null) return;
+
+        float hungerStealAttr = (float) serverPlayer.getAttributeValue(AttributeRegistry.ENDER_SPELL_POWER);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (hungerStealAttr <= 0) return;
+
+        // I took most of this from Art of Forging
+        FoodData playerFood = serverPlayer.getFoodData();
+        int foodLevel = playerFood.getFoodLevel();
+
+        //int addFood = (int) Math.min((hungerStealAttr + foodLevel), foodLevel);
+        int addFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) + foodLevel, foodLevel);
+
+        playerFood.setFoodLevel(5);
+
+        if (target instanceof Player targetPlayer) {
+            FoodData targetFood = targetPlayer.getFoodData();
+            int targetFoodLevel = playerFood.getFoodLevel();
+
+            int subFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) - targetFoodLevel, 0);
+
+            // This should reduce hunger, hopefully
+            targetFood.setFoodLevel(5);
+        }
+    }*/
 }
