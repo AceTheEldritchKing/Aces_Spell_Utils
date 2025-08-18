@@ -17,7 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 @EventBusSubscriber(modid = AcesSpellUtils.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ASAttributeRegistry {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, AcesSpellUtils.MOD_ID);
-
+    
     // Mana Steal
     public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicRangedAttribute("mana_steal", 0.0D, -100, 100.0D);
 
@@ -26,6 +26,9 @@ public class ASAttributeRegistry {
 
     // Goliath Slayer
     public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
+    
+    // Hunger Steal
+    public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerPercentageAttribute("hunger_steal", 0.0, 0, 1.0);
 
     // Spell Res Shred
     //public static final DeferredHolder<Attribute, Attribute> SPELL_RES_PENETRATION = registerMagicPercentageAttribute("spell_res_penetration", 0, 0, 1);
