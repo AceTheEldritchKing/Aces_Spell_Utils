@@ -29,31 +29,43 @@ public abstract class GenericBossEntity extends AbstractSpellCastingMob implemen
     }
 
     // This is for changing music based on phase changing
-    // As there is no dedicated transition phase, second phase can be
+    // Set hasCustomMusic to be true if you want to use the music manager given by the API
+    // As there is no dedicated transition phase, set the transition phase using the following methods
     // Set this to true if you want the music to change
+    public static boolean hasCustomMusic;
     public boolean changeMusicOnPhaseChange;
-    public boolean useSecondPhaseAsTransition;
+    public boolean hasTransitionPhase;
+    public static int usePhaseAsTransition;
+    public static int usePhaseForMusicChange;
 
-    // Setter for above values
-    public void setChangeMusicOnPhaseChange(boolean val)
+    // Methods for above values
+    public static boolean hasCustomMusic()
     {
-        changeMusicOnPhaseChange = val;
+        return hasCustomMusic;
     }
 
-    public void setUseSecondPhaseAsTransition(boolean val)
-    {
-        useSecondPhaseAsTransition = val;
-    }
-
-    // Getter for above values
-    public boolean getChangeMusicOnPhaseChange()
+    public boolean changeMusicOnPhaseChange()
     {
         return changeMusicOnPhaseChange;
     }
 
-    public boolean getUseSecondPhaseAsTransition()
+    public boolean hasTransitionPhase()
     {
-        return useSecondPhaseAsTransition;
+        return hasTransitionPhase;
+    }
+
+    // Input which phase you want to have transition music
+    // Put in an integer between 1-11 to denote the phase, this lines up with the enum values for the phases
+    public static int usePhaseAsTransition()
+    {
+        return usePhaseAsTransition;
+    }
+
+    // Input which phase you want to have alt music
+    // Put in an integer between 1-11 to denote the phase, this lines up with the enum values for the phases
+    public static int usePhaseForMusicChange()
+    {
+        return usePhaseForMusicChange;
     }
 
     // Used for transition music
@@ -87,7 +99,8 @@ public abstract class GenericBossEntity extends AbstractSpellCastingMob implemen
         NinethPhase(8),
         TenthPhase(9),
         EleventhPhase(10),
-        TwelfthPhase(11);
+        TwelfthPhase(11),
+        TransitionPhase(12);
 
         final public int value;
 
