@@ -140,24 +140,23 @@ public class AcesSpellUtilsServerEvents {
         //System.out.println("Total Damage: " + event.getAmount());
     }
 
-    // Not used yet
-    /*@SubscribeEvent
+    // Hunger Steal (0 = 0% || 1 = 100%)
+    @SubscribeEvent
     public static void hungerStealEvent(LivingDamageEvent.Pre event)
     {
         var sourceEntity = event.getSource().getEntity();
         var target = event.getEntity();
-        var projectile = event.getSource().getDirectEntity();
 
         //Safety checks - only works if user is a player
         if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
         if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
 
-        var hasHungerSteal = serverPlayer.getAttribute(AttributeRegistry.ENDER_SPELL_POWER);
+        var hasHungerSteal = serverPlayer.getAttribute(ASAttributeRegistry.HUNGER_STEAL);
 
         //Check if user has hunger steal
         if (hasHungerSteal == null) return;
 
-        float hungerStealAttr = (float) serverPlayer.getAttributeValue(AttributeRegistry.ENDER_SPELL_POWER);
+        double hungerStealAttr = serverPlayer.getAttributeValue(ASAttributeRegistry.HUNGER_STEAL);
 
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (hungerStealAttr <= 0) return;
@@ -166,19 +165,18 @@ public class AcesSpellUtilsServerEvents {
         FoodData playerFood = serverPlayer.getFoodData();
         int foodLevel = playerFood.getFoodLevel();
 
-        //int addFood = (int) Math.min((hungerStealAttr + foodLevel), foodLevel);
-        int addFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) + foodLevel, foodLevel);
+        int addFood = (int) Math.max((hungerStealAttr * event.getOriginalDamage()) + foodLevel, foodLevel);
 
-        playerFood.setFoodLevel(5);
+        playerFood.setFoodLevel(addFood);
 
         if (target instanceof Player targetPlayer) {
             FoodData targetFood = targetPlayer.getFoodData();
             int targetFoodLevel = playerFood.getFoodLevel();
 
-            int subFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) - targetFoodLevel, 0);
+            int subFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) - targetFoodLevel, targetFoodLevel);
 
             // This should reduce hunger, hopefully
-            targetFood.setFoodLevel(5);
+            targetFood.setFoodLevel(subFood);
         }
-    }*/
+    }
 }
