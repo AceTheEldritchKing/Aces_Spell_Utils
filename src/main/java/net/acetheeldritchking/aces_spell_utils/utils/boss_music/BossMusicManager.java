@@ -1,6 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.utils.boss_music;
 
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.GenericBossEntity;
+import net.acetheeldritchking.aces_spell_utils.entity.mobs.GenericUniqueBossEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.sounds.SoundEvent;
@@ -37,10 +38,10 @@ public class BossMusicManager {
         this.genericBoss = boss;
         this.manager = Minecraft.getInstance().getSoundManager();
         phase = GenericBossEntity.Phase.values()[boss.getPhase()];
-        phaseForTransition = GenericBossEntity.usePhaseAsTransition();
-        phaseForMusicChange = GenericBossEntity.usePhaseForMusicChange();
+        phaseForTransition = boss.usePhaseAsTransition();
+        phaseForMusicChange = boss.usePhaseForMusicChange();
 
-        hasCustomMusic = GenericBossEntity.hasCustomMusic();
+        hasCustomMusic = boss.hasCustomMusic();
         bossMusic = new BossSoundInstance(getBossMusic(), SOUND_SOURCE, true);
         bossTransitionMusic = new BossSoundInstance(getTransitionMusic(), SOUND_SOURCE, true);
         bossAltMusic = new BossSoundInstance(getOtherPhaseMusic(), SOUND_SOURCE, true);
@@ -63,22 +64,103 @@ public class BossMusicManager {
                 // Since second phase or third can be used as a transition, we are going to check if it's being used as such
                 // If not, play the alt music instead
                 // Eventually this will be made more dynamic, but this will suffice
-                case SecondPhase, ThirdPhase, FourthPhase, FifthPhase, SixthPhase, SeventhPhase, EighthPhase, NinethPhase, TenthPhase, EleventhPhase, TwelfthPhase -> {
-                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase())
+                case SecondPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 1)
                     {
-                        switch (phaseForTransition)
-                        {
-                            case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 -> {
-                                addLayer(bossTransitionMusic);
-                            }
-                        }
-                    } else if (genericBoss.changeMusicOnPhaseChange()) {
-                        switch (phaseForMusicChange)
-                        {
-                            case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 -> {
-                                addLayer(bossAltMusic);
-                            }
-                        }
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 1)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case ThirdPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 2)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 2)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case FourthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 3)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 3)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case FifthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 4)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 4)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case SixthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 5)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 5)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case SeventhPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 6)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 6)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case EighthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 7)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 7)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case NinethPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 8)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 8)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case TenthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 9)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 9)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case EleventhPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 10)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 10)
+                    {
+                        addLayer(bossAltMusic);
+                    }
+                }
+                case TwelfthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && genericBoss.usePhaseAsTransition() == 11)
+                    {
+                        addLayer(bossTransitionMusic);
+                    } else if (genericBoss.changeMusicOnPhaseChange() && genericBoss.usePhaseForMusicChange() == 11)
+                    {
+                        addLayer(bossAltMusic);
                     }
                 }
 
@@ -150,11 +232,11 @@ public class BossMusicManager {
         }
 
         var bossPhase = GenericBossEntity.Phase.values()[genericBoss.getPhase()];
-        var transitionPhase = GenericBossEntity.usePhaseAsTransition();
-        var changePhase = GenericBossEntity.usePhaseForMusicChange();
+        int transitionPhase = genericBoss.usePhaseAsTransition();
+        int changePhase = genericBoss.usePhaseForMusicChange();
 
         // We only do this if the boss wants to use our music manager
-        if (GenericBossEntity.hasCustomMusic())
+        if (genericBoss.hasCustomMusic())
         {
             switch (bossPhase)
             {
@@ -164,191 +246,212 @@ public class BossMusicManager {
                         playFirstPhaseMusic();
                     }
                 }
-                case SecondPhase, ThirdPhase, FourthPhase, FifthPhase, SixthPhase, SeventhPhase, EighthPhase, NinethPhase, TenthPhase, EleventhPhase, TwelfthPhase -> {
-                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase())
+                case SecondPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 1)
                     {
-                        switch (transitionPhase)
+                        if (phase != GenericBossEntity.Phase.SecondPhase)
                         {
-                            case 1 -> {
-                                if (phase != GenericBossEntity.Phase.SecondPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SecondPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 2 -> {
-                                if (phase != GenericBossEntity.Phase.ThirdPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.ThirdPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 3 -> {
-                                if (phase != GenericBossEntity.Phase.FourthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.FourthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 4 -> {
-                                if (phase != GenericBossEntity.Phase.FifthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.FifthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 5 -> {
-                                if (phase != GenericBossEntity.Phase.SixthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SixthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 6 -> {
-                                if (phase != GenericBossEntity.Phase.SeventhPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SeventhPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 7 -> {
-                                if (phase != GenericBossEntity.Phase.EighthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.EighthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 8 -> {
-                                if (phase != GenericBossEntity.Phase.NinethPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.NinethPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 9 -> {
-                                if (phase != GenericBossEntity.Phase.TenthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.TenthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 10 -> {
-                                if (phase != GenericBossEntity.Phase.EleventhPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.EleventhPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
-                            case 11 -> {
-                                if (phase != GenericBossEntity.Phase.TwelfthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.TwelfthPhase;
-                                    stopLayers();
-                                    playTransitionPhaseMusic();
-                                }
-                            }
+                            phase = GenericBossEntity.Phase.SecondPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
                         }
-                    } else if (genericBoss.changeMusicOnPhaseChange()) {
-                        switch (changePhase)
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 1)
+                    {
+                        if (phase != GenericBossEntity.Phase.SecondPhase)
                         {
-                            case 1 -> {
-                                if (phase != GenericBossEntity.Phase.SecondPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SecondPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 2 -> {
-                                if (phase != GenericBossEntity.Phase.ThirdPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.ThirdPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 3 -> {
-                                if (phase != GenericBossEntity.Phase.FourthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.FourthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 4 -> {
-                                if (phase != GenericBossEntity.Phase.FifthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.FifthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 5 -> {
-                                if (phase != GenericBossEntity.Phase.SixthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SixthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 6 -> {
-                                if (phase != GenericBossEntity.Phase.SeventhPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.SeventhPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 7 -> {
-                                if (phase != GenericBossEntity.Phase.EighthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.EighthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 8 -> {
-                                if (phase != GenericBossEntity.Phase.NinethPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.NinethPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 9 -> {
-                                if (phase != GenericBossEntity.Phase.TenthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.TenthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 10 -> {
-                                if (phase != GenericBossEntity.Phase.EleventhPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.EleventhPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
-                            case 11 -> {
-                                if (phase != GenericBossEntity.Phase.TwelfthPhase)
-                                {
-                                    phase = GenericBossEntity.Phase.TwelfthPhase;
-                                    stopLayers();
-                                    playAltPhaseMusic();
-                                }
-                            }
+                            phase = GenericBossEntity.Phase.SecondPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case ThirdPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 2)
+                    {
+                        if (phase != GenericBossEntity.Phase.ThirdPhase)
+                        {
+                            phase = GenericBossEntity.Phase.ThirdPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 2)
+                    {
+                        if (phase != GenericBossEntity.Phase.ThirdPhase)
+                        {
+                            phase = GenericBossEntity.Phase.ThirdPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case FourthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 3)
+                    {
+                        if (phase != GenericBossEntity.Phase.FourthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.FourthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 3)
+                    {
+                        if (phase != GenericBossEntity.Phase.FourthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.FourthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case FifthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 4)
+                    {
+                        if (phase != GenericBossEntity.Phase.FifthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.FifthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 4)
+                    {
+                        if (phase != GenericBossEntity.Phase.FifthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.FifthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case SixthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 5)
+                    {
+                        if (phase != GenericBossEntity.Phase.SixthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.SixthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 5)
+                    {
+                        if (phase != GenericBossEntity.Phase.SixthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.SixthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case SeventhPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 6)
+                    {
+                        if (phase != GenericBossEntity.Phase.SeventhPhase)
+                        {
+                            phase = GenericBossEntity.Phase.SeventhPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 6)
+                    {
+                        if (phase != GenericBossEntity.Phase.SeventhPhase)
+                        {
+                            phase = GenericBossEntity.Phase.SeventhPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case EighthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 7)
+                    {
+                        if (phase != GenericBossEntity.Phase.EighthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.EighthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 7)
+                    {
+                        if (phase != GenericBossEntity.Phase.EighthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.EighthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case NinethPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 8)
+                    {
+                        if (phase != GenericBossEntity.Phase.NinethPhase)
+                        {
+                            phase = GenericBossEntity.Phase.NinethPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 8)
+                    {
+                        if (phase != GenericBossEntity.Phase.NinethPhase)
+                        {
+                            phase = GenericBossEntity.Phase.NinethPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case TenthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 9)
+                    {
+                        if (phase != GenericBossEntity.Phase.TenthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.TenthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 9)
+                    {
+                        if (phase != GenericBossEntity.Phase.TenthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.TenthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case EleventhPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 10)
+                    {
+                        if (phase != GenericBossEntity.Phase.EleventhPhase)
+                        {
+                            phase = GenericBossEntity.Phase.EleventhPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 10)
+                    {
+                        if (phase != GenericBossEntity.Phase.EleventhPhase)
+                        {
+                            phase = GenericBossEntity.Phase.EleventhPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
+                        }
+                    }
+                }
+                case TwelfthPhase -> {
+                    if (genericBoss.changeMusicOnPhaseChange() && genericBoss.hasTransitionPhase() && transitionPhase == 11)
+                    {
+                        if (phase != GenericBossEntity.Phase.TwelfthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.TwelfthPhase;
+                            stopLayers();
+                            playTransitionPhaseMusic();
+                        }
+                    } else if (genericBoss.changeMusicOnPhaseChange() && changePhase == 11)
+                    {
+                        if (phase != GenericBossEntity.Phase.TwelfthPhase)
+                        {
+                            phase = GenericBossEntity.Phase.TwelfthPhase;
+                            stopLayers();
+                            playAltPhaseMusic();
                         }
                     }
                 }

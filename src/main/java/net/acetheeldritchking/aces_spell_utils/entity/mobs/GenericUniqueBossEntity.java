@@ -31,14 +31,14 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
     // Set hasCustomMusic to be true if you want to use the music manager given by the API
     // As there is no dedicated transition phase, set the transition phase using the following methods
     // Set this to true if you want the music to change
-    public static boolean hasCustomMusic;
+    public boolean hasCustomMusic;
     public boolean changeMusicOnPhaseChange;
     public boolean hasTransitionPhase;
-    public static int usePhaseAsTransition;
-    public static int usePhaseForMusicChange;
+    public int usePhaseAsTransition;
+    public int usePhaseForMusicChange;
 
     // Methods for above values
-    public static boolean hasCustomMusic()
+    public boolean hasCustomMusic()
     {
         return hasCustomMusic;
     }
@@ -55,14 +55,14 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCasting
 
     // Input which phase you want to have transition music
     // Put in an integer between 1-11 to denote the phase, this lines up with the enum values for the phases
-    public static int usePhaseAsTransition()
+    public int usePhaseAsTransition()
     {
         return usePhaseAsTransition;
     }
 
     // Input which phase you want to have alt music
     // Put in an integer between 1-11 to denote the phase, this lines up with the enum values for the phases
-    public static int usePhaseForMusicChange()
+    public int usePhaseForMusicChange()
     {
         return usePhaseForMusicChange;
     }

@@ -223,7 +223,7 @@ publishing {
 
         mavenJava(MavenPublication) {
             artifactId project.archivesBaseName
-            artifact jar
+            from components.java
         }
     }
 
@@ -231,8 +231,15 @@ publishing {
         maven {
             name = "aces_spell_utils"
 
-            url = "http://localhost:8080/releases"
-            allowInsecureProtocol = true
+            if (project.version.endsWith('-a'))
+            {
+                url = "http://localhost:8080/snapshots"
+                allowInsecureProtocol = true
+            } else
+            {
+                url = "http://localhost:8080/releases"
+                allowInsecureProtocol = true
+            }
 
             credentials( {
                 username = System.getenv("MAVEN_USER")
