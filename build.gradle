@@ -218,14 +218,28 @@ neoForge.ideSyncTask generateModMetadata
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
+    tasks.publish.dependsOn 'build'
     publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
+
+        mavenJava(MavenPublication) {
+            artifactId project.archivesBaseName
         }
     }
+
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            name = "aces_spell_utils"
+
+            url = "http://localhost:8080/releases"
+            allowInsecureProtocol = true
+
+            credentials( {
+                username = System.getenv("MAVEN_USER")
+                password = System.getenv("MAVEN_PASS")
+            })
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
     }
 }
