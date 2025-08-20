@@ -2,9 +2,12 @@ package net.acetheeldritchking.aces_spell_utils.events;
 
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.damage.SpellDamageSource;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +20,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
-    
+    /***
+     * ATTRIBUTES
+     */
     @SubscribeEvent
     public static void manaStealEvent(LivingDamageEvent.Post event) {
         var sourceEntity = event.getSource().getEntity();
@@ -178,5 +183,70 @@ public class AcesSpellUtilsServerEvents {
             // This should reduce hunger, hopefully
             targetFood.setFoodLevel(subFood);
         }
+    }
+
+    // Spell Res Pen (0 = 0% || 1 = 100%)
+    @SubscribeEvent
+    public static void spellResPenetrationEvent(LivingIncomingDamageEvent event) {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        /***
+         * Spell Res Pen Attribute
+         */
+        //Check if attribute exists
+        var hasSpellResPen = livingEntity.getAttribute(ASAttributeRegistry.SPELL_RES_PENETRATION);
+
+        //Cancels modification if user doesn't have Goliath Slayer
+        if (hasSpellResPen == null) return;
+
+        //Grab attributes value
+        double spellResPenAttr = livingEntity.getAttributeValue(ASAttributeRegistry.SPELL_RES_PENETRATION);
+        double spellResAttr = victim.getAttributeValue(AttributeRegistry.SPELL_RESIST);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (spellResPenAttr <= 0) return;
+
+        // Make sure the source is from magic
+        if (event.getSource() instanceof SpellDamageSource)
+        {
+            float baseDamage = event.getOriginalAmount();
+            // Take the spell res attribute of the victim, then add it to the penetration value to get the bonus
+            float bonusDamage = (float) (baseDamage * (spellResPenAttr + spellResAttr));
+            float totalDamage = baseDamage + bonusDamage;
+
+            event.setAmount(totalDamage);
+
+            //System.out.println("OG Damage: " + baseDamage);
+            //System.out.println("Bonus Damage: " + bonusDamage);
+            //System.out.println("Total Damage: " + event.getAmount());
+        }
+    }
+
+    @SubscribeEvent
+    public static void evasiveEvent(LivingIncomingDamageEvent event) {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        /***
+         * Evasive Attribute
+         */
+        //Check if attribute exists
+        var hasEvasive = livingEntity.getAttribute(ASAttributeRegistry.EVASIVE);
+
+        //Cancels modification if user doesn't have Goliath Slayer
+        if (hasEvasive == null) return;
+
+        //Grab attributes value
+        double evasiveAttr = livingEntity.getAttributeValue(ASAttributeRegistry.EVASIVE);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (evasiveAttr <= 0) return;
+
+        // Increasing Invul time
+        event.setInvulnerabilityTicks(attacker.invulnerableTime += (int) evasiveAttr);
+        MagicManager.spawnParticles(attacker.level(), ParticleTypes.SMOKE,
+                attacker.getX(), attacker.getY(), attacker.getZ(),
+                25, 0.4, 0.8, 0.4, 0.03, false);
     }
 }

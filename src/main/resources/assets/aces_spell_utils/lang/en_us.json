@@ -9,5 +9,6 @@
   "attribute.aces_spell_utils.mana_rend": "Mana Rend",
   "attribute.aces_spell_utils.goliath_slayer": "Goliath Slayer",
   "attribute.aces_spell_utils.spell_res_penetration": "Spell Resistance Penetration",
-  "attribute.aces_spell_utils.hunger_steal": "Hunger Steal"
+  "attribute.aces_spell_utils.hunger_steal": "Hunger Steal",
+  "attribute.aces_spell_utils.evasive": "Evasive"
 }
