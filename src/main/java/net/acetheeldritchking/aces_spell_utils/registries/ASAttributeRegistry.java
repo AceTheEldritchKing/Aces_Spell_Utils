@@ -34,7 +34,7 @@ public class ASAttributeRegistry {
     public static final DeferredHolder<Attribute, Attribute> SPELL_RES_PENETRATION = registerPercentageAttribute("spell_res_penetration", 0, 0, 1.0);
 
     // Evasive
-    public static final DeferredHolder<Attribute, Attribute> EVASIVE = registerRangedAttribute("evasive", 0, -100, 100.0);
+    public static final DeferredHolder<Attribute, Attribute> EVASIVE = registerRangedAttribute("evasive", 0, 0, 100.0);
 
 
     public static void register(IEventBus eventBus)

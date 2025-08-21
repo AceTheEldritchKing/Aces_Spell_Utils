@@ -5,6 +5,7 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
+import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.minecraft.core.particles.ParticleTypes;
@@ -227,7 +228,7 @@ public class AcesSpellUtilsServerEvents {
     public static void evasiveEvent(LivingIncomingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
-        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        if (!(victim instanceof LivingEntity livingEntity)) return;
         /***
          * Evasive Attribute
          */
@@ -244,9 +245,17 @@ public class AcesSpellUtilsServerEvents {
         if (evasiveAttr <= 0) return;
 
         // Increasing Invul time
-        event.setInvulnerabilityTicks(attacker.invulnerableTime += (int) evasiveAttr);
-        MagicManager.spawnParticles(attacker.level(), ParticleTypes.SMOKE,
-                attacker.getX(), attacker.getY(), attacker.getZ(),
-                25, 0.4, 0.8, 0.4, 0.03, false);
+        int postInvulTicks = event.getContainer().getPostAttackInvulnerabilityTicks();
+        postInvulTicks *= (int) evasiveAttr;
+
+        event.setInvulnerabilityTicks(postInvulTicks);
+
+        AcesSpellUtils.LOGGER.debug("I Frames: " + livingEntity.invulnerableTime);
+        if (!livingEntity.level().isClientSide())
+        {
+            MagicManager.spawnParticles(livingEntity.level(), ParticleTypes.SMOKE,
+                    livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
+                    25, 0.4, 0.8, 0.4, 0.03, false);
+        }
     }
 }
