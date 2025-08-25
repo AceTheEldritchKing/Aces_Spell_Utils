@@ -5,6 +5,10 @@
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml.title": "Ace's Spell Utils Configs",
 
+  "curios.identifier.sheath": "Blade Sheath",
+  "curios.modifiers.sheath": "Blade Sheath",
+  "curios.modifiers.null": "Empty modifier",
+
   "attribute.aces_spell_utils.mana_steal": "Mana Steal",
   "attribute.aces_spell_utils.mana_rend": "Mana Rend",
   "attribute.aces_spell_utils.goliath_slayer": "Goliath Slayer",
