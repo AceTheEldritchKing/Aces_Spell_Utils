@@ -1,0 +1,15 @@
+{
+    "parent": "minecraft:item/handheld",
+    "loader": "neoforge:separate_transforms",
+    "base": {
+        "parent": "aces_spell_utils:item/example_sheath_handheld"
+    },
+    "perspectives": {
+        "gui": {
+            "parent": "aces_spell_utils:item/example_sheath_gui"
+        },
+        "fixed": {
+            "parent": "aces_spell_utils:item/example_sheath_fixed"
+        }
+    }
+}

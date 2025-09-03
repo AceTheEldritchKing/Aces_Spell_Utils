@@ -1,8 +1,18 @@
 package net.acetheeldritchking.aces_spell_utils;
 
+import io.redspace.ironsspellbooks.item.SpellBook;
+import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
+import net.acetheeldritchking.aces_spell_utils.entity.render.items.SheathCurioRenderer;
+import net.acetheeldritchking.aces_spell_utils.items.curios.SheathCurioItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
+import net.acetheeldritchking.aces_spell_utils.registries.ASCreativeModeTabs;
+import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -16,6 +26,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AcesSpellUtils.MOD_ID)
@@ -35,14 +46,42 @@ public class AcesSpellUtils {
 
         NeoForge.EVENT_BUS.register(this);
 
+        // We're only gonna register the example items if you're in a dev environment
+        if (registerExamplesInDev())
+        {
+            // Creative Tab
+            ASCreativeModeTabs.register(modEventBus);
+            // Items
+            ExampleItemRegistry.register(modEventBus);
+            // Entities
+        }
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         //modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
+    }
+
+    static boolean registerExamplesInDev()
+    {
+        return !FMLEnvironment.production;
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
         // Some common setup code
     }
 
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public static class ClientModEvents
+    {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event)
+        {
+            // curios
+            event.enqueueWork(() -> {
+                // Rendering sheath on the player
+                ExampleItemRegistry.getASUItems().stream().filter(item -> item.get() instanceof SheathCurioItem).forEach((item) -> CuriosRendererRegistry.register(item.get(), SheathCurioRenderer::new));
+            });
+        }
+    }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

@@ -6,9 +6,13 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastType;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.config.ServerConfigs;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -267,5 +272,33 @@ public class ASUtils {
     // Bosses
     public static boolean isBossEntity(EntityType<?> entity) {
         return entity.is(ASTags.BOSS_LIKE_ENTITES);
+    }
+
+    // Lets an item have a rainbow name - Credits to PotatoSofi for this!
+    // The speed adjusts how fast the hue shifts - higher == faster
+    public static Component rainbowName(String baseName, float speed)
+    {
+        //String baseName = item.super.getName(stack).getString();
+
+        MutableComponent rainbowName = Component.literal("");
+
+        Minecraft mc = Minecraft.getInstance();
+        long ticks = (mc.level != null) ? mc.level.getGameTime() : 0;
+
+        for (int i = 0; i < baseName.length(); i++) {
+            float hue = ((i * 40) + (ticks * speed)) % 360 / 360f;
+
+            int rgb = java.awt.Color.HSBtoRGB(hue, 1f, 1f);
+            String hex = String.format("#%06X", (0xFFFFFF & rgb));
+
+            TextColor color = TextColor.parseColor(hex).getOrThrow();
+
+            rainbowName = rainbowName.append(
+                    Component.literal(String.valueOf(baseName.charAt(i)))
+                            .withStyle(style -> style.withColor(color))
+            );
+        }
+
+        return rainbowName;
     }
 }

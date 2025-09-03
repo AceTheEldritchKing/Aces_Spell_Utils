@@ -1,5 +1,6 @@
 {
   "itemGroup.aces_spell_utils": "Ace's Spell Utils",
+  "creative_tab.aces_spell_utils.items": "Ace's Spell Utils Example Items",
 
   "aces_spell_utils.configuration.title": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml": "Ace's Spell Utils Configs",
@@ -14,5 +15,11 @@
   "attribute.aces_spell_utils.goliath_slayer": "Goliath Slayer",
   "attribute.aces_spell_utils.spell_res_penetration": "Spell Resistance Penetration",
   "attribute.aces_spell_utils.hunger_steal": "Hunger Steal",
-  "attribute.aces_spell_utils.evasive": "Evasive"
+  "attribute.aces_spell_utils.evasive": "Evasive",
+
+  "item.aces_spell_utils.example_sheath": "Starstruck Sheath",
+  "item.aces_spell_utils.example_sheath.desc": "On hit, summon a comet from above the entity's head",
+  "item.aces_spell_utils.example_staff": "Starstruck Staff",
+  "item.aces_spell_utils.example_curio": "Skull Pendant",
+  "item.aces_spell_utils.example_curio.desc": "A pendant that radiates with death"
 }
