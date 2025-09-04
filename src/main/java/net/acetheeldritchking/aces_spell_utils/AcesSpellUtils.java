@@ -46,15 +46,15 @@ public class AcesSpellUtils {
 
         NeoForge.EVENT_BUS.register(this);
 
-        // We're only gonna register the example items if you're in a dev environment
+        // We're only gonna register the creative menu if you're in a dev environment
         if (registerExamplesInDev())
         {
             // Creative Tab
             ASCreativeModeTabs.register(modEventBus);
-            // Items
-            ExampleItemRegistry.register(modEventBus);
-            // Entities
         }
+
+        // Keeping the items out, smth smth unbound value accessed
+        ExampleItemRegistry.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         //modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
