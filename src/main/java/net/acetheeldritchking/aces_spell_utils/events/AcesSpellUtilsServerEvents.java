@@ -171,7 +171,7 @@ public class AcesSpellUtilsServerEvents {
         FoodData playerFood = serverPlayer.getFoodData();
         int foodLevel = playerFood.getFoodLevel();
 
-        int addFood = (int) Math.max((hungerStealAttr * event.getOriginalDamage()) + foodLevel, foodLevel);
+        int addFood = (int) Math.max((hungerStealAttr) + foodLevel, foodLevel);
 
         playerFood.setFoodLevel(addFood);
 
@@ -179,7 +179,7 @@ public class AcesSpellUtilsServerEvents {
             FoodData targetFood = targetPlayer.getFoodData();
             int targetFoodLevel = playerFood.getFoodLevel();
 
-            int subFood = (int) Math.min((hungerStealAttr * event.getOriginalDamage()) - targetFoodLevel, targetFoodLevel);
+            int subFood = (int) Math.min((hungerStealAttr) - targetFoodLevel, targetFoodLevel);
 
             // This should reduce hunger, hopefully
             targetFood.setFoodLevel(subFood);

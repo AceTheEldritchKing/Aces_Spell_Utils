@@ -13,6 +13,8 @@ public class ASSpellAnimations {
 
     public static final AnimationHolder ANIMATION_MALEVOLENT_HAND_SIGN = new AnimationHolder(AcesSpellUtils.MOD_ID + ":malevolent_hand_sign", true);
 
+    public static final AnimationHolder ANIMATION_MALEVOLENT_HAND_SIGN_RELEASE = new AnimationHolder(AcesSpellUtils.MOD_ID + ":malevolent_hand_sign_release", true);
+
     public static final AnimationHolder ANIMATION_CHARGE_GUN = new AnimationHolder(AcesSpellUtils.MOD_ID + ":charge_gun", true);
 
     public static final AnimationHolder ANIMATION_CHARGE_GUN_RELEASE = new AnimationHolder(AcesSpellUtils.MOD_ID + ":charged_gun_release", true);
@@ -32,4 +34,12 @@ public class ASSpellAnimations {
     public static final AnimationHolder ANIMATION_DEFENSIVE_SWORD_STANCE_FINISH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":sword_stance_finish", true);
 
     public static final AnimationHolder ANIMATION_POWERFUL_SWORD_SLASH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":powerful_sword_slash", true);
+
+    public static final AnimationHolder ANIMATION_RIGHT_HORIZONTAL_SWORD_SLASH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":right_horizontal_slash_one_handed", true);
+
+    public static final AnimationHolder ANIMATION_LEFT_HORIZONTAL_SWORD_SLASH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":left_horizontal_slash_one_handed", true);
+
+    public static final AnimationHolder ANIMATION_RUDE_BUSTER_SLASH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":rude_buster_slash", true);
+
+    public static final AnimationHolder ANIMATION_GROUND_FIST_SLAM = new AnimationHolder(AcesSpellUtils.MOD_ID + ":ground_fist_slam", true);
 }

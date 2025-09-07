@@ -36,4 +36,22 @@ public class ASRarities {
             "aces_spell_utils:forbidden",
             (UnaryOperator<Style>) ((style) -> style.withColor(0x121f1b))
     );
+
+    public static final EnumProxy<Rarity> ARID_RARITY_PROXY = new EnumProxy<>(Rarity.class,
+            -1,
+            "aces_spell_utils:arid",
+            (UnaryOperator<Style>) ((style) -> style.withColor(0xFFB642))
+    );
+
+    public static final EnumProxy<Rarity> ACCURSED_RARITY_PROXY = new EnumProxy<>(Rarity.class,
+            -1,
+            "aces_spell_utils:accursed",
+            (UnaryOperator<Style>) ((style) -> style.withColor(0xF52C2C))
+    );
+
+    public static final EnumProxy<Rarity> SCULK_RARITY_PROXY = new EnumProxy<>(Rarity.class,
+            -1,
+            "aces_spell_utils:sculk",
+            (UnaryOperator<Style>) ((style) -> style.withColor(0x0B9A9C))
+    );
 }

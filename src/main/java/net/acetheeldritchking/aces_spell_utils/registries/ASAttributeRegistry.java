@@ -28,7 +28,7 @@ public class ASAttributeRegistry {
     public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
     
     // Hunger Steal
-    public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerPercentageAttribute("hunger_steal", 0.0, 0, 1.0);
+    public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerRangedAttribute("hunger_steal", 0.0, -100, 100.0D);
 
     // Spell Res Penetration
     public static final DeferredHolder<Attribute, Attribute> SPELL_RES_PENETRATION = registerPercentageAttribute("spell_res_penetration", 0, 0, 1.0);
