@@ -42,4 +42,10 @@ public class ASSpellAnimations {
     public static final AnimationHolder ANIMATION_RUDE_BUSTER_SLASH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":rude_buster_slash", true);
 
     public static final AnimationHolder ANIMATION_GROUND_FIST_SLAM = new AnimationHolder(AcesSpellUtils.MOD_ID + ":ground_fist_slam", true);
+
+    public static final AnimationHolder ANIMATION_SNOWGRAVE_START = new AnimationHolder(AcesSpellUtils.MOD_ID + ":snowgrave_spell_cast_start", true);
+
+    public static final AnimationHolder ANIMATION_SNOWGRAVE_STOP = new AnimationHolder(AcesSpellUtils.MOD_ID + ":snowgrave_spell_cast_stop", true);
+
+    public static final AnimationHolder ANIMATION_SPELL_PUNCH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":impact_punch", true);
 }
