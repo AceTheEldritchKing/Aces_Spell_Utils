@@ -19,16 +19,16 @@ public class ASAttributeRegistry {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, AcesSpellUtils.MOD_ID);
     
     // Mana Steal
-    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicRangedAttribute("mana_steal", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerPercentageAttribute("mana_steal", 0.0D, -100, 100.0D);
 
     // Mana Rend
-    public static final DeferredHolder<Attribute, Attribute> MANA_REND = registerMagicRangedAttribute("mana_rend", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> MANA_REND = registerPercentageAttribute("mana_rend", 0.0D, -100, 100.0D);
 
     // Goliath Slayer
-    public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerMagicRangedAttribute("goliath_slayer", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> GOLIATH_SLAYER = registerPercentageAttribute("goliath_slayer", 0.0D, -100, 100.0D);
     
     // Hunger Steal
-    public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerRangedAttribute("hunger_steal", 0.0, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> HUNGER_STEAL = registerPercentageAttribute("hunger_steal", 0.0, -100, 100.0D);
 
     // Spell Res Penetration
     public static final DeferredHolder<Attribute, Attribute> SPELL_RES_PENETRATION = registerPercentageAttribute("spell_res_penetration", 0, 0, 1.0);
