@@ -107,6 +107,9 @@ public class AcesSpellUtilsServerEvents {
 
         //finalDamage = originalDamage * (1 + step * manaRendAttr)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
+
+        AcesSpellUtils.LOGGER.debug("Old Damage amount: " + event.getOriginalAmount());
+        AcesSpellUtils.LOGGER.debug("New Damage amount: " + event.getAmount());
     }
 
     // You can and should use one event for each attribute
@@ -141,9 +144,9 @@ public class AcesSpellUtilsServerEvents {
 
         event.setAmount(totalDamage);
 
-        //System.out.println("OG Damage: " + baseDamage);
-        //System.out.println("Bonus Damage: " + bonusDamage);
-        //System.out.println("Total Damage: " + event.getAmount());
+        AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
+        AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
+        AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
     }
 
     // Hunger Steal (0 = 0% || 1 = 100%)
@@ -218,9 +221,9 @@ public class AcesSpellUtilsServerEvents {
 
             event.setAmount(totalDamage);
 
-            //System.out.println("OG Damage: " + baseDamage);
-            //System.out.println("Bonus Damage: " + bonusDamage);
-            //System.out.println("Total Damage: " + event.getAmount());
+            AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
+            AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
+            AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
         }
     }
 
