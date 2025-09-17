@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.joml.Vector3f;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.awt.*;
@@ -300,5 +302,27 @@ public class ASUtils {
         }
 
         return rainbowName;
+    }
+
+    // Color RGB to Vector3
+    // Input the RGB values for a color you'd want to use, then converts it to a Vector3F
+    // Useful for doing custom colors for the Blastwave particles
+    public static Vector3f rbgToVector3F(int r, int g, int b)
+    {
+        float rf = r / 255F;
+        float gf = g / 255F;
+        float bf = b / 255F;
+
+        Vector3f colorRGB = new Vector3f(rf, gf, bf);
+
+        return colorRGB;
+    }
+
+    // A basic damage cap method
+    // Utilizes clamp functions to create a basic damage cap formula
+    // You may use this as a base and alter it as you see fit
+    public static float basicDamageCap(float amount, float min, float max)
+    {
+        return Mth.clamp(amount, min, max);
     }
 }
