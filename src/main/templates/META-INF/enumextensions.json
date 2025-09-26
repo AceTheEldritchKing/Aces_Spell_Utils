@@ -95,6 +95,21 @@
       // The enum class the entry should be added to
       "enum": "net/minecraft/world/item/Rarity",
       // The field name of the new entry, must be prefixed with the mod ID
+      "name": "ACES_SPELL_UTILS_RARITY_ACCURSED",
+      // The constructor to be used
+      //Lnet/minecraft/world/item/Rarity;<init>(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V
+      "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+      // Constant parameters provided directly.
+      "parameters": {
+        "class": "net/acetheeldritchking/aces_spell_utils/utils/ASRarities",
+        "field": "ACCURSED_RARITY_PROXY"
+      }
+    },
+    {
+      //https://docs.neoforged.net/docs/advanced/extensibleenums/
+      // The enum class the entry should be added to
+      "enum": "net/minecraft/world/item/Rarity",
+      // The field name of the new entry, must be prefixed with the mod ID
       "name": "ACES_SPELL_UTILS_RARITY_SCULK",
       // The constructor to be used
       //Lnet/minecraft/world/item/Rarity;<init>(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V
