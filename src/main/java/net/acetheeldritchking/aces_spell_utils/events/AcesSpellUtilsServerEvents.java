@@ -4,10 +4,12 @@ import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
+import io.redspace.ironsspellbooks.entity.spells.AbstractMagicProjectile;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
+import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,11 +30,12 @@ public class AcesSpellUtilsServerEvents {
     public static void manaStealEvent(LivingDamageEvent.Post event) {
         var sourceEntity = event.getSource().getEntity();
         var target = event.getEntity();
-        var projectile = event.getSource().getDirectEntity();
+        var directEntity = event.getSource().getDirectEntity();
 
         //Safety checks - only works if user is a player
         if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
         if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
+        if (!((directEntity !=null && directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
 
         var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
@@ -54,19 +57,22 @@ public class AcesSpellUtilsServerEvents {
         attackerPlayerMagicData.setMana(addMana);
         PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
 
-        //Check if target is a player for reducing their mana
-        if (target instanceof ServerPlayer serverTargetPlayer) {
-            int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
-            var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
+        //Check if target is a player for reducing their mana && if the config is enabled
+        if (AcesSpellUtilsConfig.manaStealDrain)
+        {
+            if (target instanceof ServerPlayer serverTargetPlayer) {
+                int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
+                var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
 
-            int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
+                int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
 
-            //Final check for applying Mana Steal
-            if (maxTargetMana <= 0) return;
+                //Final check for applying Mana Steal
+                if (maxTargetMana <= 0) return;
 
-            //Reduces target player's mana
-            targetPlayerMagicData.setMana(subMana);
-            PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
+                //Reduces target player's mana
+                targetPlayerMagicData.setMana(subMana);
+                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
+            }
         }
     }
 
@@ -75,9 +81,11 @@ public class AcesSpellUtilsServerEvents {
         //Grab involved entities
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
+        var directEntity = event.getSource().getDirectEntity();
 
         //Cancels modification if user isn't a living entity
         if (!(attacker instanceof LivingEntity livingEntity)) return;
+        if (!((directEntity !=null && directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
 
         /***
          * Mana Rend Attribute

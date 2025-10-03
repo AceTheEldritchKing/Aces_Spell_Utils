@@ -16,8 +16,14 @@ public class ASTags {
     /***
      * Entity Tags
      */
-    // Apothic Cultists
+    // Boss-like entities
     public static final TagKey<EntityType<?>> BOSS_LIKE_ENTITES = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "boss_like_entities"));
+
+    // Mana Steal entity whitelist
+    public static final TagKey<EntityType<?>> MANA_STEAL_WHITELIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "mana_steal_whitelist"));
+
+    // Mana Rend entity whitelist
+    public static final TagKey<EntityType<?>> MANA_REND_WHITELIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "mana_rend_whitelist"));
 
     /***
      * Spell Tags

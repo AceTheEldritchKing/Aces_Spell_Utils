@@ -57,7 +57,7 @@ public class AcesSpellUtils {
         ExampleItemRegistry.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        //modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
     }
 
     static boolean registerExamplesInDev()

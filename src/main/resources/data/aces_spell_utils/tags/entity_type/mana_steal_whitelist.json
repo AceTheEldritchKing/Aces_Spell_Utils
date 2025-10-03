@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "irons_spellbooks:magic_missile",
+    "irons_spellbooks:firebolt",
+    "irons_spellbooks:icicle"
+  ]
+}
