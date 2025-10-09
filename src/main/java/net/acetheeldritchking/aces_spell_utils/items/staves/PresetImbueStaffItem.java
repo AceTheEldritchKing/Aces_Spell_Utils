@@ -12,11 +12,11 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImbuableStaffItem extends StaffItem implements IPresetSpellContainer {
+public class PresetImbueStaffItem extends StaffItem implements IPresetSpellContainer {
     List<SpellData> spellData = null;
     SpellDataRegistryHolder[] spellDataRegistryHolders;
 
-    public ImbuableStaffItem(Properties properties, SpellDataRegistryHolder[] spellDataRegistryHolders) {
+    public PresetImbueStaffItem(Properties properties, SpellDataRegistryHolder[] spellDataRegistryHolders) {
         super(properties);
         this.spellDataRegistryHolders = spellDataRegistryHolders;
     }

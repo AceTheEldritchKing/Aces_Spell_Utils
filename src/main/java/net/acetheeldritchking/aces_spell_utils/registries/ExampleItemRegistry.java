@@ -2,9 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.registries;
 
 import io.redspace.ironsspellbooks.item.curios.CurioBaseItem;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExampleCurioItem;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExampleSheathCurioItem;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExampleStaffItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.*;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -19,11 +17,17 @@ public class ExampleItemRegistry {
     // Example Sheath
     public static final Supplier<CurioBaseItem> EXAMPLE_SHEATH = ITEMS.register("example_sheath", ExampleSheathCurioItem::new);
 
-    // Example Staff
-    public static final DeferredHolder<Item, Item> EXAMPLE_STAFF = ITEMS.register("example_staff", ExampleStaffItem::new);
+    // Example Preset Staff
+    public static final DeferredHolder<Item, Item> EXAMPLE_STAFF = ITEMS.register("example_staff", ExamplePresetStaffItem::new);
 
-    // Example Curio
-    public static final Supplier<CurioBaseItem> EXAMPLE_CURIO = ITEMS.register("example_curio", ExampleCurioItem::new);
+    // Example Preset Curio
+    public static final Supplier<CurioBaseItem> EXAMPLE_CURIO = ITEMS.register("example_curio", ExamplePresetCurioItem::new);
+
+    // Example Imbue Staff
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMBUE_STAFF = ITEMS.register("example_imbue_staff", ExampleImbueStaffItem::new);
+
+    // Example Imbue Curio
+    public static final Supplier<CurioBaseItem> EXAMPLE_IMBUE_CURIO = ITEMS.register("example_imbue_curio", ExampleImbueCurioItem::new);
 
 
     public static Collection<DeferredHolder<Item, ? extends Item>> getASUItems()

@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "aces_spell_utils:example_curio"
+        "aces_spell_utils:example_curio",
+        "aces_spell_utils:example_imbue_curio"
     ]
 }

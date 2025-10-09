@@ -11,11 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImbuableCurio extends SimpleDescriptiveCurio implements IPresetSpellContainer {
+public class PresetImbueCurio extends SimpleDescriptiveCurio implements IPresetSpellContainer {
     List<SpellData> spellData = null;
     SpellDataRegistryHolder[] spellDataRegistryHolders;
 
-    public ImbuableCurio(Properties properties, String slotIdentifier, SpellDataRegistryHolder[] spellDataRegistryHolders) {
+    public PresetImbueCurio(Properties properties, String slotIdentifier, SpellDataRegistryHolder[] spellDataRegistryHolders) {
         super(properties, slotIdentifier);
         this.spellDataRegistryHolders = spellDataRegistryHolders;
     }

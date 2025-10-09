@@ -21,7 +21,9 @@ public class ASCreativeModeTabs {
                         // Items
                         output.accept(ExampleItemRegistry.EXAMPLE_SHEATH.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_STAFF.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMBUE_STAFF.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_CURIO.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMBUE_CURIO.get());
                     }).build());
 
     public static void register(IEventBus eventBus)
