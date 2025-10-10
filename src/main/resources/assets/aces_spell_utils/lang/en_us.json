@@ -24,5 +24,7 @@
   "item.aces_spell_utils.example_curio": "Skull Pendant",
   "item.aces_spell_utils.example_curio.desc": "A pendant that radiates with death",
   "item.aces_spell_utils.example_imbue_curio": "Burning Core",
-  "item.aces_spell_utils.example_imbue_curio.desc": "A strange object, hot to the touch"
+  "item.aces_spell_utils.example_imbue_curio.desc": "A strange object, hot to the touch",
+  "item.aces_spell_utils.example_passive_ability_spellbook": "Cosmonomicon",
+  "item.aces_spell_utils.example_passive_ability_spellbook.desc": "On hit, summon a comet from above the entity's head"
 }

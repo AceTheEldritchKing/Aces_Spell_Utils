@@ -29,6 +29,9 @@ public class ExampleItemRegistry {
     // Example Imbue Curio
     public static final Supplier<CurioBaseItem> EXAMPLE_IMBUE_CURIO = ITEMS.register("example_imbue_curio", ExampleImbueCurioItem::new);
 
+    // Example Passive Ability Spellbook
+    public static final DeferredHolder<Item, Item> EXAMPLE_PASSIVE_ABILITY_SPELLBOOK = ITEMS.register("example_passive_ability_spellbook", ExamplePassiveAbilitySpellbook::new);
+
 
     public static Collection<DeferredHolder<Item, ? extends Item>> getASUItems()
     {

@@ -24,6 +24,7 @@ public class ASCreativeModeTabs {
                         output.accept(ExampleItemRegistry.EXAMPLE_IMBUE_STAFF.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_CURIO.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_IMBUE_CURIO.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_PASSIVE_ABILITY_SPELLBOOK.get());
                     }).build());
 
     public static void register(IEventBus eventBus)

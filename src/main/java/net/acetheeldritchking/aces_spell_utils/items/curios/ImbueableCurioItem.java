@@ -22,7 +22,7 @@ public class ImbueableCurioItem extends SimpleDescriptiveCurio implements IPrese
         {
             if (!ISpellContainer.isSpellContainer(itemStack))
             {
-                var spellContainer = ISpellContainer.create(1, true, true);
+                var spellContainer = ISpellContainer.create(1, true, false);
                 ISpellContainer.set(itemStack, spellContainer);
             }
         }

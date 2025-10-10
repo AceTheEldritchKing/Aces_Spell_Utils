@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "textures": {
+      "book": "aces_spell_utils:item/spell_books/example_unique_passive_ability_spellbook",
+      "particle": "aces_spell_utils:item/spell_books/example_unique_passive_ability_spellbook"
+    },
+    "parent": "irons_spellbooks:item/template_spell_book_model"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "aces_spell_utils:item/spell_books/example_unique_passive_ability_spellbook_gui"
+      }
+    },
+    "head": {
+      "textures": {
+        "book": "aces_spell_utils:item/spell_books/example_unique_passive_ability_spellbook",
+        "particle": "aces_spell_utils:item/spell_books/example_unique_passive_ability_spellbook"
+      },
+      "parent": "irons_spellbooks:item/template_spell_book_model_open"
+    }
+  }
+}

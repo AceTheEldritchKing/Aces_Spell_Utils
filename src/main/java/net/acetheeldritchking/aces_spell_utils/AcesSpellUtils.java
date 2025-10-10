@@ -77,6 +77,8 @@ public class AcesSpellUtils {
         {
             // curios
             event.enqueueWork(() -> {
+                // Spellbook on player
+                ExampleItemRegistry.getASUItems().stream().filter(item -> item.get() instanceof SpellBook).forEach((item) -> CuriosRendererRegistry.register(item.get(), SpellBookCurioRenderer::new));
                 // Rendering sheath on the player
                 ExampleItemRegistry.getASUItems().stream().filter(item -> item.get() instanceof SheathCurioItem).forEach((item) -> CuriosRendererRegistry.register(item.get(), SheathCurioRenderer::new));
             });
