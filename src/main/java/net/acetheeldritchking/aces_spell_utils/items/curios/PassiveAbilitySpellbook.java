@@ -32,7 +32,7 @@ public class PassiveAbilitySpellbook extends SpellBook {
     }
 
     public PassiveAbilitySpellbook(int maxSpellSlots, Item.Properties pProperties) {
-        super();
+        super(maxSpellSlots, pProperties);
         this.maxSpellSlots = maxSpellSlots;
         description = Style.EMPTY.withColor(ChatFormatting.YELLOW);
     }
