@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 public class SpellbookAbilities {
   
   @SubscribeEvent
-    public static void handleAbility(LivingIncomingDamageEvent event)
+    public static void exampleAbility(LivingIncomingDamageEvent event)
     {
         var sheath = ((ExamplePassiveAbilitySpellbook) ExampleItemRegistry.EXAMPLE_PASSIVE_ABILITY_SPELLBOOK.get());
         Entity attacker = event.getSource().getEntity();
