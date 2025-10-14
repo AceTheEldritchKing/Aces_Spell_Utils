@@ -32,31 +32,4 @@ public class ExamplePassiveAbilitySpellbook extends PassiveAbilitySpellbook {
     protected int getCooldownTicks() {
         return COOLDOWN;
     }
-
-    @SubscribeEvent
-    public static void handleAbility(LivingIncomingDamageEvent event)
-    {
-        var sheath = ((ExamplePassiveAbilitySpellbook) ExampleItemRegistry.EXAMPLE_PASSIVE_ABILITY_SPELLBOOK.get());
-        Entity attacker = event.getSource().getEntity();
-
-        if (attacker instanceof ServerPlayer player)
-        {
-            if (sheath.isEquippedBy(player))
-            {
-                if (sheath.tryProcCooldown(player))
-                {
-                    var victim = event.getEntity();
-
-                    Comet comet = new Comet(player.level(), player);
-                    comet.setDamage(5);
-                    comet.setPos(victim.getX(), victim.getY() + 7, victim.getZ());
-                    var trajectory = new Vec3(0.05F, -0.85F, 0).normalize();
-                    comet.shoot(trajectory, 0.045F);
-                    comet.setExplosionRadius(4.5F);
-
-                    player.level().addFreshEntity(comet);
-                }
-            }
-        }
-    }
 }
