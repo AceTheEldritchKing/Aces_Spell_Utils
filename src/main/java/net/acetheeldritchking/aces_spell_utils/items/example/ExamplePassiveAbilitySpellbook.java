@@ -1,21 +1,12 @@
 package net.acetheeldritchking.aces_spell_utils.items.example;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
-import io.redspace.ironsspellbooks.entity.spells.comet.Comet;
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.acetheeldritchking.aces_spell_utils.items.curios.PassiveAbilitySpellbook;
-import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-@EventBusSubscriber
 public class ExamplePassiveAbilitySpellbook extends PassiveAbilitySpellbook {
     public static final int COOLDOWN = 5 * 20;
 
