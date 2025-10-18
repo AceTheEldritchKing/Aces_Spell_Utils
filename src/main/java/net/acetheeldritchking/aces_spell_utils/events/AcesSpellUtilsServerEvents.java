@@ -35,7 +35,8 @@ public class AcesSpellUtilsServerEvents {
         //Safety checks - only works if user is a player
         if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
         if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
-        if (!((directEntity !=null && directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
+        if (directEntity == null) return;
+        if (!((directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
 
         var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
@@ -85,7 +86,8 @@ public class AcesSpellUtilsServerEvents {
 
         //Cancels modification if user isn't a living entity
         if (!(attacker instanceof LivingEntity livingEntity)) return;
-        if (!((directEntity !=null && directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
+        if (directEntity == null) return;
+        if (!((directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
 
         /***
          * Mana Rend Attribute
