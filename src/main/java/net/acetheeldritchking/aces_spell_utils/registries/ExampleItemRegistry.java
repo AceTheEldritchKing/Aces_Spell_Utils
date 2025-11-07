@@ -1,8 +1,10 @@
 package net.acetheeldritchking.aces_spell_utils.registries;
 
 import io.redspace.ironsspellbooks.item.curios.CurioBaseItem;
+import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.items.example.*;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -31,6 +33,12 @@ public class ExampleItemRegistry {
 
     // Example Passive Ability Spellbook
     public static final DeferredHolder<Item, Item> EXAMPLE_PASSIVE_ABILITY_SPELLBOOK = ITEMS.register("example_passive_ability_spellbook", ExamplePassiveAbilitySpellbook::new);
+
+    // Armor
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_CHESTPLATE = ITEMS.register("example_armor_chestplate", () -> new ExampleWarlockArmorItem(ArmorItem.Type.CHESTPLATE, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_LEGGINGS = ITEMS.register("example_armor_leggings", () -> new ExampleWarlockArmorItem(ArmorItem.Type.LEGGINGS, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_BOOTS = ITEMS.register("example_armor_boots", () -> new ExampleWarlockArmorItem(ArmorItem.Type.BOOTS, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.BOOTS.getDurability(40))));
 
 
     public static Collection<DeferredHolder<Item, ? extends Item>> getASUItems()

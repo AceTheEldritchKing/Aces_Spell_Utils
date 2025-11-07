@@ -4,6 +4,7 @@ import io.redspace.ironsspellbooks.item.SpellBook;
 import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.entity.render.items.SheathCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.items.curios.SheathCurioItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.ExampleArmorMaterialRegistry;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.registries.ASCreativeModeTabs;
 import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
@@ -55,6 +56,7 @@ public class AcesSpellUtils {
 
         // Keeping the items out, smth smth unbound value accessed
         ExampleItemRegistry.register(modEventBus);
+        ExampleArmorMaterialRegistry.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
