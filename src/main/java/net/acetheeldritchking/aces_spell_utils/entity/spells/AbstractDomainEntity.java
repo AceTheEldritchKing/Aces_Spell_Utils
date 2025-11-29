@@ -61,7 +61,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     public void targetSureHit(){
         level().getEntitiesOfClass(Entity.class, new AABB(this.position().subtract(radius / 2.0, radius / 2.0, radius / 2.0), this.position().add(radius / 2.0, radius / 2.0, radius / 2.0))).stream()
                 .forEach(e -> {
-                            if(canTarget(e)){
+                            if(e.distanceTo(this) < radius && canTarget(e)){
                                 handleSureHit(e);
                             }
                         }
