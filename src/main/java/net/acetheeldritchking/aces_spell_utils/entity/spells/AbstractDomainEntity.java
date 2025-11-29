@@ -106,6 +106,12 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
         for(AbstractDomainEntity e : clashingWith){
             handleDomainClash(e);
         }
+        for(int i = 0; i < clashingWith.size(); i++){
+            if(clashingWith.get(i) == null){
+                clashingWith.remove(i);
+                i--;
+            }
+        }
         targetSureHit();
         super.tick();
     }
