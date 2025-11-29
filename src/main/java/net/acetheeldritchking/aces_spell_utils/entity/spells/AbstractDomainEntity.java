@@ -1,5 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.entity.spells;
 
+import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.entity.spells.AbstractMagicProjectile;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
@@ -136,5 +137,9 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     @Override
     public Optional<Holder<SoundEvent>> getImpactSound() {
         return Optional.empty();
+    }
+
+    @Override
+    public void onAntiMagic(MagicData playerMagicData) {
     }
 }
