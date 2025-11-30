@@ -22,6 +22,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     private boolean open;
     private ArrayList<AbstractDomainEntity> clashingWith;
     private boolean hasTransported;
+    private boolean finishedSpawnAnim;
 
     public AbstractDomainEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -38,19 +39,25 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
                                 }else if (e.getRefinement() < this.refinement){
                                     e.destroyDomain();
                                 }else{
-                                    clashingWith.add(e);
+                                    if(!clashingWith.contains(e)) {
+                                        clashingWith.add(e);
+                                    }
+                                    if(!e.getClashingWith().contains(this)) {
+                                        e.getClashingWith().add(this);
+                                    }
                                 }
                             }
                         }
                 );
-        if(!this.open && this.clashingWith.isEmpty()){
-            handleTransportation();
-        }
     }
 
     //TODO: Is there a way to override discard so it's easier for other ppl to get rid of a domain without it being too abrupt?
     public void destroyDomain(){
         this.discard();
+    }
+
+    private boolean canTransport(){
+        return !open && !hasTransported && this.clashingWith.isEmpty() && finishedSpawnAnim;
     }
 
     public void handleTransportation(){
@@ -73,6 +80,10 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
 
     public void handleSureHit(Entity e){
 
+    }
+
+    public boolean isClashing(){
+        return !clashingWith.isEmpty();
     }
 
     public boolean canTarget(Entity e){
@@ -102,6 +113,10 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
         this.open = open;
     }
 
+    public ArrayList<AbstractDomainEntity> getClashingWith() {
+        return clashingWith;
+    }
+
     @Override
     public void tick() {
         if(this.tickCount == 0) {
@@ -117,7 +132,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
                 clashingWith.remove(e);
             }
         }
-        if(!open && !hasTransported && this.clashingWith.isEmpty()){
+        if(canTransport()){
             handleTransportation();
         }
         targetSureHit();
