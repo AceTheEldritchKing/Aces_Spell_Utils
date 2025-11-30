@@ -48,6 +48,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
         }
     }
 
+    //TODO: Is there a way to override discard so it's easier for other ppl to get rid of a domain without it being too abrupt?
     public void destroyDomain(){
         this.discard();
     }
