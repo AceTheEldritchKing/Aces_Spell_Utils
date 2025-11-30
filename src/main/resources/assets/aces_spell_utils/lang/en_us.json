@@ -17,6 +17,8 @@
   "attribute.aces_spell_utils.hunger_steal": "Hunger Steal",
   "attribute.aces_spell_utils.evasive": "Evasive",
 
+  "ui.aces_spell_utils.refinement": "%d Refinement",
+
   "item.aces_spell_utils.example_sheath": "Starstruck Sheath",
   "item.aces_spell_utils.example_sheath.desc": "On hit, summon a comet from above the entity's head",
   "item.aces_spell_utils.example_staff": "Starstruck Staff",
