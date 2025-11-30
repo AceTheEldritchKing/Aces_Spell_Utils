@@ -21,10 +21,12 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     private int refinement;
     private boolean open;
     private ArrayList<AbstractDomainEntity> clashingWith;
+    private boolean hasTransported;
 
     public AbstractDomainEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
+        hasTransported = false;
     }
 
     public void onActivation(){
@@ -51,7 +53,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     }
 
     public void handleTransportation(){
-
+        hasTransported = true;
     }
 
     public void handleDomainClash(AbstractDomainEntity opposingDomain){
@@ -108,13 +110,14 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
             destroyDomain();
         }
         for(AbstractDomainEntity e : clashingWith){
-            handleDomainClash(e);
-        }
-        for(int i = 0; i < clashingWith.size(); i++){
-            if(clashingWith.get(i) == null){
-                clashingWith.remove(i);
-                i--;
+            if(e != null) {
+                handleDomainClash(e);
+            }else{
+                clashingWith.remove(e);
             }
+        }
+        if(!open && !hasTransported && this.clashingWith.isEmpty()){
+            handleTransportation();
         }
         targetSureHit();
         super.tick();
