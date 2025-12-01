@@ -51,7 +51,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
                 );
     }
 
-    //TODO: Is there a way to override discard so it's easier for other ppl to get rid of a domain without it being too abrupt?
+    //TODO: Is there a nice way to get this method to be used instead of discard() so that people can have breaking domain animations?
     public void destroyDomain(){
         this.discard();
     }
