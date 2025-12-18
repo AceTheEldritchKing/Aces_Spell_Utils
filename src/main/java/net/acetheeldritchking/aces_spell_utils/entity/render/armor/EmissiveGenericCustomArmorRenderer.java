@@ -10,9 +10,9 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.model.GeoModel;
 
 public class EmissiveGenericCustomArmorRenderer<T extends Item & GeoItem> extends GenericCustomArmorRenderer<T> {
-    public EmissiveGenericCustomArmorRenderer(GeoModel<T> model, ResourceLocation glowLayer) {
+    public EmissiveGenericCustomArmorRenderer(GeoModel<T> model, ResourceLocation glowLayer, RenderType renderType) {
         super(model);
-        this.addRenderLayer(new GeoArmorGlowmaskLayer<>(this, glowLayer));
+        this.addRenderLayer(new GeoArmorGlowmaskLayer<>(this, glowLayer, renderType));
     }
 
     @Override

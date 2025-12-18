@@ -4,6 +4,7 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.entity.armor.ExampleWarlockMaskModel;
 import net.acetheeldritchking.aces_spell_utils.entity.render.armor.EmissiveGenericCustomArmorRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -20,9 +21,11 @@ public class ExampleWarlockArmorItem extends ImbuableExtendedGeoArmorItem {
             AcesSpellUtils.MOD_ID,
             "textures/models/armor/evil_armor_tips.png");
 
+    private static final RenderType GLOW_RENDER_TYPE = RenderType.breezeEyes(LAYER);
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public GeoArmorRenderer<?> supplyRenderer() {
-        return new EmissiveGenericCustomArmorRenderer<>(new ExampleWarlockMaskModel(), LAYER);
+        return new EmissiveGenericCustomArmorRenderer<>(new ExampleWarlockMaskModel(), LAYER, GLOW_RENDER_TYPE);
     }
 }
