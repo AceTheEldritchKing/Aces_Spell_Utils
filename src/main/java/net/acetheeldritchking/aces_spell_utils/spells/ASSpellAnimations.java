@@ -48,4 +48,8 @@ public class ASSpellAnimations {
     public static final AnimationHolder ANIMATION_SNOWGRAVE_STOP = new AnimationHolder(AcesSpellUtils.MOD_ID + ":snowgrave_spell_cast_stop", true);
 
     public static final AnimationHolder ANIMATION_SPELL_PUNCH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":impact_punch", true);
+
+    public static final AnimationHolder ANIMATION_OVERHEAD_SWING_START = new AnimationHolder(AcesSpellUtils.MOD_ID + ":overhead_swing_start", true);
+
+    public static final AnimationHolder ANIMATION_OVERHEAD_SWING_FINISH = new AnimationHolder(AcesSpellUtils.MOD_ID + ":overhead_swing_finish", true);
 }
