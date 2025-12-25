@@ -164,4 +164,32 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     @Override
     public void onAntiMagic(MagicData playerMagicData) {
     }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setClashingWith(ArrayList<AbstractDomainEntity> clashingWith) {
+        this.clashingWith = clashingWith;
+    }
+
+    public boolean hasTransported() {
+        return hasTransported;
+    }
+
+    public void setHasTransported(boolean hasTransported) {
+        this.hasTransported = hasTransported;
+    }
+
+    public boolean isFinishedSpawnAnim() {
+        return finishedSpawnAnim;
+    }
+
+    public void setFinishedSpawnAnim(boolean finishedSpawnAnim) {
+        this.finishedSpawnAnim = finishedSpawnAnim;
+    }
 }
