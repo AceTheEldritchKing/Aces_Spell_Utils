@@ -21,11 +21,11 @@ public class ExampleWarlockArmorItem extends ImbuableExtendedGeoArmorItem {
             AcesSpellUtils.MOD_ID,
             "textures/models/armor/evil_armor_tips.png");
 
-    private static final RenderType GLOW_RENDER_TYPE = RenderType.breezeEyes(LAYER);
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public GeoArmorRenderer<?> supplyRenderer() {
+        RenderType GLOW_RENDER_TYPE = RenderType.breezeEyes(LAYER);
+
         return new EmissiveGenericCustomArmorRenderer<>(new ExampleWarlockMaskModel(), LAYER, GLOW_RENDER_TYPE);
     }
 }
