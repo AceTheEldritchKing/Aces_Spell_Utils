@@ -125,11 +125,13 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
         if(this.getOwner() instanceof LivingEntity living && living.isDeadOrDying()){
             destroyDomain();
         }
-        for(AbstractDomainEntity e : clashingWith){
-            if(e != null) {
-                handleDomainClash(e);
-            }else{
-                clashingWith.remove(e);
+        if(!clashingWith.isEmpty()) {
+            for (AbstractDomainEntity e : clashingWith) {
+                if (e != null) {
+                    handleDomainClash(e);
+                } else {
+                    clashingWith.remove(e);
+                }
             }
         }
         if(canTransport()){
