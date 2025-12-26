@@ -20,7 +20,7 @@ public abstract class AbstractDomainEntity extends AbstractMagicProjectile {
     private int radius;
     private int refinement;
     private boolean open;
-    private ArrayList<AbstractDomainEntity> clashingWith;
+    private ArrayList<AbstractDomainEntity> clashingWith = new ArrayList<>();
     private boolean hasTransported;
     private boolean finishedSpawnAnim;
 
