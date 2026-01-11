@@ -36,14 +36,14 @@
   "item.aces_spell_utils.example_passive_ability_spellbook.desc": "On hit, summon a comet from above the entity's head",
 
   "item.aces_spell_utils.example_gun": "Boltripper Plasma-Rifle",
-  "item.aces_spell_utils.example_gun.desc": "Passive",
-  "item.aces_spell_utils.example_gun.desc2": "Active",
+  "item.aces_spell_utils.example_gun.desc": "Passive Boltripper",
+  "item.aces_spell_utils.example_gun.desc2": "Active Boltripper",
 
   "item.aces_spell_utils.example_ap_sword": "Night Edge",
-  "item.aces_spell_utils.example_ap_sword.desc": "Passive",
-  "item.aces_spell_utils.example_ap_sword.desc2": "Active",
+  "item.aces_spell_utils.example_ap_sword.desc": "Passive Night Edge",
+  "item.aces_spell_utils.example_ap_sword.desc2": "Active Night Edge",
 
   "item.aces_spell_utils.example_ap_magic_sword": "Darkpulse",
-  "item.aces_spell_utils.example_ap_magic_sword.desc": "Passive",
-  "item.aces_spell_utils.example_ap_magic_sword.desc2": "Active"
+  "item.aces_spell_utils.example_ap_magic_sword.desc": "Passive Darkpulse",
+  "item.aces_spell_utils.example_ap_magic_sword.desc2": "Active Darkpulse"
 }
