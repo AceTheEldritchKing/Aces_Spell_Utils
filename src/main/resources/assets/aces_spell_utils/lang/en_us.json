@@ -19,6 +19,11 @@
 
   "ui.aces_spell_utils.refinement": "%d Refinement",
 
+  "tooltip.aces_spell_utils.active_ability": "Active Ability (%s cooldown):",
+  "item.aces_spell_utils.more_details1": "Press [SHIFT] for passive ability",
+  "item.aces_spell_utils.more_details2": "Press [ALT] for active ability",
+  "item.aces_spell_utils.heavy_gun_info": "This is a heavy gun; can only right click cast when in mainhand",
+
   "item.aces_spell_utils.example_sheath": "Starstruck Sheath",
   "item.aces_spell_utils.example_sheath.desc": "On hit, summon a comet from above the entity's head",
   "item.aces_spell_utils.example_staff": "Starstruck Staff",
@@ -28,5 +33,17 @@
   "item.aces_spell_utils.example_imbue_curio": "Burning Core",
   "item.aces_spell_utils.example_imbue_curio.desc": "A strange object, hot to the touch",
   "item.aces_spell_utils.example_passive_ability_spellbook": "Cosmonomicon",
-  "item.aces_spell_utils.example_passive_ability_spellbook.desc": "On hit, summon a comet from above the entity's head"
+  "item.aces_spell_utils.example_passive_ability_spellbook.desc": "On hit, summon a comet from above the entity's head",
+
+  "item.aces_spell_utils.example_gun": "Boltripper Plasma-Rifle",
+  "item.aces_spell_utils.example_gun.desc": "Passive",
+  "item.aces_spell_utils.example_gun.desc2": "Active",
+
+  "item.aces_spell_utils.example_ap_sword": "Night Edge",
+  "item.aces_spell_utils.example_ap_sword.desc": "Passive",
+  "item.aces_spell_utils.example_ap_sword.desc2": "Active",
+
+  "item.aces_spell_utils.example_ap_magic_sword": "Darkpulse",
+  "item.aces_spell_utils.example_ap_magic_sword.desc": "Passive",
+  "item.aces_spell_utils.example_ap_magic_sword.desc2": "Active"
 }

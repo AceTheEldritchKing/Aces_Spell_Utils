@@ -1,28 +1,123 @@
 package net.acetheeldritchking.aces_spell_utils.events;
 
 import io.redspace.ironsspellbooks.api.magic.MagicData;
+import io.redspace.ironsspellbooks.api.magic.SpellSelectionManager;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.SpellDamageSource;
 import io.redspace.ironsspellbooks.entity.spells.AbstractMagicProjectile;
 import io.redspace.ironsspellbooks.network.SyncManaPacket;
+import io.redspace.ironsspellbooks.player.ClientMagicData;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
+import net.acetheeldritchking.aces_spell_utils.items.weapons.MagicGunItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
+    /***
+     * ITEMS
+     */
+    @SubscribeEvent
+    public static void onUseItem(PlayerInteractEvent.RightClickItem event)
+    {
+        var player = event.getEntity();
+        var level = player.level();
+        var hand = event.getHand();
+        ItemStack itemStack = player.getItemInHand(hand);
+        ItemStack mainHand = player.getMainHandItem();
+
+        if (itemStack.getItem() instanceof MagicGunItem gunItem && !gunItem.isHeavyGun())
+        {
+            SpellSelectionManager spellSelectionManager = new SpellSelectionManager(player);
+            SpellSelectionManager.SelectionOption selectionOption = spellSelectionManager.getSelection();
+            if (selectionOption == null || selectionOption.spellData.equals(SpellData.EMPTY))
+            {
+                return;
+            }
+            SpellData spellData = selectionOption.spellData;
+            int spellLevel = spellData.getSpell().getLevelFor(spellData.getLevel(), player);
+
+            if (level.isClientSide())
+            {
+                if (ClientMagicData.isCasting())
+                {
+                    event.setCancellationResult(InteractionResult.CONSUME);
+                } else if (ClientMagicData.getPlayerMana() < spellData.getSpell().getManaCost(spellLevel)
+                        || ClientMagicData.getCooldowns().isOnCooldown(spellData.getSpell())
+                        || !ClientMagicData.getSyncedSpellData(player).isSpellLearned(spellData.getSpell()))
+                {
+                    return;
+                } else
+                {
+                    event.setCancellationResult(InteractionResult.CONSUME);
+                }
+            }
+
+            var castingSlot = hand.ordinal() == 0 ? SpellSelectionManager.MAINHAND: SpellSelectionManager.OFFHAND;
+
+            if (spellData.getSpell().attemptInitiateCast(itemStack, spellLevel, level, player, selectionOption.getCastSource(), true, castingSlot))
+            {
+                event.setCancellationResult(InteractionResult.CONSUME);
+            } else
+            {
+                event.setCancellationResult(InteractionResult.FAIL);
+            }
+            event.setCanceled(true);
+        } else if (itemStack.getItem() instanceof MagicGunItem gunItem && (hand.equals(InteractionHand.MAIN_HAND) && gunItem.isHeavyGun()))
+        {
+            SpellSelectionManager spellSelectionManager = new SpellSelectionManager(player);
+            SpellSelectionManager.SelectionOption selectionOption = spellSelectionManager.getSelection();
+            if (selectionOption == null || selectionOption.spellData.equals(SpellData.EMPTY))
+            {
+                return;
+            }
+            SpellData spellData = selectionOption.spellData;
+            int spellLevel = spellData.getSpell().getLevelFor(spellData.getLevel(), player);
+
+            if (level.isClientSide())
+            {
+                if (ClientMagicData.isCasting())
+                {
+                    event.setCancellationResult(InteractionResult.CONSUME);
+                } else if (ClientMagicData.getPlayerMana() < spellData.getSpell().getManaCost(spellLevel)
+                        || ClientMagicData.getCooldowns().isOnCooldown(spellData.getSpell())
+                        || !ClientMagicData.getSyncedSpellData(player).isSpellLearned(spellData.getSpell()))
+                {
+                    return;
+                } else
+                {
+                    event.setCancellationResult(InteractionResult.CONSUME);
+                }
+            }
+
+            if (spellData.getSpell().attemptInitiateCast(itemStack, spellLevel, level, player, selectionOption.getCastSource(), true, SpellSelectionManager.MAINHAND))
+            {
+                event.setCancellationResult(InteractionResult.CONSUME);
+            } else
+            {
+                event.setCancellationResult(InteractionResult.FAIL);
+            }
+            event.setCanceled(true);
+        }
+    }
+
     /***
      * ATTRIBUTES
      */

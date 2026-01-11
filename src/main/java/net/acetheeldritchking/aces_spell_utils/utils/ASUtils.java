@@ -4,9 +4,14 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastType;
+import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.config.ServerConfigs;
+import io.redspace.ironsspellbooks.player.ClientMagicData;
+import io.redspace.ironsspellbooks.util.TooltipsUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -324,5 +329,23 @@ public class ASUtils {
     public static float basicDamageCap(float amount, float min, float max)
     {
         return Mth.clamp(amount, min, max);
+    }
+
+    // ISS has their casting tooltip private so I gotta retype it all out
+    public static void handleCastingImplementTooltip(ItemStack stack, LocalPlayer player, List<Component> lines, boolean advanced)
+    {
+        var spellSlot = ClientMagicData.getSpellSelectionManager().getSelection();
+        if (spellSlot != null && spellSlot.spellData != SpellData.EMPTY)
+        {
+            var addLines = TooltipsUtils.formatActiveSpellTooltip(stack, spellSlot.spellData, spellSlot.getCastSource(), player);
+            // Header
+            addLines.add(1, Component.translatable("tooltip.irons_spellbooks.casting_implement_tooltip").withStyle(ChatFormatting.GRAY));
+            // Indent
+            addLines.set(2, Component.literal(" ").append(addLines.get(2)));
+            // Keybind
+            addLines.add(Component.literal(" ").append(Component.translatable("tooltip.irons_spellbooks.press_to_cast_active", Component.keybind("key.use")).withStyle(ChatFormatting.GOLD)));
+            int i = advanced ? TooltipsUtils.indexOfAdvancedText(lines, stack) : lines.size();
+            lines.addAll(i < 0 ? lines.size() : i, addLines);
+        }
     }
 }

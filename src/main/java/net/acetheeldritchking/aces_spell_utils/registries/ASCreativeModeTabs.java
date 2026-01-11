@@ -25,6 +25,9 @@ public class ASCreativeModeTabs {
                         output.accept(ExampleItemRegistry.EXAMPLE_CURIO.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_IMBUE_CURIO.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_PASSIVE_ABILITY_SPELLBOOK.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_GUN.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_AP_SWORD.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_AP_MAGIC_SWORD.get());
                         // Armor
                         output.accept(ExampleItemRegistry.EXAMPLE_ARMOR_HELMET.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_ARMOR_CHESTPLATE.get());
