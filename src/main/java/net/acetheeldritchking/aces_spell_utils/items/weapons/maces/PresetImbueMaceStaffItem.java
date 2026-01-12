@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.weapons;
+package net.acetheeldritchking.aces_spell_utils.items.weapons.maces;
 
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.spells.IPresetSpellContainer;
@@ -7,16 +7,15 @@ import io.redspace.ironsspellbooks.api.spells.ISpellContainerMutable;
 import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.registries.ComponentRegistry;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class PresetImbueMaceItem extends ExtendedMaceItem implements IPresetSpellContainer {
+public class PresetImbueMaceStaffItem extends MaceStaffItem implements IPresetSpellContainer {
     List<SpellData> spellData = null;
     SpellDataRegistryHolder[] spellDataRegistryHolders;
 
-    public PresetImbueMaceItem(Tier pTier, Properties properties, SpellDataRegistryHolder[] spellDataRegistryHolders) {
+    public PresetImbueMaceStaffItem(Properties properties, SpellDataRegistryHolder[] spellDataRegistryHolders) {
         super(properties);
         this.spellDataRegistryHolders = spellDataRegistryHolders;
     }

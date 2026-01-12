@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.weapons;
+package net.acetheeldritchking.aces_spell_utils.items.weapons.maces;
 
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;
 import io.redspace.ironsspellbooks.item.weapons.IronsWeaponTier;

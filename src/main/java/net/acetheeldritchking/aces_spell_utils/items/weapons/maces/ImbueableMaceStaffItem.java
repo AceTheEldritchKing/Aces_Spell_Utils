@@ -1,12 +1,11 @@
-package net.acetheeldritchking.aces_spell_utils.items.weapons;
+package net.acetheeldritchking.aces_spell_utils.items.weapons.maces;
 
 import io.redspace.ironsspellbooks.api.spells.IPresetSpellContainer;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 
-public class ImbueableMaceItem extends ExtendedMaceItem implements IPresetSpellContainer {
-    public ImbueableMaceItem(Tier pTier, Properties properties) {
+public class ImbueableMaceStaffItem extends MaceStaffItem implements IPresetSpellContainer {
+    public ImbueableMaceStaffItem(Properties properties) {
         super(properties);
     }
 
@@ -17,7 +16,7 @@ public class ImbueableMaceItem extends ExtendedMaceItem implements IPresetSpellC
             return;
         }
 
-        if (itemStack.getItem() instanceof ExtendedMaceItem maceItem)
+        if (itemStack.getItem() instanceof MaceStaffItem maceItem)
         {
             if (!ISpellContainer.isSpellContainer(itemStack))
             {
