@@ -43,6 +43,9 @@ public class ExampleItemRegistry {
     // Example A&P Magic Sword
     public static final DeferredHolder<Item, Item> EXAMPLE_AP_MAGIC_SWORD = ITEMS.register("example_ap_magic_sword", ExampleAPMagicSwordItem::new);
 
+    // Example Loot Bag Item
+    public static final DeferredHolder<Item, Item> EXAMPLE_LOOT_BAG = ITEMS.register("example_loot_bag", ExampleLootBagItem::new);
+
     // Armor
     public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));
     public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_CHESTPLATE = ITEMS.register("example_armor_chestplate", () -> new ExampleWarlockArmorItem(ArmorItem.Type.CHESTPLATE, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
