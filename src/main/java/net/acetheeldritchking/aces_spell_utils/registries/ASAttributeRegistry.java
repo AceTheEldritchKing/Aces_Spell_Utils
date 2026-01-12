@@ -36,6 +36,24 @@ public class ASAttributeRegistry {
     // Evasive
     public static final DeferredHolder<Attribute, Attribute> EVASIVE = registerRangedAttribute("evasive", 0, 0, 100.0);
 
+    // Magic Damage Crit Chance
+    public static final DeferredHolder<Attribute, Attribute> MAGIC_DAMAGE_CRIT_CHANCE = registerPercentageAttribute("magic_damage_crit_chance", 0.05D, 0.0D, 10.0D);
+
+    // Magic Damage Crit Damage
+    public static final DeferredHolder<Attribute, Attribute> MAGIC_DAMAGE_CRIT_DAMAGE = registerPercentageAttribute("magic_damage_crit_damage", 1.5D, 1.0D, 100.0D);
+
+    // Magic Projectile Crit Chance
+    public static final DeferredHolder<Attribute, Attribute> MAGIC_PROJECTILE_CRIT_CHANCE = registerPercentageAttribute("magic_projectile_crit_chance", 0.05D, 0.0D, 10.0D);
+
+    // Magic Projectile Crit Damage
+    public static final DeferredHolder<Attribute, Attribute> MAGIC_PROJECTILE_CRIT_DAMAGE = registerPercentageAttribute("magic_projectile_crit_damage", 1.5D, 1.0D, 100.0D);
+
+    // Magic Projectile Bonus Damage
+    public static final DeferredHolder<Attribute, Attribute> MAGIC_PROJECTILE_DAMAGE = registerPercentageAttribute("magic_projectile_damage", 0, 0, 1.0);
+
+    // Life Recovery
+    public static final DeferredHolder<Attribute, Attribute> LIFE_RECOVERY = registerPercentageAttribute("life_recovery", 0, 0, 1.0);
+
 
     public static void register(IEventBus eventBus)
     {

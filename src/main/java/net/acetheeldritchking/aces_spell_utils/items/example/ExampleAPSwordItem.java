@@ -8,8 +8,8 @@ import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 public class ExampleAPSwordItem extends ActiveAndPassiveAbilitySwordItem {
     public ExampleAPSwordItem() {
         super(
-                ASSWeaponTiers.EXAMPLE_AP_SWORD,
-                ItemPropertiesHelper.equipment(1).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(ASSWeaponTiers.EXAMPLE_AP_SWORD))
+                ASWeaponTiers.EXAMPLE_AP_SWORD,
+                ItemPropertiesHelper.equipment(1).fireResistant().rarity(ASRarities.COSMIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(ASWeaponTiers.EXAMPLE_AP_SWORD))
         );
     }
 

@@ -14,27 +14,28 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
-public class ASSWeaponTiers implements Tier, IronsWeaponTier {
+public class ASWeaponTiers implements Tier, IronsWeaponTier {
     // Example Gun
-    public static ASSWeaponTiers EXAMPLE_GUN = new ASSWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
+    public static ASWeaponTiers EXAMPLE_GUN = new ASWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
             new AttributeContainer(AttributeRegistry.LIGHTNING_SPELL_POWER, 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
             new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.1f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
             new AttributeContainer(AttributeRegistry.COOLDOWN_REDUCTION, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ASAttributeRegistry.MANA_REND, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE, 0.50f, AttributeModifier.Operation.ADD_VALUE),
+            new AttributeContainer(ASAttributeRegistry.LIFE_RECOVERY, 0.10f, AttributeModifier.Operation.ADD_VALUE));
 
     // Example A&P Sword
-    public static ASSWeaponTiers EXAMPLE_AP_SWORD = new ASSWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
+    public static ASWeaponTiers EXAMPLE_AP_SWORD = new ASWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
             new AttributeContainer(AttributeRegistry.ENDER_SPELL_POWER, 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
             new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.1f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(AttributeRegistry.COOLDOWN_REDUCTION, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ASAttributeRegistry.MANA_REND, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_CHANCE, 0.70f, AttributeModifier.Operation.ADD_VALUE),
+            new AttributeContainer(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE, 1.50f, AttributeModifier.Operation.ADD_VALUE));
 
     // Example A&P Sword
-    public static ASSWeaponTiers EXAMPLE_AP_MAGIC_SWORD = new ASSWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
+    public static ASWeaponTiers EXAMPLE_AP_MAGIC_SWORD = new ASWeaponTiers(1680, 7.5F, -3.0F, 10, BlockTags.INCORRECT_FOR_NETHERITE_TOOL, () -> Ingredient.of(ItemRegistry.MITHRIL_INGOT.get()),
             new AttributeContainer(AttributeRegistry.ELDRITCH_SPELL_POWER, 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
             new AttributeContainer(AttributeRegistry.SPELL_POWER, 0.1f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(AttributeRegistry.COOLDOWN_REDUCTION, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-            new AttributeContainer(ASAttributeRegistry.MANA_REND, 0.10f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            new AttributeContainer(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_CHANCE, 0.70f, AttributeModifier.Operation.ADD_VALUE),
+            new AttributeContainer(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE, 1.50f, AttributeModifier.Operation.ADD_VALUE));
 
     //private final int level;
     private final int uses;
@@ -45,7 +46,7 @@ public class ASSWeaponTiers implements Tier, IronsWeaponTier {
     private final Supplier<Ingredient> repairIngredient;
     private final AttributeContainer[] attributeContainers;
 
-    private ASSWeaponTiers(int uses, float damage, float speed, int enchantmentValue, TagKey<Block> incorrectBlocksForDrops, Supplier<Ingredient> repairIngredient, AttributeContainer... attributes) {
+    private ASWeaponTiers(int uses, float damage, float speed, int enchantmentValue, TagKey<Block> incorrectBlocksForDrops, Supplier<Ingredient> repairIngredient, AttributeContainer... attributes) {
         //this.level = level;
         this.uses = uses;
         this.speed = speed;

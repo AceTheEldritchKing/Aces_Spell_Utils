@@ -13,9 +13,13 @@ import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.items.weapons.MagicGunItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,6 +30,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -306,7 +311,7 @@ public class AcesSpellUtilsServerEvents {
         //Check if attribute exists
         var hasSpellResPen = livingEntity.getAttribute(ASAttributeRegistry.SPELL_RES_PENETRATION);
 
-        //Cancels modification if user doesn't have Goliath Slayer
+        //Cancels modification if user doesn't have Spell Res Pen
         if (hasSpellResPen == null) return;
 
         //Grab attributes value
@@ -365,5 +370,222 @@ public class AcesSpellUtilsServerEvents {
                     livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                     25, 0.4, 0.8, 0.4, 0.03, false);
         }
+    }
+
+    @SubscribeEvent
+    public static void magicDamageCriticalStrike(LivingIncomingDamageEvent event)
+    {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        var directEntity = event.getSource().getDirectEntity();
+
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+
+        /***
+         * Magic Crit Dmg/Chance Attributes
+         */
+        //Check if attribute exists
+        var hasMagicCritChance = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_CHANCE);
+        var hasMagicCritDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE);
+
+        //Cancels modification if user doesn't have attr
+        if (hasMagicCritChance == null) return;
+        if (hasMagicCritDmg == null) return;
+
+        //Grab attributes value
+        double magicCritChance = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_CHANCE);
+        double magicCritDmg = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE);
+
+        // This is for debug
+        double baseMagicCritChance = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_CHANCE);
+
+        //Cancels if attributes are base to avoid unnecessary calculations
+        if (magicCritChance <= 0.05) return;
+        if (magicCritDmg <= 1) return;
+
+        // Make sure that the damage source is magic
+        if (event.getSource() instanceof SpellDamageSource)
+        {
+            RandomSource random = victim.getRandom();
+            float damage = event.getAmount();
+
+            // I'm looking at how Apothic Attributes does their crit chances/dmg for this
+            while (random.nextFloat() <= magicCritChance && magicCritDmg > 1.0F)
+            {
+                magicCritChance--;
+                damage += (float) (event.getAmount() * (magicCritDmg - 1));
+                magicCritDmg *= 0.85F;
+            }
+
+            if (damage > event.getAmount() && !attacker.level().isClientSide())
+            {
+                AcesSpellUtils.LOGGER.debug("--CRIT!--");
+                attacker.level().playLocalSound(victim.getX(), victim.getY(), victim.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1, 1, false);
+
+                if (attacker instanceof Player player)
+                {
+                    player.crit(victim);
+                } else
+                {
+                    ASUtils.spawnParticlesInCircle(16, 0.75F, 1.5F, 0.15F, victim, ParticleTypes.CRIT);
+                }
+            }
+
+            event.setAmount(damage);
+
+            AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
+            AcesSpellUtils.LOGGER.debug("Damage: " + damage);
+            AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
+            AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+        }
+    }
+
+    @SubscribeEvent
+    public static void magicProjectileDamageCriticalStrike(LivingIncomingDamageEvent event)
+    {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        var directEntity = event.getSource().getDirectEntity();
+
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        if (!(directEntity instanceof AbstractMagicProjectile projectile)) return;
+
+        /***
+         * Magic Crit Dmg/Chance Attributes
+         */
+        //Check if attribute exists
+        var hasMagicCritChance = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_CHANCE);
+        var hasMagicCritDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE);
+
+        //Cancels modification if user doesn't have attr
+        if (hasMagicCritChance == null) return;
+        if (hasMagicCritDmg == null) return;
+
+        //Grab attributes value
+        double magicCritChance = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_CHANCE);
+        double magicCritDmg = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE);
+
+        // This is for debug
+        double baseMagicCritChance = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_CHANCE);
+
+        //Cancels if attributes are base to avoid unnecessary calculations
+        if (magicCritChance <= 0.05) return;
+        if (magicCritDmg <= 1) return;
+
+        // Make sure that the damage source is magic & we have a projectile
+        if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
+        {
+            RandomSource random = victim.getRandom();
+            float damage = event.getAmount();
+
+            // I'm looking at how Apothic Attributes does their crit chances/dmg for this
+            while (random.nextFloat() <= magicCritChance && magicCritDmg > 1.0F)
+            {
+                magicCritChance--;
+                damage += (float) (event.getAmount() * (magicCritDmg - 1));
+                magicCritDmg *= 0.85F;
+            }
+
+            if (damage > event.getAmount() && !attacker.level().isClientSide())
+            {
+                AcesSpellUtils.LOGGER.debug("--PROJ CRIT!--");
+                attacker.level().playLocalSound(victim.getX(), victim.getY(), victim.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1, 1, false);
+
+                if (attacker instanceof Player player)
+                {
+                    player.crit(victim);
+                } else
+                {
+                    ASUtils.spawnParticlesInCircle(16, 0.75F, 1.5F, 0.15F, victim, ParticleTypes.CRIT);
+                }
+            }
+
+            event.setAmount(damage);
+
+            AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
+            AcesSpellUtils.LOGGER.debug("Damage: " + damage);
+            AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
+            AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+        }
+    }
+
+    @SubscribeEvent
+    public static void vanillaCriticalDamage(CriticalHitEvent event)
+    {
+        var entity = event.getEntity();
+
+        float magicCritDmg = (float) entity.getAttributeValue(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE);
+        float magicProjCritDmg = (float) entity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE);
+
+        if (event.isVanillaCritical())
+        {
+            // Should we make this stack? Sure! What could go wrong? :)
+            event.setDamageMultiplier(Math.max(event.getDamageMultiplier(), magicCritDmg + magicProjCritDmg));
+        }
+    }
+
+    @SubscribeEvent
+    public static void magicProjectileBonusDamage(LivingIncomingDamageEvent event) {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        var directEntity = event.getSource().getDirectEntity();
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        if (!(directEntity instanceof AbstractMagicProjectile projectile)) return;
+        /***
+         * Magic Projectile Bonus Damage Attribute
+         */
+        //Check if attribute exists
+        var hasMagicProjDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
+
+        //Cancels modification if user doesn't have attr
+        if (hasMagicProjDmg == null) return;
+
+        //Grab attributes value
+        double magicProjDmg = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (magicProjDmg <= 0) return;
+
+        if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
+        {
+            float baseDamage = event.getOriginalAmount();
+            float bonusDamage = (float) (baseDamage * magicProjDmg);
+            float totalDamage = baseDamage + bonusDamage;
+
+            event.setAmount(totalDamage);
+
+            AcesSpellUtils.LOGGER.debug("OG Proj Damage: " + baseDamage);
+            AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + bonusDamage);
+            AcesSpellUtils.LOGGER.debug("Total Proj Damage: " + event.getAmount());
+        }
+    }
+
+    @SubscribeEvent
+    public static void lifeRecovery(LivingDamageEvent.Post event) {
+        var victim = event.getEntity();
+        var attacker = event.getSource().getEntity();
+        if (!(attacker instanceof LivingEntity livingEntity)) return;
+        /***
+         * Life Recovery Attribute
+         */
+        //Check if attribute exists
+        var hasLifeRecovery = livingEntity.getAttribute(ASAttributeRegistry.LIFE_RECOVERY);
+
+        //Cancels modification if user doesn't have Goliath Slayer
+        if (hasLifeRecovery == null) return;
+
+        //Grab attributes value
+        double lifeRecoveryAttr = livingEntity.getAttributeValue(ASAttributeRegistry.LIFE_RECOVERY);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (lifeRecoveryAttr <= 0) return;
+
+        final float BASE_HEALTH = livingEntity.getMaxHealth();
+        float recoveryAmount = (float) (BASE_HEALTH * lifeRecoveryAttr);
+
+        livingEntity.heal(recoveryAmount);
+
+        AcesSpellUtils.LOGGER.debug("HP: " + BASE_HEALTH);
+        AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
     }
 }

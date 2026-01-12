@@ -16,6 +16,12 @@
   "attribute.aces_spell_utils.spell_res_penetration": "Spell Resistance Penetration",
   "attribute.aces_spell_utils.hunger_steal": "Hunger Steal",
   "attribute.aces_spell_utils.evasive": "Evasive",
+  "attribute.aces_spell_utils.magic_damage_crit_chance": "Spell Crit Chance",
+  "attribute.aces_spell_utils.magic_damage_crit_damage": "Spell Crit Damage",
+  "attribute.aces_spell_utils.magic_projectile_crit_chance": "Spell Projectile Crit Chance",
+  "attribute.aces_spell_utils.magic_projectile_crit_damage": "Spell Projectile Crit Damage",
+  "attribute.aces_spell_utils.magic_projectile_damage": "Spell Projectile Damage",
+  "attribute.aces_spell_utils.life_recovery": "Life Recovery",
 
   "ui.aces_spell_utils.refinement": "%d Refinement",
 

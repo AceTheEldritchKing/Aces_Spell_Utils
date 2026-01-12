@@ -10,8 +10,8 @@ import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 public class ExampleGunItem extends MagicGunItem {
     public ExampleGunItem() {
         super(
-                ASSWeaponTiers.EXAMPLE_GUN,
-                ItemPropertiesHelper.equipment(1).fireResistant().rarity(ASRarities.AQUATIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(ASSWeaponTiers.EXAMPLE_GUN)),
+                ASWeaponTiers.EXAMPLE_GUN,
+                ItemPropertiesHelper.equipment(1).fireResistant().rarity(ASRarities.AQUATIC_RARITY_PROXY.getValue()).attributes(ExtendedSwordItem.createAttributes(ASWeaponTiers.EXAMPLE_GUN)),
                 SpellDataRegistryHolder.of(
                         new SpellDataRegistryHolder(SpellRegistry.BALL_LIGHTNING_SPELL, 10)
                 )
