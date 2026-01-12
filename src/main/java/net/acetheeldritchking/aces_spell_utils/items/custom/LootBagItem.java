@@ -1,5 +1,8 @@
 package net.acetheeldritchking.aces_spell_utils.items.custom;
 
+import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,14 +21,20 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.List;
-import java.util.Objects;
 
 public class LootBagItem extends Item {
     ResourceLocation lootTable;
+    ParticleOptions particleTypes;
 
     public LootBagItem(Properties properties, ResourceLocation lootTable) {
         super(properties);
         this.lootTable = lootTable;
+    }
+
+    public LootBagItem(Properties properties, ResourceLocation lootTable, ParticleOptions particleTypes) {
+        super(properties);
+        this.lootTable = lootTable;
+        this.particleTypes = particleTypes;
     }
 
     @Override
@@ -57,11 +66,22 @@ public class LootBagItem extends Item {
                 {
                     player.drop(stack, true);
                 }
+
+                if (particleTypes != null)
+                {
+                    ASUtils.spawnParticlesInCircle(8, 0.55F, 0.5F, 0.1F, player, particleTypes);
+                } else
+                {
+                    ASUtils.spawnParticlesInCircle(8, 0.55F, 0.5F, 0.1F, player, ParticleTypes.HAPPY_VILLAGER);
+                }
             }
         }
 
-        // Remove loot bag
-        player.getMainHandItem().shrink(1);
+        // Remove loot bag if in survival
+        if (!player.isCreative())
+        {
+            player.getMainHandItem().shrink(1);
+        }
         level.playLocalSound(player.getX(), player.getY(), player.getZ(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 1, 1, false);
         return InteractionResultHolder.success(player.getItemInHand(usedHand));
     }
