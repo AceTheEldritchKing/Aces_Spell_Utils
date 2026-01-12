@@ -26,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -33,11 +34,15 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.logging.log4j.core.net.Priority;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
-    /***
-     * ITEMS
+
+    /**
+     * MAGIC GUN
+     * Code for Magic Gun functionality <p>
+     * Casts spell on Magic Gun use
      */
     @SubscribeEvent
     public static void onUseItem(PlayerInteractEvent.RightClickItem event)
@@ -123,8 +128,10 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
-    /***
-     * ATTRIBUTES
+    /**
+     * MANA STEAL <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Steals mana based on damage dealt
      */
     @SubscribeEvent
     public static void manaStealEvent(LivingDamageEvent.Post event) {
@@ -140,9 +147,6 @@ public class AcesSpellUtilsServerEvents {
 
         var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
-        /***
-         * Mana Steal Attribute
-         */
         //Check if user has mana steal
         if (hasManaSteal == null) return;
 
@@ -177,6 +181,11 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
+    /**
+     * MANA REND <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Reduces target's mana based on damage dealt
+     */
     @SubscribeEvent
     public static void manaRendEvent(LivingIncomingDamageEvent event) {
         //Grab involved entities
@@ -189,9 +198,6 @@ public class AcesSpellUtilsServerEvents {
         if (directEntity == null) return;
         if (!((directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
 
-        /***
-         * Mana Rend Attribute
-         */
         //Check if attribute exists
         var hasManaRend = livingEntity.getAttribute(ASAttributeRegistry.MANA_REND);
         var targetHasMana = victim.getAttribute(AttributeRegistry.MAX_MANA);
@@ -222,16 +228,17 @@ public class AcesSpellUtilsServerEvents {
         AcesSpellUtils.LOGGER.debug("New Damage amount: " + event.getAmount());
     }
 
-    // You can and should use one event for each attribute
-    // Just make sure they always end early if not used, to avoid random stuff firing
+    /**
+     * GOLIATH SLAYER <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Bonus damage to bosses
+     */
     @SubscribeEvent
     public static void goliathSlayerEvent(LivingIncomingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
-        /***
-         * Goliath Slayer Attribute
-         */
+
         //Check if attribute exists
         var hasGoliathSlayer = livingEntity.getAttribute(ASAttributeRegistry.GOLIATH_SLAYER);
 
@@ -259,7 +266,11 @@ public class AcesSpellUtilsServerEvents {
         AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
     }
 
-    // Hunger Steal (0 = 0% || 1 = 100%)
+    /**
+     * HUNGER STEAL <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Steals hunger based on damage dealt
+     */
     @SubscribeEvent
     public static void hungerStealEvent(LivingDamageEvent.Pre event)
     {
@@ -299,15 +310,17 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
-    // Spell Res Pen (0 = 0% || 1 = 100%)
+    /**
+     * SPELL PENETRATION <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Ignores magic resistance
+     */
     @SubscribeEvent
     public static void spellResPenetrationEvent(LivingIncomingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
-        /***
-         * Spell Res Pen Attribute
-         */
+
         //Check if attribute exists
         var hasSpellResPen = livingEntity.getAttribute(ASAttributeRegistry.SPELL_RES_PENETRATION);
 
@@ -337,14 +350,17 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
+    /**
+     * EVASIVE <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Dodge chance
+     */
     @SubscribeEvent
     public static void evasiveEvent(LivingIncomingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(victim instanceof LivingEntity livingEntity)) return;
-        /***
-         * Evasive Attribute
-         */
+
         //Check if attribute exists
         var hasEvasive = livingEntity.getAttribute(ASAttributeRegistry.EVASIVE);
 
@@ -372,7 +388,13 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
-    @SubscribeEvent
+    /**
+     * MAGIC CRITICAL <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Generic magic critical chance and damage <p>
+     * Processed after other damage modifiers (lowest priority)
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void magicDamageCriticalStrike(LivingIncomingDamageEvent event)
     {
         var victim = event.getEntity();
@@ -381,9 +403,6 @@ public class AcesSpellUtilsServerEvents {
 
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
-        /***
-         * Magic Crit Dmg/Chance Attributes
-         */
         //Check if attribute exists
         var hasMagicCritChance = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_CHANCE);
         var hasMagicCritDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE);
@@ -440,7 +459,13 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
-    @SubscribeEvent
+    /**
+     * MAGIC PROJECTILE CRITICAL <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Magic projectile critical chance and damage <p>
+     * Processed after other damage modifiers (lowest priority)
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void magicProjectileDamageCriticalStrike(LivingIncomingDamageEvent event)
     {
         var victim = event.getEntity();
@@ -448,11 +473,8 @@ public class AcesSpellUtilsServerEvents {
         var directEntity = event.getSource().getDirectEntity();
 
         if (!(attacker instanceof LivingEntity livingEntity)) return;
-        if (!(directEntity instanceof AbstractMagicProjectile projectile)) return;
+        if (!(directEntity instanceof AbstractMagicProjectile)) return;
 
-        /***
-         * Magic Crit Dmg/Chance Attributes
-         */
         //Check if attribute exists
         var hasMagicCritChance = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_CHANCE);
         var hasMagicCritDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE);
@@ -509,31 +531,25 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void vanillaCriticalDamage(CriticalHitEvent event)
-    {
-        var entity = event.getEntity();
+    /*
+     * Removed the code from here because it didn't make sense
+     * They can already be combined, and they multiply each other
+     */
 
-        float magicCritDmg = (float) entity.getAttributeValue(ASAttributeRegistry.MAGIC_DAMAGE_CRIT_DAMAGE);
-        float magicProjCritDmg = (float) entity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_CRIT_DAMAGE);
-
-        if (event.isVanillaCritical())
-        {
-            // Should we make this stack? Sure! What could go wrong? :)
-            event.setDamageMultiplier(Math.max(event.getDamageMultiplier(), magicCritDmg + magicProjCritDmg));
-        }
-    }
-
-    @SubscribeEvent
+    /**
+     * MAGIC PROJECTILE BONUS DAMAGE <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Bonus magic projectile damage <p>
+     * Processed after most damage modifiers (low priority)
+     */
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void magicProjectileBonusDamage(LivingIncomingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         var directEntity = event.getSource().getDirectEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
         if (!(directEntity instanceof AbstractMagicProjectile projectile)) return;
-        /***
-         * Magic Projectile Bonus Damage Attribute
-         */
+
         //Check if attribute exists
         var hasMagicProjDmg = livingEntity.getAttribute(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
 
@@ -541,7 +557,7 @@ public class AcesSpellUtilsServerEvents {
         if (hasMagicProjDmg == null) return;
 
         //Grab attributes value
-        double magicProjDmg = livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
+        double magicProjDmg = 1 + livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
 
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (magicProjDmg <= 0) return;
@@ -549,25 +565,27 @@ public class AcesSpellUtilsServerEvents {
         if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
         {
             float baseDamage = event.getOriginalAmount();
-            float bonusDamage = (float) (baseDamage * magicProjDmg);
-            float totalDamage = baseDamage + bonusDamage;
+            float totalDamage = (float)(baseDamage * magicProjDmg);
 
             event.setAmount(totalDamage);
 
             AcesSpellUtils.LOGGER.debug("OG Proj Damage: " + baseDamage);
-            AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + bonusDamage);
+            AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + (baseDamage * (magicProjDmg - 1)));
             AcesSpellUtils.LOGGER.debug("Total Proj Damage: " + event.getAmount());
         }
     }
 
+    /**
+     * LIFE RECOVERY <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Recovers lost health on-hit
+     */
     @SubscribeEvent
     public static void lifeRecovery(LivingDamageEvent.Post event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
-        /***
-         * Life Recovery Attribute
-         */
+
         //Check if attribute exists
         var hasLifeRecovery = livingEntity.getAttribute(ASAttributeRegistry.LIFE_RECOVERY);
 
@@ -580,12 +598,14 @@ public class AcesSpellUtilsServerEvents {
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (lifeRecoveryAttr <= 0) return;
 
-        final float BASE_HEALTH = livingEntity.getMaxHealth();
-        float recoveryAmount = (float) (BASE_HEALTH * lifeRecoveryAttr);
+        //Getting the missing health (maximum - current) instead of just maximum
+        final float MAX_HEALTH = livingEntity.getMaxHealth();
+        //1.0 recovery = recovers the entire missing health
+        float recoveryAmount = (float) (MAX_HEALTH * lifeRecoveryAttr);
 
         livingEntity.heal(recoveryAmount);
 
-        AcesSpellUtils.LOGGER.debug("HP: " + BASE_HEALTH);
+        AcesSpellUtils.LOGGER.debug("HP: " livingEntity.getHealth());
         AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
     }
 }
