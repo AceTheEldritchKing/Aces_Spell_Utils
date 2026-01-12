@@ -599,13 +599,13 @@ public class AcesSpellUtilsServerEvents {
         if (lifeRecoveryAttr <= 0) return;
 
         //Getting the missing health (maximum - current) instead of just maximum
-        final float MISSING_HEALTH = livingEntity.getMaxHealth() - livingEntity.getHealth();
+        final float MAX_HEALTH = livingEntity.getMaxHealth();
         //1.0 recovery = recovers the entire missing health
-        float recoveryAmount = (float) (MISSING_HEALTH * lifeRecoveryAttr);
+        float recoveryAmount = (float) (MAX_HEALTH * lifeRecoveryAttr);
 
         livingEntity.heal(recoveryAmount);
 
-        AcesSpellUtils.LOGGER.debug("HP: " + MISSING_HEALTH);
+        AcesSpellUtils.LOGGER.debug("HP: " livingEntity.getHealth());
         AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
     }
 }
