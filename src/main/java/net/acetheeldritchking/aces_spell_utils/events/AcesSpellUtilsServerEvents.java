@@ -605,7 +605,7 @@ public class AcesSpellUtilsServerEvents {
 
         livingEntity.heal(recoveryAmount);
 
-        AcesSpellUtils.LOGGER.debug("HP: " livingEntity.getHealth());
+        AcesSpellUtils.LOGGER.debug("HP: " + livingEntity.getHealth());
         AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
     }
 }

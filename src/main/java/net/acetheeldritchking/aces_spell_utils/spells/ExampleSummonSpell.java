@@ -14,6 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * This is not used anywhere, simply serves the purpose of being an example
+ */
 public class ExampleSummonSpell extends AbstractSummonSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "example_summon_spells");
 
@@ -61,6 +64,6 @@ public class ExampleSummonSpell extends AbstractSummonSpell {
             spawnHelper(randomNearbyX, vec.y, randomNearbyZ, caster, level, summonTimer, castData, () -> new SummonedSkeleton(level, caster, true), spellId, spellLevel);
         }
 
-        return 0;
+        return summonTimer;
     }
 }
