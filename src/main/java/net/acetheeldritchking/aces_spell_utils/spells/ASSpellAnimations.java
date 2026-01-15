@@ -58,4 +58,6 @@ public class ASSpellAnimations {
     public static final AnimationHolder ANIMATION_LEFT_HANDED_PUNCH = new AnimationHolder(AcesSpellUtils.id("left_handed_punch"), true);
 
     public static final AnimationHolder ANIMATION_RAPID_PUNCH_LOOP = new AnimationHolder(AcesSpellUtils.id("punch_flurry"), false);
+
+    public static final AnimationHolder ANIMATION_SPIN_SLASH_LOOP = new AnimationHolder(AcesSpellUtils.id("spin_slash_loop"), false);
 }
