@@ -2,6 +2,15 @@
   "itemGroup.aces_spell_utils": "Ace's Spell Utils",
   "creative_tab.aces_spell_utils.items": "Ace's Spell Utils Example Items",
 
+  "rarity.aces_spell_utils_rarity_accursed.name": "Accursed",
+  "rarity.aces_spell_utils_rarity_aquatic.name": "Aquatic",
+  "rarity.aces_spell_utils_rarity_sculk.name": "Sculk",
+  "rarity.aces_spell_utils_rarity_cosmic.name": "Cosmic",
+  "rarity.aces_spell_utils_rarity_glacial.name": "Glacial",
+  "rarity.aces_spell_utils_rarity_verdant.name": "Verdant",
+  "rarity.aces_spell_utils_rarity_forbidden.name": "Forbidden",
+  "rarity.aces_spell_utils_rarity_arid.name": "Arid",
+
   "aces_spell_utils.configuration.title": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml": "Ace's Spell Utils Configs",
   "aces_spell_utils.configuration.section.aces_spell_utils.common.toml.title": "Ace's Spell Utils Configs",
@@ -30,9 +39,9 @@
   "item.aces_spell_utils.more_details2": "Press [ALT] for active ability",
   "item.aces_spell_utils.heavy_gun_info": "This is a heavy gun; can only right click cast when in mainhand",
 
-  "item.aces_spell_utils.example_sheath": "Starstruck Sheath",
+  "item.aces_spell_utils.example_sheath": "Silver Sheath",
   "item.aces_spell_utils.example_sheath.desc": "On hit, summon a comet from above the entity's head",
-  "item.aces_spell_utils.example_staff": "Starstruck Staff",
+  "item.aces_spell_utils.example_staff": "Silver Staff",
   "item.aces_spell_utils.example_imbue_staff": "Forsaken Staff",
   "item.aces_spell_utils.example_curio": "Skull Pendant",
   "item.aces_spell_utils.example_curio.desc": "A pendant that radiates with death",
