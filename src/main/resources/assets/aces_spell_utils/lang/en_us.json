@@ -37,7 +37,8 @@
   "tooltip.aces_spell_utils.active_ability": "Active Ability (%s cooldown):",
   "item.aces_spell_utils.more_details1": "Press [SHIFT] for passive ability",
   "item.aces_spell_utils.more_details2": "Press [ALT] for active ability",
-  "item.aces_spell_utils.heavy_gun_info": "This is a heavy gun; can only right click cast when in mainhand",
+  "item.aces_spell_utils.heavy_gun_info": "This is a heavy gun; can only right-click cast when in mainhand",
+  "item.aces_spell_utils.light_gun_info": "This is a light gun; can also right-click cast in offhand",
 
   "item.aces_spell_utils.example_sheath": "Silver Sheath",
   "item.aces_spell_utils.example_sheath.desc": "On hit, summon a comet from above the entity's head",

@@ -60,6 +60,9 @@ public class MagicGunItem extends MagicSwordItem {
             if (isHeavyGun())
             {
                 tooltipComponents.add(Component.translatable("item.aces_spell_utils.heavy_gun_info").withStyle(ChatFormatting.RED));
+            } else
+            {
+                tooltipComponents.add(Component.translatable("item.aces_spell_utils.light_gun_info").withStyle(ChatFormatting.GOLD));
             }
         }
     }
