@@ -16,12 +16,19 @@ public class AcesSpellUtilsConfig {
             .comment("Defines whether or not mana steal should drain the mana of the target entity. Default is true")
             .define("Mana Steal drains mana", true);
 
+    // If one domain is x times as refined as another, then it will automatically win in a clash
+    private static final ModConfigSpec.ConfigValue<Double> REFINEMENT_DIFFERENCE = BUILDER
+            .comment("Defines the minimum refinement ratio for a domain to automatically overwhelm another domain in a clash. Default is 1.5, must be above 1.")
+            .define("Refinement victory factor", 1.5);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
     public static boolean manaStealDrain;
+    public static double refinementDifference;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
         manaStealDrain = MANA_STEAL_DRAINS_MANA.get();
+        refinementDifference = REFINEMENT_DIFFERENCE.get();
     }
 }
