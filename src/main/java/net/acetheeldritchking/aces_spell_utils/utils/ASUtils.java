@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.joml.Vector3f;
@@ -347,5 +348,10 @@ public class ASUtils {
             int i = advanced ? TooltipsUtils.indexOfAdvancedText(lines, stack) : lines.size();
             lines.addAll(i < 0 ? lines.size() : i, addLines);
         }
+    }
+
+    //Convert a BlockPos into a ChunkPos
+    public static ChunkPos getChunkPos(BlockPos blockPos) {
+        return new ChunkPos(blockPos.getX() >> 4, blockPos.getZ() >> 4);
     }
 }
