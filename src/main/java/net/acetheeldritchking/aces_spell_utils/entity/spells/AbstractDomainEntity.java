@@ -51,8 +51,10 @@ public abstract class AbstractDomainEntity extends Entity implements AntiMagicSu
             setSpawnTime(level().getGameTime());
         }
         //forceload the chunk
-        ServerChunkCache cache = getServer().getLevel(this.level().dimension()).getChunkSource();
-        cache.addRegionTicket(TicketType.FORCED, ASUtils.getChunkPos(new BlockPos((int) this.position().x, (int) this.position().y, (int) this.position().z)), 20, ASUtils.getChunkPos(new BlockPos((int) this.position().x, (int) this.position().y, (int) this.position().z)), true);
+        if(!level().isClientSide()) {
+            ServerChunkCache cache = getServer().getLevel(this.level().dimension()).getChunkSource();
+            cache.addRegionTicket(TicketType.FORCED, ASUtils.getChunkPos(new BlockPos((int) this.position().x, (int) this.position().y, (int) this.position().z)), 20, ASUtils.getChunkPos(new BlockPos((int) this.position().x, (int) this.position().y, (int) this.position().z)), true);
+        }
         //I know this method shows up a lot but its necessary i promise
         addClashingMapIfNecessary();
         level().getEntitiesOfClass(AbstractDomainEntity.class, new AABB(position().subtract(getRadius() / 2.0, getRadius() / 2.0, getRadius() / 2.0), this.position().add(getRadius() / 2.0, getRadius() / 2.0, getRadius() / 2.0))).stream()
