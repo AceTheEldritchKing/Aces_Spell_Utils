@@ -58,8 +58,8 @@ public class AcesSpellUtils {
         ExampleItemRegistry.register(modEventBus);
         ExampleArmorMaterialRegistry.register(modEventBus);
 
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC);
+        // Configs
+        modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC, String.format("%s-common.toml", AcesSpellUtils.MOD_ID));
     }
 
     static boolean registerExamplesInDev()

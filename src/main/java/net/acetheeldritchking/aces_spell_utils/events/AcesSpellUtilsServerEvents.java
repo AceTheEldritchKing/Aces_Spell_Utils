@@ -163,7 +163,7 @@ public class AcesSpellUtilsServerEvents {
         PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
 
         //Check if target is a player for reducing their mana && if the config is enabled
-        if (AcesSpellUtilsConfig.manaStealDrain)
+        if (AcesSpellUtilsConfig.manaStealDrain == true)
         {
             if (target instanceof ServerPlayer serverTargetPlayer) {
                 int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
@@ -224,8 +224,11 @@ public class AcesSpellUtilsServerEvents {
         //finalDamage = originalDamage * (1 + step * manaRendAttr)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
 
-        AcesSpellUtils.LOGGER.debug("Old Damage amount: " + event.getOriginalAmount());
-        AcesSpellUtils.LOGGER.debug("New Damage amount: " + event.getAmount());
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("Old Damage amount: " + event.getOriginalAmount());
+            AcesSpellUtils.LOGGER.debug("New Damage amount: " + event.getAmount());
+        }
     }
 
     /**
@@ -261,9 +264,12 @@ public class AcesSpellUtilsServerEvents {
 
         event.setAmount(totalDamage);
 
-        AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
-        AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
-        AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
+            AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
+            AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+        }
     }
 
     /**
@@ -344,9 +350,12 @@ public class AcesSpellUtilsServerEvents {
 
             event.setAmount(totalDamage);
 
-            AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
-            AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
-            AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
+                AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
+                AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+            }
         }
     }
 
@@ -379,7 +388,10 @@ public class AcesSpellUtilsServerEvents {
 
         event.setInvulnerabilityTicks(postInvulTicks);
 
-        AcesSpellUtils.LOGGER.debug("I Frames: " + livingEntity.invulnerableTime);
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("I Frames: " + livingEntity.invulnerableTime);
+        }
         if (!livingEntity.level().isClientSide())
         {
             MagicManager.spawnParticles(livingEntity.level(), ParticleTypes.SMOKE,
@@ -438,7 +450,10 @@ public class AcesSpellUtilsServerEvents {
 
             if (damage > event.getAmount() && !attacker.level().isClientSide())
             {
-                AcesSpellUtils.LOGGER.debug("--CRIT!--");
+                if (AcesSpellUtilsConfig.devMode == true)
+                {
+                    AcesSpellUtils.LOGGER.debug("--CRIT!--");
+                }
                 attacker.level().playLocalSound(victim.getX(), victim.getY(), victim.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1, 1, false);
 
                 if (attacker instanceof Player player)
@@ -452,10 +467,13 @@ public class AcesSpellUtilsServerEvents {
 
             event.setAmount(damage);
 
-            AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
-            AcesSpellUtils.LOGGER.debug("Damage: " + damage);
-            AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
-            AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
+                AcesSpellUtils.LOGGER.debug("Damage: " + damage);
+                AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
+                AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+            }
         }
     }
 
@@ -510,7 +528,10 @@ public class AcesSpellUtilsServerEvents {
 
             if (damage > event.getAmount() && !attacker.level().isClientSide())
             {
-                AcesSpellUtils.LOGGER.debug("--PROJ CRIT!--");
+                if (AcesSpellUtilsConfig.devMode == true)
+                {
+                    AcesSpellUtils.LOGGER.debug("--PROJ CRIT!--");
+                }
                 attacker.level().playLocalSound(victim.getX(), victim.getY(), victim.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1, 1, false);
 
                 if (attacker instanceof Player player)
@@ -524,10 +545,13 @@ public class AcesSpellUtilsServerEvents {
 
             event.setAmount(damage);
 
-            AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
-            AcesSpellUtils.LOGGER.debug("Damage: " + damage);
-            AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
-            AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
+                AcesSpellUtils.LOGGER.debug("Damage: " + damage);
+                AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
+                AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+            }
         }
     }
 
@@ -569,9 +593,12 @@ public class AcesSpellUtilsServerEvents {
 
             event.setAmount(totalDamage);
 
-            AcesSpellUtils.LOGGER.debug("OG Proj Damage: " + baseDamage);
-            AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + (baseDamage * (magicProjDmg - 1)));
-            AcesSpellUtils.LOGGER.debug("Total Proj Damage: " + event.getAmount());
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("OG Proj Damage: " + baseDamage);
+                AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + (baseDamage * (magicProjDmg - 1)));
+                AcesSpellUtils.LOGGER.debug("Total Proj Damage: " + event.getAmount());
+            }
         }
     }
 
@@ -605,7 +632,10 @@ public class AcesSpellUtilsServerEvents {
 
         livingEntity.heal(recoveryAmount);
 
-        AcesSpellUtils.LOGGER.debug("HP: " + livingEntity.getHealth());
-        AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("HP: " + livingEntity.getHealth());
+            AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
+        }
     }
 }
