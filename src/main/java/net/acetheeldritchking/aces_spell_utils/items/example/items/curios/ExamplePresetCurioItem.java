@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.curios;
 
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;

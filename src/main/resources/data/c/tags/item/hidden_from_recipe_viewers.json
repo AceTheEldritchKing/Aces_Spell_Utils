@@ -1,0 +1,14 @@
+{
+  "values": [
+    "aces_spell_utils:example_sheath",
+    "aces_spell_utils:example_staff",
+    "aces_spell_utils:example_imbue_staff",
+    "aces_spell_utils:example_curio",
+    "aces_spell_utils:example_imbue_curio",
+    "aces_spell_utils:example_passive_ability_spellbook",
+    "aces_spell_utils:example_loot_bag",
+    "aces_spell_utils:example_gun",
+    "aces_spell_utils:example_ap_sword",
+    "aces_spell_utils:example_ap_magic_sword"
+  ]
+}

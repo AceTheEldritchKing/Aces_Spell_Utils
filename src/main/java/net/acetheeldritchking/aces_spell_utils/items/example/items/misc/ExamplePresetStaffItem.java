@@ -1,9 +1,10 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
 import io.redspace.ironsspellbooks.api.item.weapons.ExtendedSwordItem;
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.staves.ASStaffTier;
 import net.acetheeldritchking.aces_spell_utils.items.staves.PresetImbueStaffItem;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
 

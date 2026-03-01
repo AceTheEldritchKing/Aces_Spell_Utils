@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.render.CinderousRarity;

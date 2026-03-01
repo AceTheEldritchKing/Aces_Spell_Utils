@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.curios;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;

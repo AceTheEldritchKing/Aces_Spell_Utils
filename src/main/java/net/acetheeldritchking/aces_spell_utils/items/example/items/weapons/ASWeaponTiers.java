@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.weapons;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.item.weapons.AttributeContainer;

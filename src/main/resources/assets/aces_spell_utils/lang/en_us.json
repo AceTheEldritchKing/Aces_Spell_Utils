@@ -63,5 +63,7 @@
 
   "item.aces_spell_utils.example_ap_magic_sword": "Darkpulse",
   "item.aces_spell_utils.example_ap_magic_sword.desc": "Passive Darkpulse",
-  "item.aces_spell_utils.example_ap_magic_sword.desc2": "Active Darkpulse"
+  "item.aces_spell_utils.example_ap_magic_sword.desc2": "Active Darkpulse",
+
+  "entity.aces_spell_utils.test_boss": "Test Boss"
 }

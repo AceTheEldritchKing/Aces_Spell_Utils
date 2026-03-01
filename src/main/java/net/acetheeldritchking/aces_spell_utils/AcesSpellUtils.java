@@ -4,7 +4,7 @@ import io.redspace.ironsspellbooks.item.SpellBook;
 import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.entity.render.items.SheathCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.items.curios.SheathCurioItem;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExampleArmorMaterialRegistry;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.armor.ExampleArmorMaterialRegistry;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.registries.ASCreativeModeTabs;
 import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;

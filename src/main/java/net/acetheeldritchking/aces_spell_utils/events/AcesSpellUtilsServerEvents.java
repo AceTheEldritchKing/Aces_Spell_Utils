@@ -29,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -143,7 +144,11 @@ public class AcesSpellUtilsServerEvents {
         if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
         if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
         if (directEntity == null) return;
-        if (!((directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
+        // Config
+        if (AcesSpellUtilsConfig.manaStealWhitelist)
+        {
+            if (!((directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
+        }
 
         var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
 
@@ -179,6 +184,11 @@ public class AcesSpellUtilsServerEvents {
                 PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
             }
         }
+
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("Mana stolen: " + addMana);
+        }
     }
 
     /**
@@ -196,7 +206,11 @@ public class AcesSpellUtilsServerEvents {
         //Cancels modification if user isn't a living entity
         if (!(attacker instanceof LivingEntity livingEntity)) return;
         if (directEntity == null) return;
-        if (!((directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
+        // Config
+        if (AcesSpellUtilsConfig.manaRendWhitelist)
+        {
+            if (!((directEntity.getType().is(ASTags.MANA_REND_WHITELIST)) || directEntity.is(attacker))) return;
+        }
 
         //Check if attribute exists
         var hasManaRend = livingEntity.getAttribute(ASAttributeRegistry.MANA_REND);
@@ -226,8 +240,8 @@ public class AcesSpellUtilsServerEvents {
 
         if (AcesSpellUtilsConfig.devMode == true)
         {
-            AcesSpellUtils.LOGGER.debug("Old Damage amount: " + event.getOriginalAmount());
-            AcesSpellUtils.LOGGER.debug("New Damage amount: " + event.getAmount());
+            AcesSpellUtils.LOGGER.debug("MANA REND Old Damage amount: " + event.getOriginalAmount());
+            AcesSpellUtils.LOGGER.debug("MANA REND New Damage amount: " + event.getAmount());
         }
     }
 
@@ -266,9 +280,9 @@ public class AcesSpellUtilsServerEvents {
 
         if (AcesSpellUtilsConfig.devMode == true)
         {
-            AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
-            AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
-            AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+            AcesSpellUtils.LOGGER.debug("GOLIATH SLAYER OG Damage: " + baseDamage);
+            AcesSpellUtils.LOGGER.debug("GOLIATH SLAYER Bonus Damage: " + bonusDamage);
+            AcesSpellUtils.LOGGER.debug("GOLIATH SLAYER Total Damage: " + event.getAmount());
         }
     }
 
@@ -352,9 +366,9 @@ public class AcesSpellUtilsServerEvents {
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
-                AcesSpellUtils.LOGGER.debug("OG Damage: " + baseDamage);
-                AcesSpellUtils.LOGGER.debug("Bonus Damage: " + bonusDamage);
-                AcesSpellUtils.LOGGER.debug("Total Damage: " + event.getAmount());
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN OG Damage: " + baseDamage);
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Bonus Damage: " + bonusDamage);
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Total Damage: " + event.getAmount());
             }
         }
     }
@@ -469,10 +483,10 @@ public class AcesSpellUtilsServerEvents {
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
-                AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
-                AcesSpellUtils.LOGGER.debug("Damage: " + damage);
-                AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
-                AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+                AcesSpellUtils.LOGGER.debug("MAGIC CRIT OG Damage: " + event.getOriginalAmount());
+                AcesSpellUtils.LOGGER.debug("MAGIC CRIT Damage: " + damage);
+                AcesSpellUtils.LOGGER.debug("MAGIC CRIT Base Chance: " + baseMagicCritChance);
+                AcesSpellUtils.LOGGER.debug("MAGIC CRIT Current Chance: " + magicCritChance);
             }
         }
     }
@@ -547,10 +561,10 @@ public class AcesSpellUtilsServerEvents {
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
-                AcesSpellUtils.LOGGER.debug("OG Damage: " + event.getOriginalAmount());
-                AcesSpellUtils.LOGGER.debug("Damage: " + damage);
-                AcesSpellUtils.LOGGER.debug("Base Chance: " + baseMagicCritChance);
-                AcesSpellUtils.LOGGER.debug("Current Chance: " + magicCritChance);
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ CRIT OG Damage: " + event.getOriginalAmount());
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ CRIT Damage: " + damage);
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ CRIT Base Chance: " + baseMagicCritChance);
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ CRIT Current Chance: " + magicCritChance);
             }
         }
     }
@@ -595,9 +609,9 @@ public class AcesSpellUtilsServerEvents {
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
-                AcesSpellUtils.LOGGER.debug("OG Proj Damage: " + baseDamage);
-                AcesSpellUtils.LOGGER.debug("Bonus Proj Damage: " + (baseDamage * (magicProjDmg - 1)));
-                AcesSpellUtils.LOGGER.debug("Total Proj Damage: " + event.getAmount());
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ OG Damage: " + baseDamage);
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ Bonus Damage: " + (baseDamage * (magicProjDmg - 1)));
+                AcesSpellUtils.LOGGER.debug("MAGIC PROJ Total Damage: " + event.getAmount());
             }
         }
     }

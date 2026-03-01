@@ -1,7 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.events;
 
 import io.redspace.ironsspellbooks.entity.spells.comet.Comet;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExamplePassiveAbilitySpellbook;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExamplePassiveAbilitySpellbook;
 import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;

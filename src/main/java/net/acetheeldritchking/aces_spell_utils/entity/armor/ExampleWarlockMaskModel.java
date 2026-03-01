@@ -2,7 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.entity.armor;
 
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
-import net.acetheeldritchking.aces_spell_utils.items.example.ExampleWarlockArmorItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.armor.ExampleWarlockArmorItem;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 

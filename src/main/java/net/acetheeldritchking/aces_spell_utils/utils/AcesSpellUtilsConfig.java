@@ -25,10 +25,22 @@ public class AcesSpellUtilsConfig {
             .comment("Whether or not dev mode should be active - this means all loggers will be visible. Default is false")
             .define("Enable Dev mode", false);
 
+    // Mana Rend Blacklist
+    private static final ModConfigSpec.BooleanValue MANA_REND_WHITELIST = BUILDER
+            .comment("Defines whether or not mana rend has an entity whitelist. Default is true")
+            .define("Mana Rend entity blacklist", true);
+
+    // Mana Steal Blacklist
+    private static final ModConfigSpec.BooleanValue MANA_STEAL_WHITELIST = BUILDER
+            .comment("Defines whether or not mana steal has an entity whitelist. Default is true")
+            .define("Mana Steal entity blacklist", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
     public static boolean manaStealDrain;
     public static double refinementDifference;
     public static boolean devMode;
+    public static boolean manaRendWhitelist;
+    public static boolean manaStealWhitelist;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
@@ -36,5 +48,7 @@ public class AcesSpellUtilsConfig {
         manaStealDrain = MANA_STEAL_DRAINS_MANA.get();
         refinementDifference = REFINEMENT_DIFFERENCE.get();
         devMode = DEV_MODE.get();
+        manaRendWhitelist = MANA_REND_WHITELIST.get();
+        manaStealWhitelist = MANA_STEAL_WHITELIST.get();
     }
 }

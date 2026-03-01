@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.items.example;
+package net.acetheeldritchking.aces_spell_utils.items.example.items.armor;
 
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
