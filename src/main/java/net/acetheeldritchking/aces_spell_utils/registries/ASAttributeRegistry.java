@@ -17,7 +17,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 @EventBusSubscriber(modid = AcesSpellUtils.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ASAttributeRegistry {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, AcesSpellUtils.MOD_ID);
-    
+
+    /***
+     * Normal Attributes
+     */
     // Mana Steal
     public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicPercentageAttribute("mana_steal", 0.0D, -100, 100.0D);
 
@@ -54,6 +57,21 @@ public class ASAttributeRegistry {
     // Life Recovery
     public static final DeferredHolder<Attribute, Attribute> LIFE_RECOVERY = registerPercentageAttribute("life_recovery", 0, 0, 1.0);
 
+    /**
+     * Magic School Attributes
+     */
+    // Ritual
+    public static final DeferredHolder<Attribute, Attribute> RITUAL_MAGIC_RESIST = registerResistanceAttribute("ritual");
+    public static final DeferredHolder<Attribute, Attribute> RITUAL_MAGIC_POWER = registerPowerAttribute("ritual");
+
+    // Hydro
+    public static final DeferredHolder<Attribute, Attribute> HYDRO_MAGIC_RESIST = registerResistanceAttribute("hydro");
+    public static final DeferredHolder<Attribute, Attribute> HYDRO_MAGIC_POWER = registerPowerAttribute("hydro");
+
+    // Technomancy
+    public static final DeferredHolder<Attribute, Attribute> TECHNOMANCY_MAGIC_RESIST = registerResistanceAttribute("technomancy");
+    public static final DeferredHolder<Attribute, Attribute> TECHNOMANCY_MAGIC_POWER = registerPowerAttribute("technomancy");
+
 
     public static void register(IEventBus eventBus)
     {
@@ -67,6 +85,20 @@ public class ASAttributeRegistry {
                 ATTRIBUTES.getEntries().forEach(
                         attributeDeferredHolder -> event.add(entityType, attributeDeferredHolder
                         )));
+    }
+
+    private static DeferredHolder<Attribute, Attribute> registerResistanceAttribute(String id)
+    {
+        return ATTRIBUTES.register(id + "_magic_resist", () ->
+                (new MagicRangedAttribute("attribute.aces_spell_utils." + id + "_magic_resist",
+                        1.0D, -100, 100).setSyncable(true)));
+    }
+
+    private static DeferredHolder<Attribute, Attribute> registerPowerAttribute(String id)
+    {
+        return ATTRIBUTES.register(id + "_spell_power", () ->
+                (new MagicRangedAttribute("attribute.aces_spell_utils." + id + "_spell_power",
+                        1.0D, -100, 100).setSyncable(true)));
     }
 
     private static DeferredHolder<Attribute, Attribute> registerMagicRangedAttribute(String id, double defaultVal, double minVal, double maxVal)

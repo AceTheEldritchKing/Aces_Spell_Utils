@@ -5,13 +5,19 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 
 public class ASTags {
     /***
      * Item Tags
      */
+    // Ritual School Focus
+    public static final TagKey<Item> RITUAL_FOCUS = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "ritual_focus").toString()));
+    public static final TagKey<Item> HYDRO_FOCUS = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "hydro_focus").toString()));
+    public static final TagKey<Item> TECHNOMANCY_FOCUS = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "technomancy_focus").toString()));
 
     /***
      * Entity Tags

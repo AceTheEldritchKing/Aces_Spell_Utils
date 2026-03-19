@@ -2,6 +2,8 @@
   "itemGroup.aces_spell_utils": "Ace's Spell Utils",
   "creative_tab.aces_spell_utils.items": "Ace's Spell Utils Example Items",
 
+  "school.aces_spell_utils.ritual": "Occult",
+
   "rarity.aces_spell_utils_rarity_accursed.name": "Accursed",
   "rarity.aces_spell_utils_rarity_aquatic.name": "Aquatic",
   "rarity.aces_spell_utils_rarity_sculk.name": "Sculk",
@@ -31,6 +33,9 @@
   "attribute.aces_spell_utils.magic_projectile_crit_damage": "Spell Projectile Crit Damage",
   "attribute.aces_spell_utils.magic_projectile_damage": "Spell Projectile Damage",
   "attribute.aces_spell_utils.life_recovery": "Life Recovery",
+
+  "attribute.aces_spell_utils.ritual_magic_resist": "Occult Magic Resist",
+  "attribute.aces_spell_utils.ritual_spell_power": "Occult Spell Power",
 
   "ui.aces_spell_utils.refinement": "%d Refinement",
 

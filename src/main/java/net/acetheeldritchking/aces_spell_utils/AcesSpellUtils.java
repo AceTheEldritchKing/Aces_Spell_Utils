@@ -5,9 +5,7 @@ import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.entity.render.items.SheathCurioRenderer;
 import net.acetheeldritchking.aces_spell_utils.items.curios.SheathCurioItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.armor.ExampleArmorMaterialRegistry;
-import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
-import net.acetheeldritchking.aces_spell_utils.registries.ASCreativeModeTabs;
-import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
+import net.acetheeldritchking.aces_spell_utils.registries.*;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -44,6 +42,7 @@ public class AcesSpellUtils {
         modEventBus.addListener(this::commonSetup);
 
         ASAttributeRegistry.register(modEventBus);
+        ASSchoolRegistry.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 
