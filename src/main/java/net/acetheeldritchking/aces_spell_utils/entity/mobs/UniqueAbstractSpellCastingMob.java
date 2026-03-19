@@ -221,147 +221,177 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
     }
 
     // Geckolib & Animations
-    // I'm tired, forgive me for copying code </3
-    private final AnimationController animationController = new AnimationController<>(this, "controller", 0, this::predicate);
-    private final AnimationController instantCastAnimationController = new AnimationController<>(this, "instant_cast_controller", 0, this::instantCastPredicate);
-    private final AnimationController longCastAnimationController = new AnimationController<>(this, "long_cast_controller", 0, this::longCastPredicate);
-    private final AnimationController contCastAnimationController = new AnimationController<>(this, "continuous_cast_controller", 0, this::continuousCastPredicate);
-    private final AnimationController castingAnimationController = new AnimationController<>(this, "casting_controller", 0, this::castingPredicate);
+    protected final RawAnimation idle = RawAnimation.begin().thenLoop("idle");
+    protected final RawAnimation walking = RawAnimation.begin().thenLoop("walking");
+    protected final RawAnimation instantCast = RawAnimation.begin().thenPlay("instant_cast");
+    protected final RawAnimation longCast = RawAnimation.begin().thenPlay("long_cast");
+    protected final RawAnimation continuousCast = RawAnimation.begin().thenLoop("continuous");
+    protected final RawAnimation slashCast = RawAnimation.begin().thenPlay("slash_cast");
+    protected final RawAnimation stompCast = RawAnimation.begin().thenPlay("stomp_cast");
+
+    protected final AnimationController instantCastAnimationController = new AnimationController<>(this, "instant_cast_controller", 0, this::instantCastPredicate);
+    protected final AnimationController longCastAnimationController = new AnimationController<>(this, "long_cast_controller", 0, this::longCastPredicate);
+    protected final AnimationController contCastAnimationController = new AnimationController<>(this, "continuous_cast_controller", 0, this::continuousCastPredicate);
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(animationController);
         controllers.add(instantCastAnimationController);
         controllers.add(longCastAnimationController);
         controllers.add(contCastAnimationController);
+        controllers.add(new AnimationController(this, "idle", 0, this::predicate));
     }
 
-    private PlayState predicate(AnimationState event)
+    protected PlayState predicate(AnimationState event)
     {
+        if (isAnimating())
+        {
+            return PlayState.STOP;
+        }
+
         if (event.isMoving())
         {
-            //System.out.println("Set is moving");
-            event.getController().setAnimation(RawAnimation.begin().then("walking", Animation.LoopType.LOOP));
+            event.getController().setAnimation(walking);
             return PlayState.CONTINUE;
-        }
-        else if (!event.isMoving())
+        } else if (!event.isMoving())
         {
-            //System.out.println("Set is idle");
-            event.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            event.getController().setAnimation(idle);
             return PlayState.CONTINUE;
         }
 
         return PlayState.STOP;
     }
 
-    private PlayState instantCastPredicate(AnimationState event)
+    protected PlayState instantCastPredicate(AnimationState event)
     {
-        //System.out.println("Instant predicate");
         if (cancelCastAnimation)
         {
             return PlayState.STOP;
         }
 
         var controller = event.getController();
-        if (instantCastSpellType != SpellRegistry.none() && controller.getAnimationState() == AnimationController.State.STOPPED)
+        if (instantCastSpellType != SpellRegistry.none() &&
+                controller.getAnimationState() == AnimationController.State.STOPPED)
         {
             setStartAnimationFromSpell(controller, instantCastSpellType);
             instantCastSpellType = SpellRegistry.none();
         }
-        return PlayState.CONTINUE;
-    }
-
-    private PlayState longCastPredicate(AnimationState event)
-    {
-        //System.out.println("Long predicate");
-        var controller = event.getController();
-
-        if (cancelCastAnimation || (controller.getAnimationState() == AnimationController.State.STOPPED && !(isCasting() && castingSpell != null && castingSpell.getSpell().getCastType() == CastType.LONG)))
-        {
-            return PlayState.STOP;
-        }
-
-        if (isCasting() && this.castingSpell != null)
-        {
-            //System.out.println("Is casting?");
-            if (controller.getAnimationState() == AnimationController.State.STOPPED)
-            {
-                //System.out.println("Set long cast animation");
-                setStartAnimationFromSpell(controller, castingSpell.getSpell());
-            }
-        }
 
         return PlayState.CONTINUE;
     }
 
-    private PlayState continuousCastPredicate(AnimationState event)
-    {
-        //System.out.println("Continuous predicate");
-        var controller = event.getController();
-
-        if (cancelCastAnimation || (controller.getAnimationState() == AnimationController.State.STOPPED && !(isCasting() && castingSpell != null && castingSpell.getSpell().getCastType() == CastType.LONG)))
-        {
-            return PlayState.STOP;
-        }
-
-        if (isCasting() && this.castingSpell != null)
-        {
-            //System.out.println("Is casting?");
-            if (controller.getAnimationState() == AnimationController.State.STOPPED)
-            {
-                //System.out.println("Set continuous cast animation");
-                setStartAnimationFromSpell(controller, castingSpell.getSpell());
-            }
-        }
-
-        return PlayState.CONTINUE;
-    }
-
-    // For testing purposes
-    private PlayState castingPredicate(AnimationState event)
+    protected PlayState longCastPredicate(AnimationState event)
     {
         var controller = event.getController();
 
+        // Get current casting spell
+        AbstractSpell castingSpell = null;
         if (isCasting())
         {
-            controller.forceAnimationReset();
-            controller.setAnimation(RawAnimation.begin().thenPlay("long_cast"));
+            MagicData magicData = this.getMagicData();
+            SpellData spellData = magicData.getCastingSpell();
+            if (spellData != null)
+            {
+                castingSpell = spellData.getSpell();
+            }
+        }
+
+        // Stop conditions
+        if (cancelCastAnimation ||
+                (controller.getAnimationState() == AnimationController.State.STOPPED
+                        && !(isCasting() && castingSpell != null
+                        && castingSpell.getCastType() == CastType.LONG)))
+        {
+            return PlayState.STOP;
+        }
+
+        // Start animation if casting and controller stopped
+        if (isCasting() && controller.getAnimationState() == AnimationController.State.STOPPED)
+        {
+            if (castingSpell != null)
+            {
+                setStartAnimationFromSpell(controller, castingSpell);
+            }
+        }
+
+        // Play finish animation if just finished a long cast
+        else if (!isCasting() && lastCastSpellType.getCastType() == CastType.LONG)
+        {
+            setFinishAnimationFromSpell(controller, lastCastSpellType);
+        }
+
+        return PlayState.CONTINUE;
+    }
+
+    protected PlayState continuousCastPredicate(AnimationState event)
+    {
+        if (cancelCastAnimation)
+        {
+            return PlayState.STOP;
+        }
+
+        var controller = event.getController();
+
+        // Get current casting spell
+        AbstractSpell castingSpell = null;
+        if (isCasting())
+        {
+            MagicData magicData = this.getMagicData();
+            SpellData spellData = magicData.getCastingSpell();
+            if (spellData != null)
+            {
+                castingSpell = spellData.getSpell();
+            }
+        }
+
+        // Start continuous cast animation if needed
+        if (isCasting() && castingSpell != null
+                && controller.getAnimationState() == AnimationController.State.STOPPED)
+        {
+            if (castingSpell.getCastType() == CastType.CONTINUOUS)
+            {
+                setStartAnimationFromSpell(controller, castingSpell);
+            }
             return PlayState.CONTINUE;
         }
 
-        return PlayState.STOP;
+        // Continue or stop based on casting state
+        if (isCasting())
+        {
+            return PlayState.CONTINUE;
+        } else
+        {
+            return PlayState.STOP;
+        }
+    }
+
+    protected void setFinishAnimationFromSpell(AnimationController controller, AbstractSpell spell)
+    {
+        controller.forceAnimationReset();
+        lastCastSpellType = SpellRegistry.none();
     }
 
     protected void setStartAnimationFromSpell(AnimationController controller, AbstractSpell spell) {
-        spell.getCastStartAnimation().getForMob().ifPresentOrElse(animationBuilder -> {
-            controller.forceAnimationReset();
-            if(ASUtils.isLongAnimCast(spell)) {
-                //System.out.println("Set Start long cast");
-                controller.setAnimation(RawAnimation.begin().then("long_cast", Animation.LoopType.PLAY_ONCE));
-            }
-            else if (ASUtils.isContAnimCast(spell)) {
-                //System.out.println("Set Start cont. cast");
-                controller.setAnimation(RawAnimation.begin().then("continous_cast", Animation.LoopType.PLAY_ONCE));
-            }
-            // Idk, let's see if this bricks anything!
-            else if (spell == ASUtils.getSpellsFromTag(ASTags.STOMP_LIKE_SPELL))
-            {
-                controller.setAnimation(RawAnimation.begin().then("stomp_cast", Animation.LoopType.PLAY_ONCE));
-            }
-            else if (spell == ASUtils.getSpellsFromTag(ASTags.SLASH_LIKE_SPELL))
-            {
-                controller.setAnimation(RawAnimation.begin().then("slash_cast", Animation.LoopType.PLAY_ONCE));
-            }
-            else {
-                //System.out.println("Set Start instant cast");
-                controller.setAnimation(RawAnimation.begin().then("instant_cast", Animation.LoopType.PLAY_ONCE));
-            }
-            lastCastSpellType = spell;
-            cancelCastAnimation = false;
-            animatingLegs = false;
-        }, () -> {
-            cancelCastAnimation = true;
-        });
+        controller.forceAnimationReset();
+
+        if (spell.getCastType() == CastType.CONTINUOUS)
+        {
+            controller.setAnimation(continuousCast);
+        } else if (spell == ASUtils.getSpellsFromTag(ASTags.STOMP_LIKE_SPELL))
+        {
+            controller.setAnimation(stompCast);
+        } else if (spell == ASUtils.getSpellsFromTag(ASTags.SLASH_LIKE_SPELL))
+        {
+            controller.setAnimation(slashCast);
+        } else if (spell.getCastType() == CastType.LONG)
+        {
+            controller.setAnimation(longCast);
+        } else
+        {
+            controller.setAnimation(instantCast);
+        }
+        lastCastSpellType = spell;
+        cancelCastAnimation = false;
+        animatingLegs = false;
     }
 
     @Override
