@@ -11,7 +11,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
-public abstract class GenericUniqueBossEntity extends UniqueAbstractSpellCastingMob implements Enemy, IClientEventEntity {
+public abstract class GenericUniqueBossEntity extends UniqueAbstractMeleeCastingMob implements Enemy, IClientEventEntity {
     // This class is a generic and abstract class used for bosses
     // This one is exclusively for Unique Abstract Spell Casting mobs in case you want a custom modeled boss
     // In here are helpful methods for handling phases and boss music

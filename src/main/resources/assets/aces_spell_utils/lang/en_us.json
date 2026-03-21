@@ -36,6 +36,10 @@
 
   "attribute.aces_spell_utils.ritual_magic_resist": "Occult Magic Resist",
   "attribute.aces_spell_utils.ritual_spell_power": "Occult Spell Power",
+  "attribute.aces_spell_utils.hydro_magic_resist": "Hydro Magic Resist",
+  "attribute.aces_spell_utils.hydro_spell_power": "Hydro Spell Power",
+  "attribute.aces_spell_utils.technomancy_magic_resist": "Technomancy Magic Resist",
+  "attribute.aces_spell_utils.technomancy_spell_power": "Technomancy Spell Power",
 
   "ui.aces_spell_utils.refinement": "%d Refinement",
 

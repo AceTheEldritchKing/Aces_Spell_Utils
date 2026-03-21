@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.api.spells.SpellData;
 import io.redspace.ironsspellbooks.capabilities.magic.SyncedSpellData;
 import io.redspace.ironsspellbooks.entity.mobs.abstract_spell_casting_mob.AbstractSpellCastingMob;
 import io.redspace.ironsspellbooks.spells.fire.BurningDashSpell;
+import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -225,7 +226,7 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
     protected final RawAnimation walking = RawAnimation.begin().thenLoop("walking");
     protected final RawAnimation instantCast = RawAnimation.begin().thenPlay("instant_cast");
     protected final RawAnimation longCast = RawAnimation.begin().thenPlay("long_cast");
-    protected final RawAnimation continuousCast = RawAnimation.begin().thenLoop("continuous");
+    protected final RawAnimation continuousCast = RawAnimation.begin().thenLoop("continuous_cast");
     protected final RawAnimation slashCast = RawAnimation.begin().thenPlay("slash_cast");
     protected final RawAnimation stompCast = RawAnimation.begin().thenPlay("stomp_cast");
 
@@ -376,10 +377,10 @@ public abstract class UniqueAbstractSpellCastingMob extends AbstractSpellCasting
         if (spell.getCastType() == CastType.CONTINUOUS)
         {
             controller.setAnimation(continuousCast);
-        } else if (spell == ASUtils.getSpellsFromTag(ASTags.STOMP_LIKE_SPELL))
+        } else if (ASUtils.getSpellsFromTag(ASTags.STOMP_LIKE_SPELL).contains(spell))
         {
             controller.setAnimation(stompCast);
-        } else if (spell == ASUtils.getSpellsFromTag(ASTags.SLASH_LIKE_SPELL))
+        } else if (ASUtils.getSpellsFromTag(ASTags.SLASH_LIKE_SPELL).contains(spell))
         {
             controller.setAnimation(slashCast);
         } else if (spell.getCastType() == CastType.LONG)

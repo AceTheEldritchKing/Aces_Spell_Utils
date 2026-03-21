@@ -3,6 +3,7 @@ package net.acetheeldritchking.aces_spell_utils.entity.mobs;
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.entity.mobs.IAnimatedAttacker;
 import io.redspace.ironsspellbooks.entity.mobs.wizards.fire_boss.NotIdioticNavigation;
+import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
@@ -13,9 +14,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.*;
 
-/***
- * NOT READY YET FOR USE!!!!
- */
 public class UniqueAbstractMeleeCastingMob extends UniqueAbstractSpellCastingMob implements IAnimatedAttacker {
     public UniqueAbstractMeleeCastingMob(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
