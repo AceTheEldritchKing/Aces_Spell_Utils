@@ -19,6 +19,15 @@ public class ASTags {
     public static final TagKey<Item> HYDRO_FOCUS = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "hydro_focus").toString()));
     public static final TagKey<Item> TECHNOMANCY_FOCUS = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "technomancy_focus").toString()));
 
+    // For item unification if addons choose to make their own runes & upgrade orbs
+    public static final TagKey<Item> RITUAL_RUNE = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "ritual_runes").toString()));
+    public static final TagKey<Item> HYDRO_RUNE = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "hydro_runes").toString()));
+    public static final TagKey<Item> TECHNOMANCY_RUNE = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "technomancy_runes").toString()));
+
+    public static final TagKey<Item> RITUAL_UPGRADE_ORB = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "ritual_upgrade_orbs").toString()));
+    public static final TagKey<Item> HYDRO_UPGRADE_ORB = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "hydro_upgrade_orbs").toString()));
+    public static final TagKey<Item> TECHNOMANCY_UPGRADE_ORB = ItemTags.create(ResourceLocation.parse(ResourceLocation.fromNamespaceAndPath(AcesSpellUtils.MOD_ID, "technomancy_upgrade_orbs").toString()));
+
     /***
      * Entity Tags
      */

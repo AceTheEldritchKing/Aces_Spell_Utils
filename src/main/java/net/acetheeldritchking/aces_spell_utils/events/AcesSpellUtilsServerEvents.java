@@ -336,39 +336,46 @@ public class AcesSpellUtilsServerEvents {
      * Ignores magic resistance
      */
     @SubscribeEvent
-    public static void spellResPenetrationEvent(LivingIncomingDamageEvent event) {
+    public static void spellResPenetrationEvent(LivingDamageEvent.Pre event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
         //Check if attribute exists
         var hasSpellResPen = livingEntity.getAttribute(ASAttributeRegistry.SPELL_RES_PENETRATION);
+        var hasSpellRes = victim.getAttribute(AttributeRegistry.SPELL_RESIST);
 
-        //Cancels modification if user doesn't have Spell Res Pen
+        //Cancels modification if user doesn't have Spell Res Pen or Spell Res
         if (hasSpellResPen == null) return;
+        if (hasSpellRes == null) return;
 
         //Grab attributes value
         double spellResPenAttr = livingEntity.getAttributeValue(ASAttributeRegistry.SPELL_RES_PENETRATION);
-        double spellResAttr = victim.getAttributeValue(AttributeRegistry.SPELL_RESIST);
+        double spellResAttr = hasSpellRes.getValue();
 
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (spellResPenAttr <= 0) return;
+        if (spellResAttr <= 1) return;
+
+        // Attrs
+        //AcesSpellUtils.LOGGER.debug("SPELL RES PEN ATTR: " + spellResPenAttr);
+        //AcesSpellUtils.LOGGER.debug("SPELL RES ATTR: " + spellResAttr);
 
         // Make sure the source is from magic
         if (event.getSource() instanceof SpellDamageSource)
         {
-            float baseDamage = event.getOriginalAmount();
+            float baseDamage = event.getOriginalDamage();
             // Take the spell res attribute of the victim, then add it to the penetration value to get the bonus
             float bonusDamage = (float) (baseDamage * (spellResPenAttr + spellResAttr));
             float totalDamage = baseDamage + bonusDamage;
 
-            event.setAmount(totalDamage);
+            event.setNewDamage(totalDamage);
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
                 AcesSpellUtils.LOGGER.debug("SPELL RES PEN OG Damage: " + baseDamage);
                 AcesSpellUtils.LOGGER.debug("SPELL RES PEN Bonus Damage: " + bonusDamage);
-                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Total Damage: " + event.getAmount());
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Total Damage: " + event.getNewDamage());
             }
         }
     }
