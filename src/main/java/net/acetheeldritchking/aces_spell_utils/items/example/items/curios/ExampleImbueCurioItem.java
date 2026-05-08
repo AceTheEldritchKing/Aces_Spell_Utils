@@ -25,7 +25,7 @@ public class ExampleImbueCurioItem extends ImbueableCurioItem {
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation id, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> attr = LinkedHashMultimap.create();
         attr.put(AttributeRegistry.FIRE_SPELL_POWER, new AttributeModifier(id, 0.10, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-        attr.put(ASAttributeRegistry.SPELL_RES_PENETRATION, new AttributeModifier(id, 0.25, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        attr.put(ASAttributeRegistry.SPELL_RES_PENETRATION, new AttributeModifier(id, 0.25, AttributeModifier.Operation.ADD_VALUE));
         attr.put(Attributes.ATTACK_SPEED, new AttributeModifier(id, 0.05, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
         return attr;
