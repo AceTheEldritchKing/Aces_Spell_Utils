@@ -366,7 +366,7 @@ public class AcesSpellUtilsServerEvents {
         {
             float baseDamage = event.getOriginalDamage();
             // Take the spell res attribute of the victim, then add it to the penetration value to get the bonus
-            float bonusDamage = (float) (baseDamage * (spellResPenAttr + spellResAttr));
+            float bonusDamage = (float) (baseDamage * (spellResPenAttr + (spellResAttr - 1)));
             float totalDamage = baseDamage + bonusDamage;
 
             event.setNewDamage(totalDamage);
