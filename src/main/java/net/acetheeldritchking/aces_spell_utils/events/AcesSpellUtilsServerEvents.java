@@ -1,5 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.events;
 
+import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.magic.SpellSelectionManager;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
@@ -36,6 +37,8 @@ import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.logging.log4j.core.net.Priority;
+
+import static io.redspace.ironsspellbooks.damage.DamageSources.getResist;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
@@ -336,9 +339,9 @@ public class AcesSpellUtilsServerEvents {
      * Ignores magic resistance
      */
     @SubscribeEvent
-    public static void spellResPenetrationEvent(LivingDamageEvent.Pre event) {
+    public static void spellResPenetrationEvent(SpellDamageEvent event) {
         var victim = event.getEntity();
-        var attacker = event.getSource().getEntity();
+        var attacker = event.getSpellDamageSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
         //Check if attribute exists
@@ -357,25 +360,32 @@ public class AcesSpellUtilsServerEvents {
         if (spellResPenAttr <= 0) return;
         if (spellResAttr <= 1) return;
 
-        // Attrs
-        //AcesSpellUtils.LOGGER.debug("SPELL RES PEN ATTR: " + spellResPenAttr);
-        //AcesSpellUtils.LOGGER.debug("SPELL RES ATTR: " + spellResAttr);
-
         // Make sure the source is from magic
-        if (event.getSource() instanceof SpellDamageSource)
+        if (event.getSpellDamageSource() instanceof SpellDamageSource spellDamage)
         {
-            float baseDamage = event.getOriginalDamage();
-            // Take the spell res attribute of the victim, then add it to the penetration value to get the bonus
-            float bonusDamage = (float) (baseDamage * (spellResPenAttr + (spellResAttr - 1)));
-            float totalDamage = baseDamage + bonusDamage;
-
-            event.setNewDamage(totalDamage);
+            float baseDamage = event.getOriginalAmount();
+            float baseResist = getResist(victim, spellDamage.spell().getSchoolType());
+            float softcappedResist = 2 - baseResist;
+            float penModifier = (float) (1 + spellResPenAttr);
+            // If Spell Res Pen attribute +1 is greater than the Softcapped Spell Res attribute, then return a modifier of 1 (100% penetration)
+            // otherwise divide the Softcapped Spell Res attribute by the Spell Res Pen attribute +1 to get a new Modifier to apply to the Base Damage to get the Final Damage
+            // https://www.desmos.com/calculator/i4zjbstnls
+            float damageModifier = (2 - (penModifier > softcappedResist ? 1 : softcappedResist / penModifier));
+            // Apply Damage Modifier to Base damage and divide by Base Resist to account for ISS multiplying the Adjusted Damage by Base Resist again
+            float adjustedDamage = baseDamage * damageModifier / baseResist;
+            // Note: This applies before baseResist is multiplied with it by ISS
+            event.setAmount(adjustedDamage);
+            // Final Damage = baseDamage * damageModifier
 
             if (AcesSpellUtilsConfig.devMode == true)
             {
+                AcesSpellUtils.LOGGER.debug("SPELL RES ATTR: " + spellResAttr);
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN ATTR: " + spellResPenAttr);
                 AcesSpellUtils.LOGGER.debug("SPELL RES PEN OG Damage: " + baseDamage);
-                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Bonus Damage: " + bonusDamage);
-                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Total Damage: " + event.getNewDamage());
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN OG Modifier: " + baseResist);
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Adjusted Modifier: " + damageModifier);
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Adjusted Damage: " + event.getAmount());
+                AcesSpellUtils.LOGGER.debug("SPELL RES PEN Final Damage: " + (adjustedDamage * baseResist));
             }
         }
     }
@@ -605,7 +615,7 @@ public class AcesSpellUtilsServerEvents {
         double magicProjDmg = 1 + livingEntity.getAttributeValue(ASAttributeRegistry.MAGIC_PROJECTILE_DAMAGE);
 
         //Cancels if attributes are 0 to avoid unnecessary calculations
-        if (magicProjDmg <= 0) return;
+        if (magicProjDmg <= 1) return;
 
         if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
         {
