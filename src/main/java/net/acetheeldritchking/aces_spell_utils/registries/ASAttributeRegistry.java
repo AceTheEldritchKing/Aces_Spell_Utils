@@ -22,7 +22,7 @@ public class ASAttributeRegistry {
      * Normal Attributes
      */
     // Mana Steal
-    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicPercentageAttribute("mana_steal", 0.0D, -100, 100.0D);
+    public static final DeferredHolder<Attribute, Attribute> MANA_STEAL = registerMagicPercentageAttribute("mana_steal", 0.0D, -100, 10000.0D);
 
     // Mana Rend
     public static final DeferredHolder<Attribute, Attribute> MANA_REND = registerMagicPercentageAttribute("mana_rend", 0.0D, -100, 100.0D);
