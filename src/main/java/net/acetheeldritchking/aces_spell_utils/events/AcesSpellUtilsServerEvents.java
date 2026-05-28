@@ -410,7 +410,7 @@ public class AcesSpellUtilsServerEvents {
     /**
      * EVASIVE <p>
      * 0 = 0% || 1 = 100% <p>
-     * Dodge chance
+     * Increases invulnerability frames
      */
     @SubscribeEvent
     public static void evasiveEvent(LivingIncomingDamageEvent event) {
@@ -653,7 +653,7 @@ public class AcesSpellUtilsServerEvents {
     /**
      * LIFE RECOVERY <p>
      * 0 = 0% || 1 = 100% <p>
-     * Recovers lost health on-hit
+     * Recovers a % of max health on-hit
      */
     @SubscribeEvent
     public static void lifeRecovery(LivingDamageEvent.Post event) {
