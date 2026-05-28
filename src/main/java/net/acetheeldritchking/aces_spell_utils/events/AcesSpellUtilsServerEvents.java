@@ -214,7 +214,8 @@ public class AcesSpellUtilsServerEvents {
     /**
      * MANA REND <p>
      * 0 = 0% || 1 = 100% <p>
-     * Reduces target's mana based on damage dealt
+     * Increases Damage dealt based on the target's Max Mana
+     * https://www.desmos.com/calculator/f60u9h02mq
      */
     @SubscribeEvent
     public static void manaRendEvent(LivingIncomingDamageEvent event) {
@@ -247,15 +248,13 @@ public class AcesSpellUtilsServerEvents {
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (manaRendAttr <= 0 || victimMaxMana <= 0) return;
 
-        //Gets the % of max mana in comparison with base mana (1 = 100%)
-        double bonusManaFromBase = (victimMaxMana / victimBaseMana);
-        //Bonus damage is 1% for every 100% of mana above base the target has (1% for every 100 extra mana)
-        double step = bonusManaFromBase * 0.01;
+        //Gets the amount of max mana above base mana (100 base)
+        var manaAboveBase = victimMaxMana - victimBaseMana;
 
-        //Multiplies step by mana rend, then adds 1 to account for original damage on final multiplication
-        double totalExtraDamagerPercent = 1 + (step * manaRendAttr);
+        //Note: Adds 1 to account for original damage on final multiplication
+        double totalExtraDamagerPercent = 1 + manaRendAttr * manaAboveBase/1000;
 
-        //finalDamage = originalDamage * (1 + step * manaRendAttr)
+        //finalDamage = originalDamage * (1 + manaRendAttr * manaAboveBase/1000)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
 
         if (AcesSpellUtilsConfig.devMode == true)
