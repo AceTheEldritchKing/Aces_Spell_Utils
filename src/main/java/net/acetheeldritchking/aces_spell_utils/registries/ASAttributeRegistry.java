@@ -3,6 +3,7 @@ package net.acetheeldritchking.aces_spell_utils.registries;
 import io.redspace.ironsspellbooks.api.attribute.MagicPercentAttribute;
 import io.redspace.ironsspellbooks.api.attribute.MagicRangedAttribute;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
@@ -13,6 +14,8 @@ import net.neoforged.neoforge.common.PercentageAttribute;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = AcesSpellUtils.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ASAttributeRegistry {
@@ -90,14 +93,14 @@ public class ASAttributeRegistry {
     private static DeferredHolder<Attribute, Attribute> registerResistanceAttribute(String id)
     {
         return ATTRIBUTES.register(id + "_magic_resist", () ->
-                (new MagicRangedAttribute("attribute.aces_spell_utils." + id + "_magic_resist",
+                (new MagicPercentAttribute("attribute.aces_spell_utils." + id + "_magic_resist",
                         1.0D, -100, 100).setSyncable(true)));
     }
 
     private static DeferredHolder<Attribute, Attribute> registerPowerAttribute(String id)
     {
         return ATTRIBUTES.register(id + "_spell_power", () ->
-                (new MagicRangedAttribute("attribute.aces_spell_utils." + id + "_spell_power",
+                (new MagicPercentAttribute("attribute.aces_spell_utils." + id + "_spell_power",
                         1.0D, -100, 100).setSyncable(true)));
     }
 
