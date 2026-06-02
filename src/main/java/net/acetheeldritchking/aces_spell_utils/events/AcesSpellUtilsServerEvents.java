@@ -136,6 +136,7 @@ public class AcesSpellUtilsServerEvents {
      * MANA STEAL <p>
      * 0 = 0% || 1 = 100% <p>
      * Steals mana based on damage dealt
+     * https://www.desmos.com/calculator/9sxfmzwq4v
      */
     @SubscribeEvent
     public static void manaStealEvent(LivingDamageEvent.Post event) {
@@ -152,52 +153,69 @@ public class AcesSpellUtilsServerEvents {
         {
             if (!((directEntity.getType().is(ASTags.MANA_STEAL_WHITELIST)) || directEntity.is(serverPlayer))) return;
         }
-
-        var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
-
         //Check if user has mana steal
+        var hasManaSteal = serverPlayer.getAttribute(ASAttributeRegistry.MANA_STEAL);
         if (hasManaSteal == null) return;
 
         float manaStealAttr = (float) serverPlayer.getAttributeValue(ASAttributeRegistry.MANA_STEAL);
-        int maxAttackerMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
-        var attackerPlayerMagicData = MagicData.getPlayerMagicData(serverPlayer);
-
-        //Check if user has Mana Steal
+        //Cancels if Attribute is 0 to avoid unnecessary calculations
         if (manaStealAttr <= 0) return;
-        int addMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) + attackerPlayerMagicData.getMana(), maxAttackerMana);
 
-        //Returns mana "stolen"
-        attackerPlayerMagicData.setMana(addMana);
-        PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerPlayerMagicData));
+        var attackerMagicData = MagicData.getPlayerMagicData(serverPlayer);
+        int attackerMaxMana = (int) serverPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
+        int attackerOriginalMana = (int) attackerMagicData.getMana();
+
+        int potentialStolenMana = (int) (manaStealAttr * event.getOriginalDamage());
 
         //Check if target is a player for reducing their mana && if the config is enabled
         if (AcesSpellUtilsConfig.manaStealDrain == true)
         {
-            if (target instanceof ServerPlayer serverTargetPlayer) {
-                int maxTargetMana = (int) serverTargetPlayer.getAttributeValue(AttributeRegistry.MAX_MANA);
-                var targetPlayerMagicData = MagicData.getPlayerMagicData(serverTargetPlayer);
-
-                int subMana = (int) Math.min((manaStealAttr * event.getOriginalDamage()) - attackerPlayerMagicData.getMana(), maxAttackerMana);
-
+            if (target instanceof ServerPlayer victim) {
+                var victimMagicData = MagicData.getPlayerMagicData(victim);
+                int victimMaxMana = (int) victim.getAttributeValue(AttributeRegistry.MAX_MANA);
+                int victimOriginalMana = (int) victimMagicData.getMana();
                 //Final check for applying Mana Steal
-                if (maxTargetMana <= 0) return;
+                if (victimMaxMana <= 0) return;
 
-                //Reduces target player's mana
-                targetPlayerMagicData.setMana(subMana);
-                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(targetPlayerMagicData));
+                //Calculate how much mana is stolen
+                int stolenMana= Math.min(potentialStolenMana, victimOriginalMana);
+
+                //Remove stolen mana from victim
+                int victimFinalMana = victimOriginalMana - stolenMana;
+                victimMagicData.setMana(victimFinalMana);
+                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(victimMagicData));
+
+                //Add stolen mana to Attacker
+                int attackerFinalMana = Math.min(attackerOriginalMana + stolenMana, attackerMaxMana);
+                attackerMagicData.setMana(attackerFinalMana);
+                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerMagicData));
+
+                if (AcesSpellUtilsConfig.devMode == true)
+                {
+                    AcesSpellUtils.LOGGER.debug("Potential Stolen Mana: " + potentialStolenMana);
+                    AcesSpellUtils.LOGGER.debug("Victim Original Mana: " + victimOriginalMana);
+                    AcesSpellUtils.LOGGER.debug("Attacker Max Mana: " + attackerMaxMana);
+                    AcesSpellUtils.LOGGER.debug("Mana Stolen: " + stolenMana);
+                }
             }
-        }
+        } else {
+            //Add "Stolen" mana to Attacker
+            int attackerFinalMana = Math.min(attackerOriginalMana + potentialStolenMana, attackerMaxMana);
+            attackerMagicData.setMana(attackerFinalMana);
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerMagicData));
 
-        if (AcesSpellUtilsConfig.devMode == true)
-        {
-            AcesSpellUtils.LOGGER.debug("Mana stolen: " + addMana);
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("Mana Gained: " + potentialStolenMana);
+            }
         }
     }
 
     /**
      * MANA REND <p>
      * 0 = 0% || 1 = 100% <p>
-     * Reduces target's mana based on damage dealt
+     * Increases Damage dealt based on the target's Max Mana
+     * https://www.desmos.com/calculator/f60u9h02mq
      */
     @SubscribeEvent
     public static void manaRendEvent(LivingIncomingDamageEvent event) {
@@ -230,15 +248,13 @@ public class AcesSpellUtilsServerEvents {
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (manaRendAttr <= 0 || victimMaxMana <= 0) return;
 
-        //Gets the % of max mana in comparison with base mana (1 = 100%)
-        double bonusManaFromBase = (victimMaxMana / victimBaseMana);
-        //Bonus damage is 1% for every 100% of mana above base the target has (1% for every 100 extra mana)
-        double step = bonusManaFromBase * 0.01;
+        //Gets the amount of max mana above base mana (100 base)
+        var manaAboveBase = victimMaxMana - victimBaseMana;
 
-        //Multiplies step by mana rend, then adds 1 to account for original damage on final multiplication
-        double totalExtraDamagerPercent = 1 + (step * manaRendAttr);
+        //Note: Adds 1 to account for original damage on final multiplication
+        double totalExtraDamagerPercent = 1 + manaRendAttr * manaAboveBase/1000;
 
-        //finalDamage = originalDamage * (1 + step * manaRendAttr)
+        //finalDamage = originalDamage * (1 + manaRendAttr * manaAboveBase/1000)
         event.setAmount((float) (event.getAmount() * totalExtraDamagerPercent));
 
         if (AcesSpellUtilsConfig.devMode == true)
@@ -318,7 +334,8 @@ public class AcesSpellUtilsServerEvents {
         FoodData playerFood = serverPlayer.getFoodData();
         int foodLevel = playerFood.getFoodLevel();
 
-        int addFood = (int) Math.max((hungerStealAttr) + foodLevel, foodLevel);
+        //
+        int addFood = (int) Math.clamp(foodLevel + hungerStealAttr, 0, 20);
 
         playerFood.setFoodLevel(addFood);
 
@@ -326,7 +343,7 @@ public class AcesSpellUtilsServerEvents {
             FoodData targetFood = targetPlayer.getFoodData();
             int targetFoodLevel = playerFood.getFoodLevel();
 
-            int subFood = (int) Math.min((hungerStealAttr) - targetFoodLevel, targetFoodLevel);
+            int subFood = (int) Math.clamp(targetFoodLevel - hungerStealAttr, 0, 20);
 
             // This should reduce hunger, hopefully
             targetFood.setFoodLevel(subFood);
@@ -393,7 +410,7 @@ public class AcesSpellUtilsServerEvents {
     /**
      * EVASIVE <p>
      * 0 = 0% || 1 = 100% <p>
-     * Dodge chance
+     * Increases invulnerability frames
      */
     @SubscribeEvent
     public static void evasiveEvent(LivingIncomingDamageEvent event) {
@@ -636,7 +653,7 @@ public class AcesSpellUtilsServerEvents {
     /**
      * LIFE RECOVERY <p>
      * 0 = 0% || 1 = 100% <p>
-     * Recovers lost health on-hit
+     * Recovers a % of max health on-hit
      */
     @SubscribeEvent
     public static void lifeRecovery(LivingDamageEvent.Post event) {
