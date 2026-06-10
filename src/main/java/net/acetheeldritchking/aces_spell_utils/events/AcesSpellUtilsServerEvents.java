@@ -170,7 +170,6 @@ public class AcesSpellUtilsServerEvents {
         //Check if target is a player for reducing their mana && if the config is enabled
         if (target instanceof ServerPlayer victim && AcesSpellUtilsConfig.manaStealDrain == true)
         {
-            AcesSpellUtils.LOGGER.debug("Mana Steal Player Drain Checks passed");
             var victimMagicData = MagicData.getPlayerMagicData(victim);
             int victimMaxMana = (int) victim.getAttributeValue(AttributeRegistry.MAX_MANA);
             int victimOriginalMana = (int) victimMagicData.getMana();
@@ -198,7 +197,6 @@ public class AcesSpellUtilsServerEvents {
                 AcesSpellUtils.LOGGER.debug("Mana Stolen: " + stolenMana);
             }
         } else {
-            AcesSpellUtils.LOGGER.debug("Mana Steal Player Drain Checks failed");
             //Add "Stolen" mana to Attacker
             int attackerFinalMana = Math.min(attackerOriginalMana + potentialStolenMana, attackerMaxMana);
             attackerMagicData.setMana(attackerFinalMana);
