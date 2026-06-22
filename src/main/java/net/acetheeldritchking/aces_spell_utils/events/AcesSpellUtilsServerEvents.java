@@ -168,35 +168,33 @@ public class AcesSpellUtilsServerEvents {
         int potentialStolenMana = (int) (manaStealAttr * event.getOriginalDamage());
 
         //Check if target is a player for reducing their mana && if the config is enabled
-        if (AcesSpellUtilsConfig.manaStealDrain == true)
+        if (target instanceof ServerPlayer victim && AcesSpellUtilsConfig.manaStealDrain == true)
         {
-            if (target instanceof ServerPlayer victim) {
-                var victimMagicData = MagicData.getPlayerMagicData(victim);
-                int victimMaxMana = (int) victim.getAttributeValue(AttributeRegistry.MAX_MANA);
-                int victimOriginalMana = (int) victimMagicData.getMana();
-                //Final check for applying Mana Steal
-                if (victimMaxMana <= 0) return;
+            var victimMagicData = MagicData.getPlayerMagicData(victim);
+            int victimMaxMana = (int) victim.getAttributeValue(AttributeRegistry.MAX_MANA);
+            int victimOriginalMana = (int) victimMagicData.getMana();
+            //Final check for applying Mana Steal
+            if (victimMaxMana <= 0) return;
 
-                //Calculate how much mana is stolen
-                int stolenMana= Math.min(potentialStolenMana, victimOriginalMana);
+            //Calculate how much mana is stolen
+            int stolenMana= Math.min(potentialStolenMana, victimOriginalMana);
 
-                //Remove stolen mana from victim
-                int victimFinalMana = victimOriginalMana - stolenMana;
-                victimMagicData.setMana(victimFinalMana);
-                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(victimMagicData));
+            //Remove stolen mana from victim
+            int victimFinalMana = victimOriginalMana - stolenMana;
+            victimMagicData.setMana(victimFinalMana);
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(victimMagicData));
 
-                //Add stolen mana to Attacker
-                int attackerFinalMana = Math.min(attackerOriginalMana + stolenMana, attackerMaxMana);
-                attackerMagicData.setMana(attackerFinalMana);
-                PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerMagicData));
+            //Add stolen mana to Attacker
+            int attackerFinalMana = Math.min(attackerOriginalMana + stolenMana, attackerMaxMana);
+            attackerMagicData.setMana(attackerFinalMana);
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncManaPacket(attackerMagicData));
 
-                if (AcesSpellUtilsConfig.devMode == true)
-                {
-                    AcesSpellUtils.LOGGER.debug("Potential Stolen Mana: " + potentialStolenMana);
-                    AcesSpellUtils.LOGGER.debug("Victim Original Mana: " + victimOriginalMana);
-                    AcesSpellUtils.LOGGER.debug("Attacker Max Mana: " + attackerMaxMana);
-                    AcesSpellUtils.LOGGER.debug("Mana Stolen: " + stolenMana);
-                }
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("Potential Stolen Mana: " + potentialStolenMana);
+                AcesSpellUtils.LOGGER.debug("Victim Original Mana: " + victimOriginalMana);
+                AcesSpellUtils.LOGGER.debug("Attacker Max Mana: " + attackerMaxMana);
+                AcesSpellUtils.LOGGER.debug("Mana Stolen: " + stolenMana);
             }
         } else {
             //Add "Stolen" mana to Attacker
@@ -325,8 +323,11 @@ public class AcesSpellUtilsServerEvents {
         //Check if user has hunger steal
         if (hasHungerSteal == null) return;
 
-        double hungerStealAttr = serverPlayer.getAttributeValue(ASAttributeRegistry.HUNGER_STEAL);
+        //Check if attack was made at full charge
+        float weaponCharge = serverPlayer.getAttackStrengthScale(0);
+        if (weaponCharge < 1) return;
 
+        double hungerStealAttr = serverPlayer.getAttributeValue(ASAttributeRegistry.HUNGER_STEAL);
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (hungerStealAttr <= 0) return;
 
