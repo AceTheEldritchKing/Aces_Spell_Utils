@@ -33,6 +33,7 @@
   "attribute.aces_spell_utils.magic_projectile_crit_damage": "Spell Projectile Crit Damage",
   "attribute.aces_spell_utils.magic_projectile_damage": "Spell Projectile Damage",
   "attribute.aces_spell_utils.life_recovery": "Life Recovery",
+  "attribute.aces_spell_utils.determination": "Determination",
 
   "attribute.aces_spell_utils.ritual_magic_resist": "Occult Magic Resist",
   "attribute.aces_spell_utils.ritual_spell_power": "Occult Spell Power",
