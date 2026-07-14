@@ -462,7 +462,6 @@ public class AcesSpellUtilsServerEvents {
     {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
-        var directEntity = event.getSource().getDirectEntity();
 
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
@@ -619,7 +618,6 @@ public class AcesSpellUtilsServerEvents {
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void magicProjectileBonusDamage(LivingIncomingDamageEvent event) {
-        var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         var directEntity = event.getSource().getDirectEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
@@ -639,7 +637,7 @@ public class AcesSpellUtilsServerEvents {
 
         if (event.getSource() instanceof SpellDamageSource)
         {
-            float baseDamage = event.getOriginalAmount();
+            float baseDamage = event.getAmount();
             float totalDamage = (float)(baseDamage * magicProjDmg);
 
             event.setAmount(totalDamage);
@@ -691,7 +689,7 @@ public class AcesSpellUtilsServerEvents {
     /**
      * DETERMINATION <p>
      * 0 = 0% || 1 = 100% <p>
-     * Recovers a % of missing health on-hit
+     * Recovers a % of missing health on Melee hit
      */
     @SubscribeEvent
     public static void determination(LivingDamageEvent.Post event) {
