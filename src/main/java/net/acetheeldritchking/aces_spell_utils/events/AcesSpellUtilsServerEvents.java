@@ -311,11 +311,13 @@ public class AcesSpellUtilsServerEvents {
     @SubscribeEvent
     public static void hungerStealEvent(LivingDamageEvent.Pre event)
     {
-        var sourceEntity = event.getSource().getEntity();
+        var directEntity = event.getSource().getDirectEntity();
         var target = event.getEntity();
 
-        //Safety checks - only works if user is a player
-        if (!(sourceEntity instanceof LivingEntity livingEntity)) return;
+        //Safety checks
+        //Check that the damage source was a Melee attack
+        //Check that the user is a Player
+        if (!(directEntity instanceof LivingEntity livingEntity)) return;
         if (!(livingEntity instanceof ServerPlayer serverPlayer)) return;
 
         var hasHungerSteal = serverPlayer.getAttribute(ASAttributeRegistry.HUNGER_STEAL);
@@ -562,7 +564,7 @@ public class AcesSpellUtilsServerEvents {
         if (magicCritDmg <= 1) return;
 
         // Make sure that the damage source is magic & we have a projectile
-        if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
+        if (event.getSource() instanceof SpellDamageSource)
         {
             RandomSource random = victim.getRandom();
             float damage = event.getAmount();
@@ -635,7 +637,7 @@ public class AcesSpellUtilsServerEvents {
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (magicProjDmg <= 1) return;
 
-        if (event.getSource() instanceof SpellDamageSource && directEntity instanceof AbstractMagicProjectile)
+        if (event.getSource() instanceof SpellDamageSource)
         {
             float baseDamage = event.getOriginalAmount();
             float totalDamage = (float)(baseDamage * magicProjDmg);
@@ -658,14 +660,13 @@ public class AcesSpellUtilsServerEvents {
      */
     @SubscribeEvent
     public static void lifeRecovery(LivingDamageEvent.Post event) {
-        var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
         //Check if attribute exists
         var hasLifeRecovery = livingEntity.getAttribute(ASAttributeRegistry.LIFE_RECOVERY);
 
-        //Cancels modification if user doesn't have Goliath Slayer
+        //Cancels modification if user doesn't have Life Recovery
         if (hasLifeRecovery == null) return;
 
         //Grab attributes value
@@ -674,17 +675,62 @@ public class AcesSpellUtilsServerEvents {
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (lifeRecoveryAttr <= 0) return;
 
-        //Getting the missing health (maximum - current) instead of just maximum
         final float MAX_HEALTH = livingEntity.getMaxHealth();
-        //1.0 recovery = recovers the entire missing health
+        //1.0 recovery = fully restores health
         float recoveryAmount = (float) (MAX_HEALTH * lifeRecoveryAttr);
 
         livingEntity.heal(recoveryAmount);
 
         if (AcesSpellUtilsConfig.devMode == true)
         {
-            AcesSpellUtils.LOGGER.debug("HP: " + livingEntity.getHealth());
-            AcesSpellUtils.LOGGER.debug("Healed for: " + recoveryAmount);
+            AcesSpellUtils.LOGGER.debug("LIFE RECOVERY: HP: " + livingEntity.getHealth());
+            AcesSpellUtils.LOGGER.debug("LIFE RECOVERY: Healed for: " + recoveryAmount);
+        }
+    }
+
+    /**
+     * DETERMINATION <p>
+     * 0 = 0% || 1 = 100% <p>
+     * Recovers a % of missing health on-hit
+     */
+    @SubscribeEvent
+    public static void determination(LivingDamageEvent.Post event) {
+
+        //Check that the damage source was a Melee attack
+        var directEntity = event.getSource().getDirectEntity();
+        if (!(directEntity instanceof LivingEntity livingEntity)) return;
+
+        //Check if attribute exists
+        var hasDetermination = livingEntity.getAttribute(ASAttributeRegistry.DETERMINATION);
+
+        //Cancels modification if user doesn't have Life Recovery
+        if (hasDetermination == null) return;
+
+        //If the entity is a Player, Check if attack was made at full charge
+        if (livingEntity instanceof ServerPlayer serverPlayer) {
+            float weaponCharge = serverPlayer.getAttackStrengthScale(0);
+            if (weaponCharge < 1) return;
+        }
+
+        //Grab attributes value
+        double determinationAttr = livingEntity.getAttributeValue(ASAttributeRegistry.DETERMINATION);
+
+        //Cancels if attributes are 0 to avoid unnecessary calculations
+        if (determinationAttr <= 0) return;
+
+        //Getting the missing health (maximum - current) instead of just maximum
+        final float MAX_HEALTH = livingEntity.getMaxHealth();
+        final float CURRENT_HEALTH = livingEntity.getHealth();
+        float MISSING_HEALTH = MAX_HEALTH - CURRENT_HEALTH;
+        //1.0 recovery = recovers the entire missing health
+        float recoveryAmount = (float) (MISSING_HEALTH * determinationAttr);
+
+        livingEntity.heal(recoveryAmount);
+
+        if (AcesSpellUtilsConfig.devMode == true)
+        {
+            AcesSpellUtils.LOGGER.debug("DETERMINATION: HP: " + livingEntity.getHealth());
+            AcesSpellUtils.LOGGER.debug("DETERMINATION: Healed for: " + recoveryAmount);
         }
     }
 }
