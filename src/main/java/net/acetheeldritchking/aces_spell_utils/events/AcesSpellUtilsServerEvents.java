@@ -305,8 +305,8 @@ public class AcesSpellUtilsServerEvents {
 
     /**
      * HUNGER STEAL <p>
-     * 0 = 0% || 1 = 100% <p>
-     * Steals hunger based on damage dealt
+     * 1 = 1 hunger point stolen <p>
+     * Steals hunger points on Melee hit
      */
     @SubscribeEvent
     public static void hungerStealEvent(LivingDamageEvent.Pre event)
