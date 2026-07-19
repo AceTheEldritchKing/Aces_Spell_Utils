@@ -113,7 +113,7 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractMeleeCasting
         this.entityData.set(PHASE, phase);
     }
 
-    public void setPhase(GenericBossEntity.Phase phase)
+    public void setPhase(Phase phase)
     {
         this.setPhase(phase.value);
     }
@@ -123,7 +123,7 @@ public abstract class GenericUniqueBossEntity extends UniqueAbstractMeleeCasting
         return this.entityData.get(PHASE);
     }
 
-    public boolean isPhase(GenericBossEntity.Phase phase)
+    public boolean isPhase(Phase phase)
     {
         return phase.value == getPhase();
     }

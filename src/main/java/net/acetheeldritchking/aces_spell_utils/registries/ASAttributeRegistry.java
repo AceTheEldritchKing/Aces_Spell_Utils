@@ -61,7 +61,7 @@ public class ASAttributeRegistry {
     public static final DeferredHolder<Attribute, Attribute> LIFE_RECOVERY = registerPercentageAttribute("life_recovery", 0, 0, 1.0);
 
     // Determination
-    public static final DeferredHolder<Attribute, Attribute> DETERMINATION = registerPercentageAttribute("determination", 0, 0, 1.0);
+    public static final DeferredHolder<Attribute, Attribute> VIGOR_REAP = registerPercentageAttribute("vigor_reap", 0, 0, 1.0);
 
     /**
      * Magic School Attributes

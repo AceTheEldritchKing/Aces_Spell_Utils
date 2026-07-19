@@ -658,6 +658,7 @@ public class AcesSpellUtilsServerEvents {
      */
     @SubscribeEvent
     public static void lifeRecovery(LivingDamageEvent.Post event) {
+        // TO DO: Make this configurable to either melee/spell/both
         var attacker = event.getSource().getEntity();
         if (!(attacker instanceof LivingEntity livingEntity)) return;
 
@@ -666,6 +667,12 @@ public class AcesSpellUtilsServerEvents {
 
         //Cancels modification if user doesn't have Life Recovery
         if (hasLifeRecovery == null) return;
+
+        //If the entity is a Player, Check if attack was made at full charge
+        if (livingEntity instanceof ServerPlayer serverPlayer) {
+            float weaponCharge = serverPlayer.getAttackStrengthScale(0);
+            if (weaponCharge < 1) return;
+        }
 
         //Grab attributes value
         double lifeRecoveryAttr = livingEntity.getAttributeValue(ASAttributeRegistry.LIFE_RECOVERY);
@@ -687,19 +694,19 @@ public class AcesSpellUtilsServerEvents {
     }
 
     /**
-     * DETERMINATION <p>
+     * VIGOR REAP <p>
      * 0 = 0% || 1 = 100% <p>
      * Recovers a % of missing health on Melee hit
      */
     @SubscribeEvent
-    public static void determination(LivingDamageEvent.Post event) {
-
+    public static void vigorReap(LivingDamageEvent.Post event) {
+        // TO DO: Make this configurable to either melee/spell/both
         //Check that the damage source was a Melee attack
         var directEntity = event.getSource().getDirectEntity();
         if (!(directEntity instanceof LivingEntity livingEntity)) return;
 
         //Check if attribute exists
-        var hasDetermination = livingEntity.getAttribute(ASAttributeRegistry.DETERMINATION);
+        var hasDetermination = livingEntity.getAttribute(ASAttributeRegistry.VIGOR_REAP);
 
         //Cancels modification if user doesn't have Life Recovery
         if (hasDetermination == null) return;
@@ -711,7 +718,7 @@ public class AcesSpellUtilsServerEvents {
         }
 
         //Grab attributes value
-        double determinationAttr = livingEntity.getAttributeValue(ASAttributeRegistry.DETERMINATION);
+        double determinationAttr = livingEntity.getAttributeValue(ASAttributeRegistry.VIGOR_REAP);
 
         //Cancels if attributes are 0 to avoid unnecessary calculations
         if (determinationAttr <= 0) return;
@@ -727,8 +734,8 @@ public class AcesSpellUtilsServerEvents {
 
         if (AcesSpellUtilsConfig.devMode == true)
         {
-            AcesSpellUtils.LOGGER.debug("DETERMINATION: HP: " + livingEntity.getHealth());
-            AcesSpellUtils.LOGGER.debug("DETERMINATION: Healed for: " + recoveryAmount);
+            AcesSpellUtils.LOGGER.debug("VIGOR REAP: HP: " + livingEntity.getHealth());
+            AcesSpellUtils.LOGGER.debug("VIGOR REAP: Healed for: " + recoveryAmount);
         }
     }
 }
