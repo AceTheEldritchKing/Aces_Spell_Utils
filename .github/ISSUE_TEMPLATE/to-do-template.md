@@ -7,15 +7,6 @@ assignees: ''
 
 ---
 
----
-name: To Do Template
-about: Feature & Bug To Do
-title: "[TO DO]"
-labels: ''
-assignees: ''
-
----
-
 **Feature or Bug Fix:**
 Describe feature here.
 
