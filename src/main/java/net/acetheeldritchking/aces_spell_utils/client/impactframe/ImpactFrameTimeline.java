@@ -3,7 +3,7 @@ package net.acetheeldritchking.aces_spell_utils.client.impactframe;
 import net.minecraft.util.Mth;
 
 public final class ImpactFrameTimeline {
-    // flash phases as a share of total duration: normal, inverted, normal again, then fade
+    // Flash phases as a share of total duration: normal, inverted, normal again, then fade
     private static final float NORMAL_SHARE = 0.15f;
     private static final float INVERT_SHARE = 0.15f;
     private static final float NORMAL_AGAIN_SHARE = 0.15f;
@@ -20,7 +20,7 @@ public final class ImpactFrameTimeline {
         this.brightColor = brightColor;
         this.darkColor = darkColor;
         this.intensity = intensity;
-        this.durationTicks = durationTicks;
+        this.durationTicks = Math.max(1, durationTicks);
         this.elapsedTicks = 0;
         this.active = true;
     }
