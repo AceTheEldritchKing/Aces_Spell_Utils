@@ -19,6 +19,7 @@ public class PayloadHandler {
 
         payloadRegistrar.playToClient(AddShaderEffectPacket.TYPE, AddShaderEffectPacket.STREAM_CODEC, AddShaderEffectPacket::handle);
         payloadRegistrar.playToClient(RemoveShaderEffectPacket.TYPE, RemoveShaderEffectPacket.STREAM_CODEC, RemoveShaderEffectPacket::handle);
+        payloadRegistrar.playToClient(TriggerImpactFramePacket.TYPE, TriggerImpactFramePacket.STREAM_CODEC, TriggerImpactFramePacket::handle);
     }
 
     public static void handleClientBoundShaderEffect(String modid, String location){
