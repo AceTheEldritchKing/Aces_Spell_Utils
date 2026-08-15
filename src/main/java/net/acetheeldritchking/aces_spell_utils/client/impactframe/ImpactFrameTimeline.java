@@ -7,7 +7,6 @@ public final class ImpactFrameTimeline {
     private static final float NORMAL_SHARE = 0.15f;
     private static final float INVERT_SHARE = 0.15f;
     private static final float NORMAL_AGAIN_SHARE = 0.15f;
-    private static final float FADE_START = NORMAL_SHARE + INVERT_SHARE + NORMAL_AGAIN_SHARE;
 
     private int brightColor;
     private int darkColor;
@@ -19,8 +18,8 @@ public final class ImpactFrameTimeline {
     public void start(int brightColor, int darkColor, float intensity, int durationTicks) {
         this.brightColor = brightColor;
         this.darkColor = darkColor;
-        this.intensity = intensity;
-        this.durationTicks = Math.max(1, durationTicks);
+        this.intensity = Float.isNaN(intensity) ? 0f : Mth.clamp(intensity, 0f, 1f);
+        this.durationTicks = Mth.clamp(durationTicks, 1, 20 * 60);
         this.elapsedTicks = 0;
         this.active = true;
     }
@@ -48,20 +47,39 @@ public final class ImpactFrameTimeline {
     }
 
     public boolean invert() {
-        float progress = progress();
-        return progress >= NORMAL_SHARE && progress < NORMAL_SHARE + INVERT_SHARE;
+        return elapsedTicks >= normalEndTick() && elapsedTicks < invertEndTick();
     }
 
     public float currentIntensity() {
-        float progress = progress();
-        if (progress < FADE_START) {
+        int fadeStartTick = normalAgainEndTick();
+        if (elapsedTicks < fadeStartTick) {
             return intensity;
         }
-        float fadeProgress = Mth.clamp((progress - FADE_START) / (1f - FADE_START), 0f, 1f);
+        float fadeStart = (float) fadeStartTick / (float) durationTicks;
+        if (fadeStart >= 1f) {
+            // Duration is too short to fit a distinct fade phase; the flash has already run its course.
+            return 0f;
+        }
+        float progress = progress();
+        float fadeProgress = Mth.clamp((progress - fadeStart) / (1f - fadeStart), 0f, 1f);
         return intensity * (1f - fadeProgress);
     }
 
     private float progress() {
         return Mth.clamp((float) elapsedTicks / (float) durationTicks, 0f, 1f);
+    }
+
+    // Phase boundaries in whole ticks, each phase floored at 1 tick so short durations still
+    // show a real normal -> invert -> normal-again sequence instead of skipping the invert phase.
+    private int normalEndTick() {
+        return Math.max(1, Math.round(NORMAL_SHARE * durationTicks));
+    }
+
+    private int invertEndTick() {
+        return Math.max(normalEndTick() + 1, Math.round((NORMAL_SHARE + INVERT_SHARE) * durationTicks));
+    }
+
+    private int normalAgainEndTick() {
+        return Math.max(invertEndTick() + 1, Math.round((NORMAL_SHARE + INVERT_SHARE + NORMAL_AGAIN_SHARE) * durationTicks));
     }
 }

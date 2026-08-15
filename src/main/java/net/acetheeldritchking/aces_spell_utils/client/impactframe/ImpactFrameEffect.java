@@ -64,23 +64,23 @@ public final class ImpactFrameEffect {
     }
 
     private static boolean ensureChain(RenderTarget main) {
-        if (chain == null) {
-            try {
+        try {
+            if (chain == null) {
                 chain = new PostChain(Minecraft.getInstance().getTextureManager(), Minecraft.getInstance().getResourceManager(), main, CHAIN);
                 chain.resize(main.width, main.height);
                 chainWidth = main.width;
                 chainHeight = main.height;
-            } catch (IOException | RuntimeException e) {
-                failed = true;
-                LOGGER.error("Aces Spell Utils impact frame chain failed to load, effect disabled", e);
-                return false;
+            } else if (chainWidth != main.width || chainHeight != main.height) {
+                chain.resize(main.width, main.height);
+                chainWidth = main.width;
+                chainHeight = main.height;
             }
-        } else if (chainWidth != main.width || chainHeight != main.height) {
-            chain.resize(main.width, main.height);
-            chainWidth = main.width;
-            chainHeight = main.height;
+            return true;
+        } catch (IOException | RuntimeException e) {
+            failed = true;
+            LOGGER.error("Aces Spell Utils impact frame chain failed to load, effect disabled", e);
+            return false;
         }
-        return true;
     }
 
     private static void closeChain() {

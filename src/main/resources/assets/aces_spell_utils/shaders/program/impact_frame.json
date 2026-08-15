@@ -5,7 +5,7 @@
     "dstrgb": "zero"
   },
   "vertex": "blit",
-  "fragment": "impact_frame",
+  "fragment": "aces_spell_utils:impact_frame",
   "attributes": [ "Position" ],
   "samplers": [
     { "name": "DiffuseSampler" }
