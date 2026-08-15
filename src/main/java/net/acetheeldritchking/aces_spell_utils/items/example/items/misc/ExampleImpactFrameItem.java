@@ -20,7 +20,7 @@ public class ExampleImpactFrameItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            ImpactFrameHandler.trigger(serverPlayer, brightColor, 0.85f, 20);
+            ImpactFrameHandler.trigger(serverPlayer, brightColor, 0x000000, 0.75f, ImpactFrameHandler.DEFAULT_THRESHOLD, 20, 2);
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide());
     }
