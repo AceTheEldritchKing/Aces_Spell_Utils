@@ -25,8 +25,8 @@ public final class ImpactFrameEffect {
     private ImpactFrameEffect() {
     }
 
-    public static void trigger(int brightColor, int darkColor, float intensity, int durationTicks) {
-        TIMELINE.start(brightColor, darkColor, intensity, durationTicks);
+    public static void trigger(int brightColor, int darkColor, float intensity, float threshold, int durationTicks, int flickerTicks) {
+        TIMELINE.start(brightColor, darkColor, intensity, threshold, durationTicks, flickerTicks);
     }
 
     // Called once per client tick
@@ -66,6 +66,7 @@ public final class ImpactFrameEffect {
         chain.setUniform("DarkB", (dark & 0xFF) / 255f);
         chain.setUniform("Invert", TIMELINE.invert() ? 1f : 0f);
         chain.setUniform("Intensity", TIMELINE.currentIntensity());
+        chain.setUniform("Threshold", TIMELINE.threshold());
     }
 
     private static boolean ensureChain(RenderTarget main) {
