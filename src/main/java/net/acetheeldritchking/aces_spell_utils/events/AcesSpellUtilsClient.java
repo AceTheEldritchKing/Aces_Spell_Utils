@@ -22,7 +22,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
@@ -74,12 +74,10 @@ public class AcesSpellUtilsClient {
         ImpactFrameEffect.tick();
     }
 
+    // Runs after the hand is drawn, before the HUD, so the flash covers the held item too
     @SubscribeEvent
-    public static void onRenderLevelStage(RenderLevelStageEvent event)
+    public static void onRenderGui(RenderGuiEvent.Pre event)
     {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL)
-        {
-            ImpactFrameEffect.process(event.getPartialTick().getGameTimeDeltaPartialTick(false));
-        }
+        ImpactFrameEffect.process(event.getPartialTick().getGameTimeDeltaPartialTick(false));
     }
 }
