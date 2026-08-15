@@ -10,14 +10,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class ExampleImpactFrameItem extends Item {
-    public ExampleImpactFrameItem(Properties properties) {
+    private final int brightColor;
+
+    public ExampleImpactFrameItem(Properties properties, int brightColor) {
         super(properties);
+        this.brightColor = brightColor;
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            ImpactFrameHandler.trigger(serverPlayer, 0xFF3B30, 0.85f, 20);
+            ImpactFrameHandler.trigger(serverPlayer, brightColor, 0.85f, 20);
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide());
     }

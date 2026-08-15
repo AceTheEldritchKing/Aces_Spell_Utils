@@ -58,7 +58,11 @@ public class ExampleItemRegistry {
     public static final DeferredHolder<Item, Item> EXAMPLE_LOOT_BAG = ITEMS.register("example_loot_bag", ExampleLootBagItem::new);
 
     // Example Impact Frame
-    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME = ITEMS.register("example_impact_frame", () -> new ExampleImpactFrameItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_WHITE = ITEMS.register("example_impact_frame_white", () -> new ExampleImpactFrameItem(new Item.Properties(), 0xFFFFFF));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_RED = ITEMS.register("example_impact_frame_red", () -> new ExampleImpactFrameItem(new Item.Properties(), 0xFF3B30));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_BLUE = ITEMS.register("example_impact_frame_blue", () -> new ExampleImpactFrameItem(new Item.Properties(), 0x2E86FF));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_GREEN = ITEMS.register("example_impact_frame_green", () -> new ExampleImpactFrameItem(new Item.Properties(), 0x39FF6A));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_PURPLE = ITEMS.register("example_impact_frame_purple", () -> new ExampleImpactFrameItem(new Item.Properties(), 0xB532FF));
 
     // Armor
     public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));
