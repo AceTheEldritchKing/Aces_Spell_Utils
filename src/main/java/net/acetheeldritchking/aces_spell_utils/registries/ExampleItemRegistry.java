@@ -8,6 +8,7 @@ import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.Exampl
 import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExamplePassiveAbilitySpellbook;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExamplePresetCurioItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExampleSheathCurioItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleImpactFrameItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleLootBagItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExamplePresetStaffItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.staves.ExampleImbueStaffItem;
@@ -55,6 +56,9 @@ public class ExampleItemRegistry {
 
     // Example Loot Bag Item
     public static final DeferredHolder<Item, Item> EXAMPLE_LOOT_BAG = ITEMS.register("example_loot_bag", ExampleLootBagItem::new);
+
+    // Example Impact Frame
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME = ITEMS.register("example_impact_frame", () -> new ExampleImpactFrameItem(new Item.Properties()));
 
     // Armor
     public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));
