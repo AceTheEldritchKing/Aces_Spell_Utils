@@ -1,6 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.client.impactframe;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.minecraft.client.Minecraft;
@@ -46,8 +47,12 @@ public final class ImpactFrameEffect {
             return;
         }
         pushUniforms();
+        // Matches vanilla's own GameRenderer.render reset before its post-effect call
+        RenderSystem.disableBlend();
+        RenderSystem.disableDepthTest();
+        RenderSystem.resetTextureMatrix();
         chain.process(partialTick);
-        main.bindWrite(false);
+        main.bindWrite(true);
     }
 
     private static void pushUniforms() {
