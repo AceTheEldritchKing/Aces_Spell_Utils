@@ -29,6 +29,11 @@ public class ASCreativeModeTabs {
                         output.accept(ExampleItemRegistry.EXAMPLE_AP_SWORD.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_AP_MAGIC_SWORD.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_LOOT_BAG.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMPACT_FRAME_WHITE.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMPACT_FRAME_RED.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMPACT_FRAME_BLUE.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMPACT_FRAME_GREEN.get());
+                        output.accept(ExampleItemRegistry.EXAMPLE_IMPACT_FRAME_PURPLE.get());
                         // Armor
                         output.accept(ExampleItemRegistry.EXAMPLE_ARMOR_HELMET.get());
                         output.accept(ExampleItemRegistry.EXAMPLE_ARMOR_CHESTPLATE.get());

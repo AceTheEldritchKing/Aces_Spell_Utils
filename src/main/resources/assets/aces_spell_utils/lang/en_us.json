@@ -75,6 +75,11 @@
   "item.aces_spell_utils.example_passive_ability_spellbook.desc": "On hit, summon a comet from above the entity's head",
   "item.aces_spell_utils.example_loot_bag": "Echo of Tyros Loot Bag",
   "item.aces_spell_utils.example_loot_bag.desc": "Contains loot from Echo of Tyros, First Flamebearer",
+  "item.aces_spell_utils.example_impact_frame_white": "Example Impact Frame (White)",
+  "item.aces_spell_utils.example_impact_frame_red": "Example Impact Frame (Red)",
+  "item.aces_spell_utils.example_impact_frame_blue": "Example Impact Frame (Blue)",
+  "item.aces_spell_utils.example_impact_frame_green": "Example Impact Frame (Green)",
+  "item.aces_spell_utils.example_impact_frame_purple": "Example Impact Frame (Purple)",
 
   "item.aces_spell_utils.example_gun": "Boltripper Plasma-Rifle",
   "item.aces_spell_utils.example_gun.desc": "Passive Boltripper",

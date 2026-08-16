@@ -3,6 +3,7 @@ package net.acetheeldritchking.aces_spell_utils.events;
 import io.redspace.ironsspellbooks.render.ClientStaffItemExtensions;
 import io.redspace.ironsspellbooks.util.MinecraftInstanceHelper;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
+import net.acetheeldritchking.aces_spell_utils.client.impactframe.ImpactFrameEffect;
 import net.acetheeldritchking.aces_spell_utils.items.weapons.MagicGunItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ExampleItemRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
@@ -19,7 +20,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
@@ -63,5 +66,18 @@ public class AcesSpellUtilsClient {
                 ASUtils.handleCastingImplementTooltip(stack, localPlayer, lines, advanced);
             }
         });
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event)
+    {
+        ImpactFrameEffect.tick();
+    }
+
+    // Runs after the hand is drawn, before the HUD, so the flash covers the held item too
+    @SubscribeEvent
+    public static void onRenderGui(RenderGuiEvent.Pre event)
+    {
+        ImpactFrameEffect.process(event.getPartialTick().getGameTimeDeltaPartialTick(false));
     }
 }
