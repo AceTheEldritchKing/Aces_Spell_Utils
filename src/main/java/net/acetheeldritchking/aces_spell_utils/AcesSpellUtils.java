@@ -25,6 +25,8 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.acetheeldritchking.aces_spell_utils.client.particle.TrailParticle;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -43,6 +45,7 @@ public class AcesSpellUtils {
 
         ASAttributeRegistry.register(modEventBus);
         ASSchoolRegistry.register(modEventBus);
+        ASParticleRegistry.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -83,6 +86,12 @@ public class AcesSpellUtils {
                 // Rendering sheath on the player
                 ExampleItemRegistry.getASUItems().stream().filter(item -> item.get() instanceof SheathCurioItem).forEach((item) -> CuriosRendererRegistry.register(item.get(), SheathCurioRenderer::new));
             });
+        }
+
+        @SubscribeEvent
+        public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event)
+        {
+            event.registerSpriteSet(ASParticleRegistry.TRAIL.get(), TrailParticle.Provider::new);
         }
     }
 

@@ -56,6 +56,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.redspace.ironsspellbooks.damage.DamageSources.getResist;
+import net.acetheeldritchking.aces_spell_utils.trail.TrailManager;
+import net.acetheeldritchking.aces_spell_utils.utils.RibbonHandler;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
@@ -830,6 +834,28 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void onServerTick(ServerTickEvent.Post event)
+    {
+        TrailManager.tick();
+        RibbonHandler.pruneDead();
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event)
+    {
+        TrailManager.clear();
+        RibbonHandler.clear();
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event)
+    {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer)
+        {
+            RibbonHandler.resend(serverPlayer, event.getTarget());
+        }
+    }
     private static CompoundTag saveInventory(Inventory inv) {
         CompoundTag root = new CompoundTag();
 

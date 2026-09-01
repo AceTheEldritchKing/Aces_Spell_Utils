@@ -20,6 +20,7 @@
     { "name": "DarkG", "type": "float", "count": 1, "values": [ 0.0 ] },
     { "name": "DarkB", "type": "float", "count": 1, "values": [ 0.0 ] },
     { "name": "Threshold", "type": "float", "count": 1, "values": [ 0.5 ] },
+    { "name": "Softness", "type": "float", "count": 1, "values": [ 0.2 ] },
     { "name": "Invert", "type": "float", "count": 1, "values": [ 0.0 ] },
     { "name": "Intensity", "type": "float", "count": 1, "values": [ 0.0 ] }
   ]

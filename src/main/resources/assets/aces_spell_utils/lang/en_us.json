@@ -82,6 +82,13 @@
   "item.aces_spell_utils.example_impact_frame_blue": "Example Impact Frame (Blue)",
   "item.aces_spell_utils.example_impact_frame_green": "Example Impact Frame (Green)",
   "item.aces_spell_utils.example_impact_frame_purple": "Example Impact Frame (Purple)",
+  "item.aces_spell_utils.example_impact_frame_white_aberration": "Example Impact Frame (White, Aberration)",
+  "item.aces_spell_utils.example_chromatic_aberration": "Example Chromatic Aberration",
+  "item.aces_spell_utils.example_trail": "Example Trail",
+  "item.aces_spell_utils.example_ribbon": "Example Ribbon Trail",
+  "item.aces_spell_utils.example_roar": "Example Roar Distortion",
+  "item.aces_spell_utils.example_roar_ring": "Example Roar Distortion (Ring)",
+  "item.aces_spell_utils.example_dome": "Example Roar Dome",
 
   "item.aces_spell_utils.example_gun": "Boltripper Plasma-Rifle",
   "item.aces_spell_utils.example_gun.desc": "Passive Boltripper",

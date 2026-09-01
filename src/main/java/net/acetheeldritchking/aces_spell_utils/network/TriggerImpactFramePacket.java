@@ -20,14 +20,16 @@ public class TriggerImpactFramePacket implements CustomPacketPayload {
     private final float threshold;
     private final int durationTicks;
     private final int flickerTicks;
+    private final float aberrationStrength;
 
-    public TriggerImpactFramePacket(int brightColor, int darkColor, float intensity, float threshold, int durationTicks, int flickerTicks) {
+    public TriggerImpactFramePacket(int brightColor, int darkColor, float intensity, float threshold, int durationTicks, int flickerTicks, float aberrationStrength) {
         this.brightColor = brightColor;
         this.darkColor = darkColor;
         this.intensity = intensity;
         this.threshold = threshold;
         this.durationTicks = durationTicks;
         this.flickerTicks = flickerTicks;
+        this.aberrationStrength = aberrationStrength;
     }
 
     public TriggerImpactFramePacket(FriendlyByteBuf buf) {
@@ -37,6 +39,7 @@ public class TriggerImpactFramePacket implements CustomPacketPayload {
         threshold = buf.readFloat();
         durationTicks = buf.readInt();
         flickerTicks = buf.readInt();
+        aberrationStrength = buf.readFloat();
     }
 
     public void write(FriendlyByteBuf buf) {
@@ -46,10 +49,11 @@ public class TriggerImpactFramePacket implements CustomPacketPayload {
         buf.writeFloat(threshold);
         buf.writeInt(durationTicks);
         buf.writeInt(flickerTicks);
+        buf.writeFloat(aberrationStrength);
     }
 
     public static void handle(TriggerImpactFramePacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> ImpactFrameEffect.trigger(packet.brightColor, packet.darkColor, packet.intensity, packet.threshold, packet.durationTicks, packet.flickerTicks));
+        context.enqueueWork(() -> ImpactFrameEffect.trigger(packet.brightColor, packet.darkColor, packet.intensity, packet.threshold, packet.durationTicks, packet.flickerTicks, packet.aberrationStrength));
     }
 
     @Override

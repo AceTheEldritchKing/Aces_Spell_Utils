@@ -14,12 +14,17 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class PayloadHandler {
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar payloadRegistrar = event.registrar(AcesSpellUtils.MOD_ID).versioned("1.0.0").optional();
+        final PayloadRegistrar payloadRegistrar = event.registrar(AcesSpellUtils.MOD_ID).versioned("4.0.0").optional();
 
 
         payloadRegistrar.playToClient(AddShaderEffectPacket.TYPE, AddShaderEffectPacket.STREAM_CODEC, AddShaderEffectPacket::handle);
         payloadRegistrar.playToClient(RemoveShaderEffectPacket.TYPE, RemoveShaderEffectPacket.STREAM_CODEC, RemoveShaderEffectPacket::handle);
         payloadRegistrar.playToClient(TriggerImpactFramePacket.TYPE, TriggerImpactFramePacket.STREAM_CODEC, TriggerImpactFramePacket::handle);
+        payloadRegistrar.playToClient(TriggerChromaticAberrationPacket.TYPE, TriggerChromaticAberrationPacket.STREAM_CODEC, TriggerChromaticAberrationPacket::handle);
+        payloadRegistrar.playToClient(TriggerRibbonPacket.TYPE, TriggerRibbonPacket.STREAM_CODEC, TriggerRibbonPacket::handle);
+        payloadRegistrar.playToClient(TriggerRoarPacket.TYPE, TriggerRoarPacket.STREAM_CODEC, TriggerRoarPacket::handle);
+        payloadRegistrar.playToClient(TriggerDomePacket.TYPE, TriggerDomePacket.STREAM_CODEC, TriggerDomePacket::handle);
+        payloadRegistrar.playToClient(TriggerShakePacket.TYPE, TriggerShakePacket.STREAM_CODEC, TriggerShakePacket::handle);
     }
 
     public static void handleClientBoundShaderEffect(String modid, String location){

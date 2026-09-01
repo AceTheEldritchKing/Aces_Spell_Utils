@@ -11,16 +11,22 @@ import net.minecraft.world.level.Level;
 
 public class ExampleImpactFrameItem extends Item {
     private final int brightColor;
+    private final float aberrationStrength;
 
     public ExampleImpactFrameItem(Properties properties, int brightColor) {
+        this(properties, brightColor, 0f);
+    }
+
+    public ExampleImpactFrameItem(Properties properties, int brightColor, float aberrationStrength) {
         super(properties);
         this.brightColor = brightColor;
+        this.aberrationStrength = aberrationStrength;
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            ImpactFrameHandler.trigger(serverPlayer, brightColor, 0x000000, 0.55f, ImpactFrameHandler.DEFAULT_THRESHOLD, 10, 2);
+            ImpactFrameHandler.trigger(serverPlayer, brightColor, 0x000000, 0.55f, ImpactFrameHandler.DEFAULT_THRESHOLD, 10, 2, aberrationStrength);
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide());
     }

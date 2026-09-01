@@ -5,10 +5,20 @@ import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.items.curios.PassiveAbilityUniqueSpellbook;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.armor.ExampleWarlockArmorItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExampleImbueCurioItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExamplePassiveAbilitySpellbook;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExamplePresetCurioItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.ExampleSheathCurioItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleChromaticAberrationItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleDomeItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.curios.*;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleImpactFrameItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleLootBagItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExamplePresetStaffItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleRibbonItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleRoarItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleRoarRingItem;
+import net.acetheeldritchking.aces_spell_utils.items.example.items.misc.ExampleTrailItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.staves.ExampleImbueStaffItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.weapons.ExampleAPMagicSwordItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.weapons.ExampleAPSwordItem;
@@ -64,6 +74,13 @@ public class ExampleItemRegistry {
     public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_BLUE = ITEMS.register("example_impact_frame_blue", () -> new ExampleImpactFrameItem(new Item.Properties(), 0x2E86FF));
     public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_GREEN = ITEMS.register("example_impact_frame_green", () -> new ExampleImpactFrameItem(new Item.Properties(), 0x39FF6A));
     public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_PURPLE = ITEMS.register("example_impact_frame_purple", () -> new ExampleImpactFrameItem(new Item.Properties(), 0xB532FF));
+    public static final DeferredHolder<Item, Item> EXAMPLE_IMPACT_FRAME_WHITE_ABERRATION = ITEMS.register("example_impact_frame_white_aberration", () -> new ExampleImpactFrameItem(new Item.Properties(), 0xFFFFFF, 0.4f));
+    public static final DeferredHolder<Item, Item> EXAMPLE_CHROMATIC_ABERRATION = ITEMS.register("example_chromatic_aberration", () -> new ExampleChromaticAberrationItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_TRAIL = ITEMS.register("example_trail", () -> new ExampleTrailItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_RIBBON = ITEMS.register("example_ribbon", () -> new ExampleRibbonItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ROAR = ITEMS.register("example_roar", () -> new ExampleRoarItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ROAR_RING = ITEMS.register("example_roar_ring", () -> new ExampleRoarRingItem(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> EXAMPLE_DOME = ITEMS.register("example_dome", () -> new ExampleDomeItem(new Item.Properties()));
 
     // Armor
     public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));

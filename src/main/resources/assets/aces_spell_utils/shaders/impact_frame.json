@@ -1,6 +1,7 @@
 {
   "targets": [
-    "swap"
+    "swap",
+    "swap2"
   ],
   "passes": [
     {
@@ -9,8 +10,13 @@
       "outtarget": "swap"
     },
     {
-      "name": "blit",
+      "name": "aces_spell_utils:chromatic_aberration",
       "intarget": "swap",
+      "outtarget": "swap2"
+    },
+    {
+      "name": "blit",
+      "intarget": "swap2",
       "outtarget": "minecraft:main"
     }
   ]

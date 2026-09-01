@@ -7,6 +7,7 @@ public final class ImpactFrameTimeline {
     private int darkColor;
     private float intensity;
     private float threshold;
+    private float aberrationStrength;
     private int durationTicks;
     private int elapsedTicks;
     private boolean active;
@@ -16,11 +17,12 @@ public final class ImpactFrameTimeline {
     private int normalAgainEndTick;
 
     // flickerTicks is the length of each of the three flicker phases, not the whole flicker.
-    public void start(int brightColor, int darkColor, float intensity, float threshold, int durationTicks, int flickerTicks) {
+    public void start(int brightColor, int darkColor, float intensity, float threshold, int durationTicks, int flickerTicks, float aberrationStrength) {
         this.brightColor = brightColor;
         this.darkColor = darkColor;
         this.intensity = Float.isNaN(intensity) ? 0f : Mth.clamp(intensity, 0f, 1f);
         this.threshold = Float.isNaN(threshold) ? 0.5f : Mth.clamp(threshold, 0f, 1f);
+        this.aberrationStrength = Float.isNaN(aberrationStrength) ? 0f : Mth.clamp(aberrationStrength, 0f, 1f);
         this.durationTicks = Mth.clamp(durationTicks, 1, 20 * 60);
         this.elapsedTicks = 0;
         this.active = true;
@@ -73,6 +75,13 @@ public final class ImpactFrameTimeline {
         float progress = progress();
         float fadeProgress = Mth.clamp((progress - fadeStart) / (1f - fadeStart), 0f, 1f);
         return intensity * (1f - fadeProgress);
+    }
+
+    public float currentAberrationStrength() {
+        if (intensity <= 0f) {
+            return 0f;
+        }
+        return aberrationStrength * (currentIntensity() / intensity);
     }
 
     private float progress() {
