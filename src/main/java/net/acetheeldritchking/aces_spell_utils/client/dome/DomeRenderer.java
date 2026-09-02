@@ -2,7 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.client.dome;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.acetheeldritchking.aces_spell_utils.dome.DomeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.dome.DomeConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;

@@ -1,6 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.client.ribbon;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.RibbonConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.RibbonConfig;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.ribbon;
+package net.acetheeldritchking.aces_spell_utils.vfx.ribbon;
 
 import net.minecraft.util.Mth;
 

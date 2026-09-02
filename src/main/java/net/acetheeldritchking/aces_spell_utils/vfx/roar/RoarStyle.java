@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.roar;
+package net.acetheeldritchking.aces_spell_utils.vfx.roar;
 
 // Ordinals cross the network and index the shader's Style uniform, so new constants go on the end and existing ones are never reordered
 public enum RoarStyle {

@@ -1,7 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.utils;
 
-import net.acetheeldritchking.aces_spell_utils.trail.TrailConfig;
-import net.acetheeldritchking.aces_spell_utils.trail.TrailManager;
+import net.acetheeldritchking.aces_spell_utils.vfx.trail.TrailConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.trail.TrailManager;
 import net.minecraft.world.entity.Entity;
 
 public final class TrailHandler {

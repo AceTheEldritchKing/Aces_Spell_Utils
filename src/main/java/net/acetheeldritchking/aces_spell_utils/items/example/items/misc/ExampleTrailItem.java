@@ -1,7 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
 import net.acetheeldritchking.aces_spell_utils.particles.TrailParticleOptions;
-import net.acetheeldritchking.aces_spell_utils.trail.TrailConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.trail.TrailConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.TrailHandler;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

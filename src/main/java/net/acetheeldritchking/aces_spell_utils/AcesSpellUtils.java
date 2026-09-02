@@ -46,6 +46,7 @@ public class AcesSpellUtils {
         ASAttributeRegistry.register(modEventBus);
         ASSchoolRegistry.register(modEventBus);
         ASParticleRegistry.register(modEventBus);
+        ASAttachmentRegistry.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 

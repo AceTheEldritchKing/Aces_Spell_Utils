@@ -17,11 +17,11 @@ public class ActiveAndPassiveAbilityMagicSwordItem extends MagicSwordItem {
         super(pTier, pProperties, spellDataRegistryHolders);
     }
 
-    protected int getPassiveCooldownTicks() {
+    public int getPassiveCooldownTicks() {
         return 0;
     }
 
-    protected int getActiveCooldownTicks() {
+    public int getActiveCooldownTicks() {
         return 0;
     }
 

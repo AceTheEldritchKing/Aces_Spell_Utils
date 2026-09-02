@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.shake;
+package net.acetheeldritchking.aces_spell_utils.vfx.shake;
 
 import net.minecraft.util.Mth;
 

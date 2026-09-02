@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.dome;
+package net.acetheeldritchking.aces_spell_utils.vfx.dome;
 
 import net.minecraft.util.Mth;
 

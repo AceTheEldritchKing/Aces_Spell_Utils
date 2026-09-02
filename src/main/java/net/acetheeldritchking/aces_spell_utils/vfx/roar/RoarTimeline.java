@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.roar;
+package net.acetheeldritchking.aces_spell_utils.vfx.roar;
 
 import net.minecraft.util.Mth;
 

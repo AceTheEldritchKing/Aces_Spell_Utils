@@ -34,8 +34,8 @@ public abstract class FlatCooldownPassiveAbilityCurio extends SimpleDescriptiveC
         return List.of(
                 Component.translatable(
                         "tooltip.irons_spellbooks.passive_ability",
-                        Component.literal(Utils.timeFromTicks(getCooldownTicks(), 1)).withStyle(ChatFormatting.AQUA)
-                ).withStyle(ChatFormatting.GREEN),
+                        Component.literal(Utils.timeFromTicks(getCooldownTicks(), 1)).withStyle(ChatFormatting.LIGHT_PURPLE)
+                ).withStyle(ChatFormatting.DARK_PURPLE),
                 getDescription(stack)
         );
     }

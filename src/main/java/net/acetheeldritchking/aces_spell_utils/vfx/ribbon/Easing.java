@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.ribbon;
+package net.acetheeldritchking.aces_spell_utils.vfx.ribbon;
 
 // Ordinals cross the network, so new constants go on the end and existing ones are never reordered
 public enum Easing {

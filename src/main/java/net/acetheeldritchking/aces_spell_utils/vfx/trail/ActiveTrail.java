@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.trail;
+package net.acetheeldritchking.aces_spell_utils.vfx.trail;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;

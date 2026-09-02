@@ -48,10 +48,10 @@ void main(){
     float row = floor(texCoord.y * Rows);
     float bucket = floor(Phase);
     // most rows hold still and only a few tear at a time, which is what reads as a signal breaking up
-    float active = step(1.0 - Density, hash21(vec2(row, bucket)));
+    float activeRow = step(1.0 - Density, hash21(vec2(row, bucket)));
     float amount = hash21(vec2(bucket, row)) * 2.0 - 1.0;
     // squared with the sign kept, so small tears are common and large ones rare
-    float offset = amount * abs(amount) * Strength * reach * active;
+    float offset = amount * abs(amount) * Strength * reach * activeRow;
 
     // horizontal only, so verticals stay put and the break-up reads as a sideways tear
     // alpha is never sampled here, since the main target clears it to zero and propagating it renders unwritten pixels black

@@ -2,7 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.client.ribbon;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.acetheeldritchking.aces_spell_utils.ribbon.RibbonConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.RibbonConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;

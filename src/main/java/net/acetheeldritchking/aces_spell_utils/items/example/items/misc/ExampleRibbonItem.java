@@ -1,9 +1,9 @@
 package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.ColorRamp;
-import net.acetheeldritchking.aces_spell_utils.ribbon.Curve;
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
-import net.acetheeldritchking.aces_spell_utils.ribbon.RibbonConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.ColorRamp;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Curve;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.RibbonConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.RibbonHandler;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

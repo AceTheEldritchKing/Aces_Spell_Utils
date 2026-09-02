@@ -1,8 +1,8 @@
-package net.acetheeldritchking.aces_spell_utils.dome;
+package net.acetheeldritchking.aces_spell_utils.vfx.dome;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.ColorRamp;
-import net.acetheeldritchking.aces_spell_utils.ribbon.Curve;
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.ColorRamp;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Curve;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
 import net.minecraft.util.Mth;
 
 // how the shell itself looks; colour and alpha are sampled across the dome's life, 0 at spawn to 1 at expiry

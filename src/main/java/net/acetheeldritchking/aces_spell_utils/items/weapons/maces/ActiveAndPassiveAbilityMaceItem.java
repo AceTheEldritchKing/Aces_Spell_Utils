@@ -1,7 +1,5 @@
-package net.acetheeldritchking.aces_spell_utils.items.weapons;
+package net.acetheeldritchking.aces_spell_utils.items.weapons.maces;
 
-import io.redspace.ironsspellbooks.api.item.weapons.MagicSwordItem;
-import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,9 +10,9 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class MagicGunItem extends MagicSwordItem {
-    public MagicGunItem(Tier pTier, Properties pProperties, SpellDataRegistryHolder[] spellDataRegistryHolders) {
-        super(pTier, pProperties, spellDataRegistryHolders);
+public class ActiveAndPassiveAbilityMaceItem extends ImbueableMaceItem {
+    public ActiveAndPassiveAbilityMaceItem(Tier pTier, Properties properties) {
+        super(pTier, properties);
     }
 
     public int getPassiveCooldownTicks() {
@@ -23,11 +21,6 @@ public class MagicGunItem extends MagicSwordItem {
 
     public int getActiveCooldownTicks() {
         return 0;
-    }
-
-    public boolean isHeavyGun()
-    {
-        return true;
     }
 
     @Override
@@ -56,14 +49,6 @@ public class MagicGunItem extends MagicSwordItem {
         {
             tooltipComponents.add(Component.translatable("item.aces_spell_utils.more_details1").withStyle(ChatFormatting.GRAY));
             tooltipComponents.add(Component.translatable("item.aces_spell_utils.more_details2").withStyle(ChatFormatting.GRAY));
-
-            if (isHeavyGun())
-            {
-                tooltipComponents.add(Component.translatable("item.aces_spell_utils.heavy_gun_info").withStyle(ChatFormatting.RED));
-            } else
-            {
-                tooltipComponents.add(Component.translatable("item.aces_spell_utils.light_gun_info").withStyle(ChatFormatting.GOLD));
-            }
         }
     }
 }

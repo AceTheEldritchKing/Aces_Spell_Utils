@@ -14,15 +14,11 @@ import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.IKeepInventoryEntity;
 import net.acetheeldritchking.aces_spell_utils.items.weapons.MagicGunItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
+import net.acetheeldritchking.aces_spell_utils.registries.ASAttachmentRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASTags;
 import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,36 +26,28 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.apache.logging.log4j.core.net.Priority;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static io.redspace.ironsspellbooks.damage.DamageSources.getResist;
-import net.acetheeldritchking.aces_spell_utils.trail.TrailManager;
+import net.acetheeldritchking.aces_spell_utils.vfx.trail.TrailManager;
 import net.acetheeldritchking.aces_spell_utils.utils.RibbonHandler;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import top.theillusivec4.curios.api.event.DropRulesEvent;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 
 @EventBusSubscriber
 public class AcesSpellUtilsServerEvents {
@@ -760,80 +748,100 @@ public class AcesSpellUtilsServerEvents {
         }
     }
 
+    /***
+     * This is all for handling the keep inv entity shit
+     * I am so so tired
+     * Everyone say thank you to L_Ender for helping me out
+     * Cause otherwise my head would've been plastered on a wall
+     */
+
     @SubscribeEvent
-    public static void keepInvEntityPlayerDeathEvent(LivingDeathEvent event)
+    public static void keepInvEntityExpDropEvent(LivingExperienceDropEvent event)
     {
         var entity = event.getEntity();
-        Level level = entity.level();
 
-        if (!(entity instanceof ServerPlayer serverPlayer)) return;
-        if (level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) return;
-
-        // Detect if the player is in the radius of the killer
-        List<LivingEntity> entitiesNearby = entity.level().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(IKeepInventoryEntity.range * 2));
-        for (LivingEntity livingEntity : entitiesNearby)
+        if (entity instanceof ServerPlayer serverPlayer)
         {
-            if (livingEntity instanceof IKeepInventoryEntity keepInventoryEntity)
+            if (serverPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()))
             {
-                CompoundTag inv = saveInventory(serverPlayer.getInventory());
-                serverPlayer.getPersistentData().putBoolean(IKeepInventoryEntity.WAS_KILLED_BY_ENTITY, true);
-                serverPlayer.getPersistentData().put(IKeepInventoryEntity.KEEP_INV, inv);
-
-                serverPlayer.restoreFrom(serverPlayer, true);
+                event.setCanceled(true);
             }
         }
     }
 
     @SubscribeEvent
-    public static void keepInvPreventDrops(LivingDropsEvent event)
+    public static void keepInvEntityCurioDropRulesEvent(DropRulesEvent event)
     {
         var entity = event.getEntity();
-        if (!(entity instanceof ServerPlayer serverPlayer)) return;
-        if (serverPlayer.getPersistentData().getBoolean(IKeepInventoryEntity.WAS_KILLED_BY_ENTITY))
+
+        if (entity instanceof ServerPlayer serverPlayer)
         {
-            event.getDrops().clear();
+            if (serverPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()))
+            {
+                Predicate<ItemStack> matchAll = stack -> true;
+                event.addOverride(matchAll, ICurio.DropRule.ALWAYS_KEEP);
+            }
         }
     }
 
     @SubscribeEvent
-    public static void onClone(PlayerEvent.Clone event)
+    public static void keepInvEntityPlayerCloneEvent(PlayerEvent.Clone event)
     {
-        if (!event.isWasDeath()) return;
-
         Player ogPlayer = event.getOriginal();
         Player newPlayer = event.getEntity();
 
-        CompoundTag persistentData = ogPlayer.getPersistentData();
-        if (!persistentData.getBoolean(IKeepInventoryEntity.WAS_KILLED_BY_ENTITY)) return;
+        if (!event.isWasDeath()) return;
+        if (!(ogPlayer instanceof ServerPlayer ogServerPlayer)) return;
 
-        if (persistentData.contains(IKeepInventoryEntity.KEEP_INV, Tag.TAG_COMPOUND))
+        if (ogServerPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()))
         {
-            CompoundTag inv = persistentData.getCompound(IKeepInventoryEntity.KEEP_INV);
-            restoreInventory(newPlayer.getInventory(), inv);
-        }
+            newPlayer.getInventory().replaceWith(ogServerPlayer.getInventory());
 
-        newPlayer.getPersistentData().remove(IKeepInventoryEntity.WAS_KILLED_BY_ENTITY);
-        newPlayer.getPersistentData().remove(IKeepInventoryEntity.KEEP_INV);
+            newPlayer.experienceLevel = ogServerPlayer.experienceLevel;
+            newPlayer.totalExperience = ogServerPlayer.totalExperience;
+            newPlayer.experienceProgress = ogServerPlayer.experienceProgress;
+            newPlayer.setScore(ogServerPlayer.getScore());
+
+            newPlayer.removeData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get());
+            ogServerPlayer.removeData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get());
+
+
+            if (AcesSpellUtilsConfig.devMode == true)
+            {
+                AcesSpellUtils.LOGGER.debug("Has OG data?: " + ogServerPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()));
+                AcesSpellUtils.LOGGER.debug("Has new data?: " + newPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()));
+            }
+        }
     }
 
     @SubscribeEvent
-    public static void onPlayerRespawnEvent(PlayerEvent.PlayerRespawnEvent event)
+    public static void keepInvEntityPlayerDeathEvent(LivingDeathEvent event)
     {
         var entity = event.getEntity();
+        var killer = event.getSource().getDirectEntity();
 
         if (!(entity instanceof ServerPlayer serverPlayer)) return;
+        boolean hasKeepInvActive = !serverPlayer.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY);
 
-        CompoundTag persistentData = serverPlayer.getPersistentData();
-
-        if (!persistentData.getBoolean(IKeepInventoryEntity.WAS_KILLED_BY_ENTITY)) return;
-
-        if (persistentData.contains(IKeepInventoryEntity.KEEP_INV, Tag.TAG_COMPOUND))
+        // Or detect if the player is in the radius of the entity
+        List<LivingEntity> entitiesNearby = entity.level().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(IKeepInventoryEntity.range * 2));
+        for (LivingEntity livingEntity : entitiesNearby)
         {
-            CompoundTag inv = persistentData.getCompound(IKeepInventoryEntity.KEEP_INV);
-            restoreInventory(serverPlayer.getInventory(), inv);
+            if (livingEntity instanceof IKeepInventoryEntity keepInventoryEntity)
+            {
+                serverPlayer.setData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get(), hasKeepInvActive);
+
+                if (AcesSpellUtilsConfig.devMode == true)
+                {
+                    AcesSpellUtils.LOGGER.debug("Data from nearby death?: " + serverPlayer.getData(ASAttachmentRegistry.KEEP_INV_ON_DEATH.get()));
+                }
+            }
         }
     }
 
+    /***
+     * Awesomeness
+     */
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Post event)
     {
@@ -856,147 +864,4 @@ public class AcesSpellUtilsServerEvents {
             RibbonHandler.resend(serverPlayer, event.getTarget());
         }
     }
-    private static CompoundTag saveInventory(Inventory inv) {
-        CompoundTag root = new CompoundTag();
-
-        ListTag items = new ListTag();
-        for (int i = 0; i < inv.items.size(); i++) {
-            ItemStack st = inv.items.get(i);
-            CompoundTag t = new CompoundTag();
-            t.putByte("Slot", (byte) i);
-            if (!st.isEmpty()) st.save(inv.player.registryAccess(), t);
-            items.add(t);
-        }
-        root.put("Items", items);
-
-        ListTag armor = new ListTag();
-        for (int i = 0; i < inv.armor.size(); i++) {
-            ItemStack st = inv.armor.get(i);
-            CompoundTag t = new CompoundTag();
-            t.putByte("Slot", (byte) i);
-            if (!st.isEmpty()) st.save(inv.player.registryAccess(), t);
-            armor.add(t);
-        }
-        root.put("Armor", armor);
-
-        ListTag offhand = new ListTag();
-        for (int i = 0; i < inv.offhand.size(); i++) {
-            ItemStack st = inv.offhand.get(i);
-            CompoundTag t = new CompoundTag();
-            t.putByte("Slot", (byte) i);
-            if (!st.isEmpty()) st.save(inv.player.registryAccess(), t);
-            offhand.add(t);
-        }
-        root.put("Offhand", offhand);
-
-        return root;
-    }
-
-    private static void restoreInventory(Inventory inv, CompoundTag root) {
-        inv.items.replaceAll(ignored -> ItemStack.EMPTY);
-        inv.armor.replaceAll(ignored -> ItemStack.EMPTY);
-        inv.offhand.replaceAll(ignored -> ItemStack.EMPTY);
-
-        ListTag items = root.getList("Items", Tag.TAG_COMPOUND);
-        for (int i = 0; i < items.size(); i++) {
-            CompoundTag t = items.getCompound(i);
-            int slot = t.getByte("Slot") & 255;
-            ItemStack st = ItemStack.parseOptional(inv.player.registryAccess(), t);
-            if (slot >= 0 && slot < inv.items.size()) inv.items.set(slot, st);
-        }
-
-        ListTag armor = root.getList("Armor", Tag.TAG_COMPOUND);
-        for (int i = 0; i < armor.size(); i++) {
-            CompoundTag t = armor.getCompound(i);
-            int slot = t.getByte("Slot") & 255;
-            ItemStack st = ItemStack.parseOptional(inv.player.registryAccess(), t);
-            if (slot >= 0 && slot < inv.armor.size()) inv.armor.set(slot, st);
-        }
-
-        ListTag offhand = root.getList("Offhand", Tag.TAG_COMPOUND);
-        for (int i = 0; i < offhand.size(); i++) {
-            CompoundTag t = offhand.getCompound(i);
-            int slot = t.getByte("Slot") & 255;
-            ItemStack st = ItemStack.parseOptional(inv.player.registryAccess(), t);
-            if (slot >= 0 && slot < inv.offhand.size()) inv.offhand.set(slot, st);
-        }
-    }
-
-//    @SubscribeEvent
-//    public static void addPlayersToKeepInvListEvent(EntityJoinLevelEvent event)
-//    {
-//        if (!(event.getLevel() instanceof ServerLevel serverLevel) || event.loadedFromDisk()) return;
-//
-//        var entity = event.getEntity();
-//
-//        if (entity instanceof IKeepInventoryEntity keepInventoryEntity)
-//        {
-//            AcesSpellUtils.LOGGER.debug("Is it a keep inv entity (join)?");
-//            double rangeSqr = keepInventoryEntity.keepInventoryDetectionRange();
-//            rangeSqr *= rangeSqr;
-//            Vec3 center = entity.position();
-//            List<ServerPlayer> keepInvPlayers = new ArrayList<>();
-//            for (ServerPlayer player : serverLevel.players())
-//            {
-//                if (player.isCreative() || player.isSpectator() || player.distanceToSqr(center) > rangeSqr) {
-//                    continue;
-//                }
-//                keepInvPlayers.add(player);
-//                keepInventoryEntity.setParticipantsFromServerPlayers(keepInvPlayers);
-//
-//                for (int i = 0; i < keepInvPlayers.size(); i++)
-//                {
-//                    AcesSpellUtils.LOGGER.debug("participants (list event): " + keepInvPlayers.get(i));
-//                }
-//            }
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public static void keepInvPlayerListRestoreEvent(PlayerEvent.Clone event)
-//    {
-//        var oldEntity = event.getOriginal();
-//        var entity = event.getEntity();
-//        var killer = oldEntity.getLastAttacker();
-//
-//        if (!(entity.level() instanceof ServerLevel serverLevel)) return;
-//
-//        if (killer instanceof IKeepInventoryEntity keepInventoryEntity && event.isWasDeath())
-//        {
-//            AcesSpellUtils.LOGGER.debug("Is it a keep inv entity?");
-//            if (oldEntity instanceof ServerPlayer oldPlayer && entity instanceof ServerPlayer newPlayer)
-//            {
-//                ServerPlayer participant = keepInventoryEntity.getParticipantsFromServer(serverLevel);
-//                AcesSpellUtils.LOGGER.debug("participants: " + participant);
-//                if (oldPlayer.is(participant))
-//                {
-//                    AcesSpellUtils.LOGGER.debug("Do we even go here?");
-//                    newPlayer.getInventory().replaceWith(oldPlayer.getInventory());
-//                    newPlayer.experienceLevel = oldPlayer.experienceLevel;
-//                    newPlayer.totalExperience = oldPlayer.totalExperience;
-//                    newPlayer.experienceProgress = oldPlayer.experienceProgress;
-//                    newPlayer.setScore(oldPlayer.getScore());
-//                }
-//            }
-//            /*double rangeSqr = keepInventoryEntity.keepInventoryDetectionRange();
-//            rangeSqr *= rangeSqr;
-//            Vec3 center = killer.position();
-//            for (ServerPlayer player : serverLevel.players())
-//            {
-//                if (player.isCreative() || player.isSpectator() || player.distanceToSqr(center) > rangeSqr) {
-//                    continue;
-//                }
-//                ServerPlayer participant = keepInventoryEntity.getParticipantsFromServer(serverLevel);
-//
-//                if (player.is(participant))
-//                {
-//                    player.getInventory().replaceWith(participant.getInventory());
-//                    player.experienceLevel = participant.experienceLevel;
-//                    player.totalExperience = participant.totalExperience;
-//                    player.experienceProgress = participant.experienceProgress;
-//                    player.setScore(participant.getScore());
-//                }
-//            }*/
-//        }
-//    }
 }

@@ -1,7 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.utils;
 
 import net.acetheeldritchking.aces_spell_utils.network.TriggerRibbonPacket;
-import net.acetheeldritchking.aces_spell_utils.ribbon.RibbonConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.RibbonConfig;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.PacketDistributor;

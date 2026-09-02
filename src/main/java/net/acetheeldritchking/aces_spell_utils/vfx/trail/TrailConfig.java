@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.trail;
+package net.acetheeldritchking.aces_spell_utils.vfx.trail;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;

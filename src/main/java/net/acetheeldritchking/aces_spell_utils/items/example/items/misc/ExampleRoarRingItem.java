@@ -1,7 +1,7 @@
 package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
-import net.acetheeldritchking.aces_spell_utils.roar.RoarConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.roar.RoarConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.RoarHandler;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

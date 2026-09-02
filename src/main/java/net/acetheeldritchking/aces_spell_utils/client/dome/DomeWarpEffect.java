@@ -4,7 +4,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
-import net.acetheeldritchking.aces_spell_utils.dome.DomeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.dome.DomeConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;

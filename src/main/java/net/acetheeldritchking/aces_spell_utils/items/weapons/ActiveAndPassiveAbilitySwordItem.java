@@ -18,11 +18,11 @@ public class ActiveAndPassiveAbilitySwordItem extends ExtendedSwordItem {
         super(pTier, pProperties);
     }
 
-    protected int getPassiveCooldownTicks() {
+    public int getPassiveCooldownTicks() {
         return 0;
     }
 
-    protected int getActiveCooldownTicks() {
+    public int getActiveCooldownTicks() {
         return 0;
     }
 

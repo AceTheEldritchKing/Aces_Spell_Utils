@@ -1,6 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.client.shake;
 
-import net.acetheeldritchking.aces_spell_utils.shake.ShakeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.shake.ShakeConfig;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 

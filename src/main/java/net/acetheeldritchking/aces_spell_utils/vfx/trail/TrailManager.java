@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.trail;
+package net.acetheeldritchking.aces_spell_utils.vfx.trail;
 
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import net.minecraft.world.entity.Entity;

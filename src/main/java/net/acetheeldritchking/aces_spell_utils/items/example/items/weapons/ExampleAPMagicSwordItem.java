@@ -19,12 +19,12 @@ public class ExampleAPMagicSwordItem extends ActiveAndPassiveAbilityMagicSwordIt
     }
 
     @Override
-    protected int getPassiveCooldownTicks() {
+    public int getPassiveCooldownTicks() {
         return 10 * 20;
     }
 
     @Override
-    protected int getActiveCooldownTicks() {
+    public int getActiveCooldownTicks() {
         return 10 * 20;
     }
 }

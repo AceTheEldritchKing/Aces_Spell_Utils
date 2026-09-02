@@ -1,6 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.client.dome;
 
-import net.acetheeldritchking.aces_spell_utils.dome.DomeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.dome.DomeConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.phys.Vec3;

@@ -1,6 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.client.ribbon;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.RibbonConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.RibbonConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;

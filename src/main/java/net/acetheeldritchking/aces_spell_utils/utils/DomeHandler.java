@@ -1,8 +1,8 @@
 package net.acetheeldritchking.aces_spell_utils.utils;
 
-import net.acetheeldritchking.aces_spell_utils.dome.DomeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.dome.DomeConfig;
 import net.acetheeldritchking.aces_spell_utils.network.TriggerDomePacket;
-import net.acetheeldritchking.aces_spell_utils.shake.ShakeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.shake.ShakeConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;

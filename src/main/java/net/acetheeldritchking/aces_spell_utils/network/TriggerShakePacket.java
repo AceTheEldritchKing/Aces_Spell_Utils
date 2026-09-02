@@ -2,7 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.network;
 
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.client.shake.ShakeManager;
-import net.acetheeldritchking.aces_spell_utils.shake.ShakeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.shake.ShakeConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

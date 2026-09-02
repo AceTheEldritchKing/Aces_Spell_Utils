@@ -2,7 +2,6 @@ package net.acetheeldritchking.aces_spell_utils.items.curios;
 
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.item.SpellBook;
-import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -27,7 +26,7 @@ public class PassiveAbilitySpellbook extends SpellBook {
     }
 
     public PassiveAbilitySpellbook(int maxSpellSlots) {
-        this(maxSpellSlots, ItemPropertiesHelper.equipment().stacksTo(1).rarity(Rarity.UNCOMMON));
+        this(maxSpellSlots, new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
         description = Style.EMPTY.withColor(ChatFormatting.YELLOW);
     }
 
@@ -72,8 +71,8 @@ public class PassiveAbilitySpellbook extends SpellBook {
         return List.of(
                 Component.translatable(
                         "tooltip.irons_spellbooks.passive_ability",
-                        Component.literal(Utils.timeFromTicks(getCooldownTicks(), 1)).withStyle(ChatFormatting.AQUA)
-                ).withStyle(ChatFormatting.GREEN),
+                        Component.literal(Utils.timeFromTicks(getCooldownTicks(), 1)).withStyle(ChatFormatting.LIGHT_PURPLE)
+                ).withStyle(ChatFormatting.DARK_PURPLE),
                 getDescription(stack)
         );
     }

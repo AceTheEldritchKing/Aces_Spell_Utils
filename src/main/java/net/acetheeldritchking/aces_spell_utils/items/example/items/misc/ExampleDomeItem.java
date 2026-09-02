@@ -1,6 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.items.example.items.misc;
 
-import net.acetheeldritchking.aces_spell_utils.dome.DomeConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.dome.DomeConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.DomeHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;

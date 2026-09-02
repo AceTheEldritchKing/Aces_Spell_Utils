@@ -1,6 +1,6 @@
-package net.acetheeldritchking.aces_spell_utils.dome;
+package net.acetheeldritchking.aces_spell_utils.vfx.dome;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
 import net.minecraft.util.Mth;
 
 // radius is in blocks, and the shell expands until settleAt before holding that size for the rest of its life

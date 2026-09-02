@@ -2,9 +2,9 @@ package net.acetheeldritchking.aces_spell_utils.network;
 
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.client.roar.RoarEffect;
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
-import net.acetheeldritchking.aces_spell_utils.roar.RoarConfig;
-import net.acetheeldritchking.aces_spell_utils.roar.RoarStyle;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.roar.RoarConfig;
+import net.acetheeldritchking.aces_spell_utils.vfx.roar.RoarStyle;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

@@ -1,6 +1,6 @@
-package net.acetheeldritchking.aces_spell_utils.roar;
+package net.acetheeldritchking.aces_spell_utils.vfx.roar;
 
-import net.acetheeldritchking.aces_spell_utils.ribbon.Easing;
+import net.acetheeldritchking.aces_spell_utils.vfx.ribbon.Easing;
 import net.minecraft.util.Mth;
 
 // radius and thickness are in aspect corrected UV, where centre to vertical edge is 0.5
