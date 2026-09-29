@@ -2,6 +2,7 @@ package net.acetheeldritchking.aces_spell_utils.network;
 
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.client.impactframe.ImpactFrameEffect;
+import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsClientConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -53,7 +54,9 @@ public class TriggerImpactFramePacket implements CustomPacketPayload {
     }
 
     public static void handle(TriggerImpactFramePacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> ImpactFrameEffect.trigger(packet.brightColor, packet.darkColor, packet.intensity, packet.threshold, packet.durationTicks, packet.flickerTicks, packet.aberrationStrength));
+        if(AcesSpellUtilsClientConfig.IMPACT_FRAME_ENABLED.get()) {
+            context.enqueueWork(() -> ImpactFrameEffect.trigger(packet.brightColor, packet.darkColor, packet.intensity, packet.threshold, packet.durationTicks, packet.flickerTicks, packet.aberrationStrength));
+        }
     }
 
     @Override

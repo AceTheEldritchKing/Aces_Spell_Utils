@@ -6,6 +6,7 @@ import net.acetheeldritchking.aces_spell_utils.entity.render.items.SheathCurioRe
 import net.acetheeldritchking.aces_spell_utils.items.curios.SheathCurioItem;
 import net.acetheeldritchking.aces_spell_utils.items.example.items.armor.ExampleArmorMaterialRegistry;
 import net.acetheeldritchking.aces_spell_utils.registries.*;
+import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsClientConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -63,6 +64,7 @@ public class AcesSpellUtils {
 
         // Configs
         modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC, String.format("%s-common.toml", AcesSpellUtils.MOD_ID));
+        modContainer.registerConfig(ModConfig.Type.CLIENT, AcesSpellUtilsClientConfig.SPEC, String.format("%s-client.toml", AcesSpellUtils.MOD_ID));
     }
 
     static boolean registerExamplesInDev()
