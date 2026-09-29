@@ -78,6 +78,15 @@ public class ExtendedGeoArmorItem extends ArmorItem implements GeoItem {
                 new AttributeContainer(AttributeRegistry.SPELL_POWER, spellPower, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)};
     }
 
+    public static AttributeContainer[] schoolAttributesWithResistance(Holder<Attribute> school, Holder<Attribute> resistSchool, int mana, float schoolSpellPower, float spellPower, float resistSpellPower, AttributeModifier.Operation modifier)
+    {
+        return new AttributeContainer[]{
+                new AttributeContainer(AttributeRegistry.MAX_MANA, mana, AttributeModifier.Operation.ADD_VALUE),
+                new AttributeContainer(school, schoolSpellPower, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                new AttributeContainer(resistSchool, resistSpellPower, modifier),
+                new AttributeContainer(AttributeRegistry.SPELL_POWER, spellPower, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)};
+    }
+
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers() {
         return this.defaultModifiers.get();

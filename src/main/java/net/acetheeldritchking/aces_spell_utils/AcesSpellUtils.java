@@ -61,6 +61,7 @@ public class AcesSpellUtils {
         // Keeping the items out, smth smth unbound value accessed
         ExampleItemRegistry.register(modEventBus);
         ExampleArmorMaterialRegistry.register(modEventBus);
+        ExampleSpellRegistry.register(modEventBus);
 
         // Configs
         modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC, String.format("%s-common.toml", AcesSpellUtils.MOD_ID));

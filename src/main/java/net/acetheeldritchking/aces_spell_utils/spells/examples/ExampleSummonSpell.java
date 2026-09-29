@@ -1,4 +1,4 @@
-package net.acetheeldritchking.aces_spell_utils.spells;
+package net.acetheeldritchking.aces_spell_utils.spells.examples;
 
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -9,6 +9,7 @@ import io.redspace.ironsspellbooks.api.spells.SpellRarity;
 import io.redspace.ironsspellbooks.capabilities.magic.SummonedEntitiesCastData;
 import io.redspace.ironsspellbooks.entity.mobs.SummonedSkeleton;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
+import net.acetheeldritchking.aces_spell_utils.spells.AbstractSummonSpell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;

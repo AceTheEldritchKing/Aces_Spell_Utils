@@ -3,6 +3,7 @@
     "irons_spellbooks:blood_slash",
     "irons_spellbooks:flaming_strike",
     "irons_spellbooks:divine_smite",
+    "irons_spellbooks:shadow_slash",
     {
       "id": "discerning_the_eldritch:esoteric_edge",
       "required": false

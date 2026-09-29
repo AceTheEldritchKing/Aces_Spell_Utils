@@ -83,10 +83,10 @@ public class ExampleItemRegistry {
     public static final DeferredHolder<Item, Item> EXAMPLE_DOME = ITEMS.register("example_dome", () -> new ExampleDomeItem(new Item.Properties()));
 
     // Armor
-    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(40))));
-    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_CHESTPLATE = ITEMS.register("example_armor_chestplate", () -> new ExampleWarlockArmorItem(ArmorItem.Type.CHESTPLATE, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
-    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_LEGGINGS = ITEMS.register("example_armor_leggings", () -> new ExampleWarlockArmorItem(ArmorItem.Type.LEGGINGS, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
-    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_BOOTS = ITEMS.register("example_armor_boots", () -> new ExampleWarlockArmorItem(ArmorItem.Type.BOOTS, ItemPropertiesHelper.equipment(1).fireResistant().durability(ArmorItem.Type.BOOTS.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_HELMET = ITEMS.register("example_armor_helmet", () -> new ExampleWarlockArmorItem(ArmorItem.Type.HELMET, new Item.Properties().fireResistant().stacksTo(1).durability(ArmorItem.Type.HELMET.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_CHESTPLATE = ITEMS.register("example_armor_chestplate", () -> new ExampleWarlockArmorItem(ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1).fireResistant().durability(ArmorItem.Type.CHESTPLATE.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_LEGGINGS = ITEMS.register("example_armor_leggings", () -> new ExampleWarlockArmorItem(ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1).fireResistant().durability(ArmorItem.Type.LEGGINGS.getDurability(40))));
+    public static final DeferredHolder<Item, Item> EXAMPLE_ARMOR_BOOTS = ITEMS.register("example_armor_boots", () -> new ExampleWarlockArmorItem(ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().stacksTo(1).durability(ArmorItem.Type.BOOTS.getDurability(40))));
 
 
     public static Collection<DeferredHolder<Item, ? extends Item>> getASUItems()
