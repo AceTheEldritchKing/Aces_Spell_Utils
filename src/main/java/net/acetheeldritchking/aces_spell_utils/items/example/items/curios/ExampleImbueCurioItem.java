@@ -4,7 +4,6 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.compat.Curios;
-import io.redspace.ironsspellbooks.util.ItemPropertiesHelper;
 import net.acetheeldritchking.aces_spell_utils.items.curios.ImbueableCurioItem;
 import net.acetheeldritchking.aces_spell_utils.registries.ASAttributeRegistry;
 import net.acetheeldritchking.aces_spell_utils.utils.ASRarities;
@@ -18,7 +17,7 @@ import top.theillusivec4.curios.api.SlotContext;
 
 public class ExampleImbueCurioItem extends ImbueableCurioItem {
     public ExampleImbueCurioItem() {
-        super(ItemPropertiesHelper.equipment().stacksTo(1).fireResistant().rarity(ASRarities.ARID_RARITY_PROXY.getValue()), Curios.NECKLACE_SLOT);
+        super(new Properties().stacksTo(1).fireResistant().rarity(ASRarities.ARID_RARITY_PROXY.getValue()), Curios.NECKLACE_SLOT);
     }
 
     @Override
