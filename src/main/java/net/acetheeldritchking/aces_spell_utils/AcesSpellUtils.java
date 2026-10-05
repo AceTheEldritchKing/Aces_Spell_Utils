@@ -10,6 +10,7 @@ import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsClientConfig;
 import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -29,6 +30,15 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.acetheeldritchking.aces_spell_utils.client.particle.TrailParticle;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.*;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.DEV_MODE;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.MANA_REND_WHITELIST;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.MANA_STEAL_WHITELIST;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.REFINEMENT_DIFFERENCE;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.devMode;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.manaRendWhitelist;
+import static net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig.manaStealWhitelist;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AcesSpellUtils.MOD_ID)
@@ -64,8 +74,8 @@ public class AcesSpellUtils {
         ExampleSpellRegistry.register(modEventBus);
 
         // Configs
-        modContainer.registerConfig(ModConfig.Type.COMMON, AcesSpellUtilsConfig.SPEC, String.format("%s-common.toml", AcesSpellUtils.MOD_ID));
         modContainer.registerConfig(ModConfig.Type.CLIENT, AcesSpellUtilsClientConfig.SPEC, String.format("%s-client.toml", AcesSpellUtils.MOD_ID));
+        modContainer.registerConfig(ModConfig.Type.SERVER, AcesSpellUtilsConfig.SPEC, String.format("%s-common.toml", AcesSpellUtils.MOD_ID));
     }
 
     static boolean registerExamplesInDev()
@@ -101,7 +111,7 @@ public class AcesSpellUtils {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
+        // things in here
     }
 
     public static ResourceLocation id(@NotNull String path)
