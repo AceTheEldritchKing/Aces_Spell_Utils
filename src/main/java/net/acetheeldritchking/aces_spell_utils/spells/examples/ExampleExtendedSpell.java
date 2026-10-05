@@ -11,6 +11,7 @@ import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.acetheeldritchking.aces_spell_utils.spells.ExtendedAbstractSpell;
 import net.acetheeldritchking.aces_spell_utils.utils.ASUtils;
+import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,6 +27,7 @@ public class ExampleExtendedSpell extends ExtendedAbstractSpell {
             .setSchoolResource(SchoolRegistry.EVOCATION_RESOURCE)
             .setMaxLevel(1)
             .setCooldownSeconds(15)
+            .setDeprecated(true)
             .build();
 
     public ExampleExtendedSpell()
@@ -55,6 +57,11 @@ public class ExampleExtendedSpell extends ExtendedAbstractSpell {
     @Override
     public boolean hasRandomStartAnim() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return AcesSpellUtilsConfig.devMode;
     }
 
     @Override

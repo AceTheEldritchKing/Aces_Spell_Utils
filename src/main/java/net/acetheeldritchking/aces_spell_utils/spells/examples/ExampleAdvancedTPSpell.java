@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.spells.ender.TeleportSpell;
 import net.acetheeldritchking.aces_spell_utils.AcesSpellUtils;
 import net.acetheeldritchking.aces_spell_utils.spells.ASSpellAnimations;
 import net.acetheeldritchking.aces_spell_utils.spells.AdvancedTeleportSpell;
+import net.acetheeldritchking.aces_spell_utils.utils.AcesSpellUtilsConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -27,6 +28,7 @@ public class ExampleAdvancedTPSpell extends AdvancedTeleportSpell {
             .setSchoolResource(SchoolRegistry.EVOCATION_RESOURCE)
             .setMaxLevel(1)
             .setCooldownSeconds(15)
+            .setDeprecated(true)
             .build();
 
     public ExampleAdvancedTPSpell()
@@ -56,6 +58,11 @@ public class ExampleAdvancedTPSpell extends AdvancedTeleportSpell {
     @Override
     public boolean hasRandomStartAnim() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return AcesSpellUtilsConfig.devMode;
     }
 
     @Override

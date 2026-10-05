@@ -16,7 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public abstract class AbstractSummonSpell extends AbstractSpell {
+public abstract class AbstractSummonSpell extends ExtendedAbstractSpell {
     @Override
     public ICastDataSerializable getEmptyCastData() {
         return new SummonedEntitiesCastData();

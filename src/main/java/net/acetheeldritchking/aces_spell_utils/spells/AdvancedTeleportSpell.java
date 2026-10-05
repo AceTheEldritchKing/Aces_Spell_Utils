@@ -64,10 +64,9 @@ public abstract class AdvancedTeleportSpell extends ExtendedAbstractSpell {
 
         Vec3 velocity = new Vec3(movement.x, 0, movement.z);
 
-        var direction = entity.position().normalize().add(velocity.scale(reach));
+        var direction = entity.position().add(velocity.normalize().scale(reach));
         var pos = entity.getEyePosition();
-        var dest = direction.add(pos);
-        return level.clip(new ClipContext(pos, dest, ClipContext.Block.COLLIDER, clipContext, entity));
+        return level.clip(new ClipContext(pos, direction, ClipContext.Block.COLLIDER, clipContext, entity));
     }
 
     public static Vec3 solveDirectionalTeleportDestination(Level level, LivingEntity entity, BlockPos blockPos, Vec3 vec3)

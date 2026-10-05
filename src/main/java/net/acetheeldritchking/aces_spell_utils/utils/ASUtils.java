@@ -10,7 +10,10 @@ import io.redspace.ironsspellbooks.config.ServerConfigs;
 import io.redspace.ironsspellbooks.player.ClientMagicData;
 import io.redspace.ironsspellbooks.util.TooltipsUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -18,6 +21,8 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -353,5 +358,19 @@ public class ASUtils {
     //Convert a BlockPos into a ChunkPos
     public static ChunkPos getChunkPos(BlockPos blockPos) {
         return new ChunkPos(blockPos.getX() >> 4, blockPos.getZ() >> 4);
+    }
+
+    // For checking for advancements
+    // Credit to Alshanex for allowing me to rummage for this
+    public static boolean hasAdvancementUnlocked(Player player, String modId, String resourceLocation)
+    {
+        AdvancementHolder advancement = (player.getServer()).getAdvancements().get(ResourceLocation.fromNamespaceAndPath(modId, resourceLocation));
+
+        if (advancement != null && !player.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
+            AdvancementProgress progress = (serverPlayer.getAdvancements().getOrStartProgress(advancement));
+
+            return progress.isDone();
+        }
+        return false;
     }
 }
