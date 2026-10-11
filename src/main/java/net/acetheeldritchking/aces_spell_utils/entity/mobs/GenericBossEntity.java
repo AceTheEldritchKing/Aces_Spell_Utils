@@ -12,6 +12,8 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
+import java.util.UUID;
+
 public abstract class GenericBossEntity extends AbstractSpellCastingMob implements Enemy, IClientEventEntity, IPhaseMusicEntity {
     // This class is a generic and abstract class used for bosses
     // In here are helpful methods for handling phases and boss music
@@ -90,6 +92,21 @@ public abstract class GenericBossEntity extends AbstractSpellCastingMob implemen
     @Override
     public void handleClientEvent(byte b) {
         // Music will be handled here, will be overridden by child classes
+    }
+
+    @Override
+    public UUID getEntityUUID() {
+        return this.uuid;
+    }
+
+    @Override
+    public boolean isEntityDeadOrDying() {
+        return isDeadOrDying();
+    }
+
+    @Override
+    public boolean isEntityRemoved() {
+        return isRemoved();
     }
 
     // Phase stuff //

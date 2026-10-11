@@ -1,8 +1,6 @@
 package net.acetheeldritchking.aces_spell_utils.utils.boss_music;
 
 import net.acetheeldritchking.aces_spell_utils.entity.mobs.IPhaseMusicEntity;
-import net.acetheeldritchking.aces_spell_utils.entity.mobs.GenericUniqueBossEntity;
-import net.acetheeldritchking.aces_spell_utils.entity.mobs.IPhaseMusicEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.sounds.SoundEvent;
